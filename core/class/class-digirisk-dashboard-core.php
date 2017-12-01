@@ -2,26 +2,28 @@
 /**
  * La classe principale de l'application.
  *
- * @package paypal-party
+ * @package DigiRisk_Dashboard
  *
- * @since 1.0.0.0
- * @version 1.0.0.0
+ * @since 0.1.0
+ * @version 0.1.0
  */
 
 namespace digirisk_dashboard;
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Appelle la vue permettant d'afficher la navigation
  */
-class Class_Digirisk_Dashboard_Core extends Singleton_Util {
+class Class_Digirisk_Dashboard_Core extends \eoxia\Singleton_Util {
 
 	/**
 	 * Le constructeur
 	 *
-	 * @since 1.0.0.0
-	 * @version 1.0.0.0
+	 * @since 0.1.0
+	 * @version 0.1.0
 	 */
 	protected function construct() {}
 
@@ -30,8 +32,8 @@ class Class_Digirisk_Dashboard_Core extends Singleton_Util {
 	 *
 	 * @return void
 	 *
-	 * @since 1.0.0.0
-	 * @version 1.0.0.0
+	 * @since 0.1.0
+	 * @version 0.1.0
 	 */
 	public function display() {
 		require( PLUGIN_DIGIRISK_DASHBOARD_PATH . '/core/view/main.view.php' );
