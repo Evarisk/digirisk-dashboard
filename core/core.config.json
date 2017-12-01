@@ -1,0 +1,12 @@
+{
+	"name": "Digirisk Dashboard Core",
+	"slug": "core",
+	"version": "1.0.0.0",
+	"description": "Le module boot de Digirisk Dashboard",
+	"path": "core/",
+	"dependencies": {
+		"util": {},
+		"action": {},
+		"class": {}
+	}
+}
