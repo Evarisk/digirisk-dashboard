@@ -6,6 +6,7 @@
  */
 
 namespace digirisk_dashboard;
+
 /**
  * Plugin Name: DigiRisk Dashboard
  * Plugin URI:  http://www.evarisk.com/document-unique-logiciel
@@ -23,7 +24,6 @@ DEFINE( 'PLUGIN_DIGIRISK_DASHBOARD_PATH', str_replace( '\\', '/', realpath( plug
 DEFINE( 'PLUGIN_DIGIRISK_DASHBOARD_URL', str_replace( '\\', '/', plugins_url( basename( __DIR__ ) ) . '/' ) );
 DEFINE( 'PLUGIN_DIGIRISK_DASHBOARD_DIR', basename( __DIR__ ) );
 
-require_once 'core/util/singleton.util.php';
-require_once 'core/util/init.util.php';
+require_once( 'core/external/eo-framework/eo-framework.php' );
 
-Init_util::g()->exec();
+\eoxia\Init_Util::g()->exec( PLUGIN_DIGIRISK_DASHBOARD_PATH, basename( __FILE__, '.php' ) );
