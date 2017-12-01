@@ -24,6 +24,6 @@ DEFINE( 'PLUGIN_DIGIRISK_DASHBOARD_PATH', str_replace( '\\', '/', realpath( plug
 DEFINE( 'PLUGIN_DIGIRISK_DASHBOARD_URL', str_replace( '\\', '/', plugins_url( basename( __DIR__ ) ) . '/' ) );
 DEFINE( 'PLUGIN_DIGIRISK_DASHBOARD_DIR', basename( __DIR__ ) );
 
-require_once( 'core/external/eo-framework/eo-framework.php' );
+require_once 'core/external/eo-framework/eo-framework.php';
 
 \eoxia\Init_Util::g()->exec( PLUGIN_DIGIRISK_DASHBOARD_PATH, basename( __FILE__, '.php' ) );

@@ -1,16 +1,18 @@
 <?php
 /**
- * Initialise les actions princiaples de paypal party
+ * Initialise les actions princiaples de DigiRisk Dashboard
  *
- * @package paypal-party
+ * @package DigiRisk_Dashboard
  *
- * @since 1.0.0.0
- * @version 1.0.0.0
+ * @since 0.1.0
+ * @version 0.1.0
  */
 
 namespace digirisk_dashboard;
 
-if ( ! defined( 'ABSPATH' ) ) {	exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Initialise les actions princiaples de Digirisk EPI
@@ -22,19 +24,19 @@ class Class_Digirisk_Dashboard_Action {
 	 * admin_print_scripts (Pour appeler les scripts JS en bas du footer)
 	 * plugins_loaded (Pour appeler le domaine de traduction)
 	 *
-	 * @since 1.0.0.0
-	 * @version 1.0.0.0
+	 * @since 0.1.0
+	 * @version 0.1.0
 	 */
 	public function __construct() {
 		// Initialises ses actions que si nous sommes sur une des pages réglés dans le fichier digirisk.config.json dans la clé "insert_scripts_pages".
 		$page = ( ! empty( $_REQUEST['page'] ) ) ? sanitize_text_field( $_REQUEST['page'] ) : ''; // WPCS: CSRF ok.
 
-		if ( in_array( $page, Config_Util::$init['digirisk-dashboard']->insert_scripts_pages_css, true ) ) {
+		if ( in_array( $page, \eoxia\Config_Util::$init['digirisk_dashboard']->insert_scripts_pages_css, true ) ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'callback_before_admin_enqueue_scripts_css' ), 10 );
 			add_action( 'admin_enqueue_scripts', array( $this, 'callback_admin_enqueue_scripts_css' ), 11 );
 		}
 
-		if ( in_array( $page, Config_Util::$init['digirisk-dashboard']->insert_scripts_pages_js, true ) ) {
+		if ( in_array( $page, \eoxia\Config_Util::$init['digirisk_dashboard']->insert_scripts_pages_js, true ) ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'callback_before_admin_enqueue_scripts_js' ), 10 );
 			add_action( 'admin_enqueue_scripts', array( $this, 'callback_admin_enqueue_scripts_js' ), 11 );
 			add_action( 'admin_print_scripts', array( $this, 'callback_admin_print_scripts_js' ) );
@@ -51,8 +53,8 @@ class Class_Digirisk_Dashboard_Action {
 	 *
 	 * @return void nothing
 	 *
-	 * @since 1.0.0.0
-	 * @version 1.0.0.0
+	 * @since 0.1.0
+	 * @version 0.1.0
 	 */
 	public function callback_before_admin_enqueue_scripts_css() {}
 
@@ -61,8 +63,8 @@ class Class_Digirisk_Dashboard_Action {
 	 *
 	 * @return void nothing
 	 *
-	 * @since 1.0.0.0
-	 * @version 1.0.0.0
+	 * @since 0.1.0
+	 * @version 0.1.0
 	 */
 	public function callback_admin_enqueue_scripts_css() {}
 
@@ -71,8 +73,8 @@ class Class_Digirisk_Dashboard_Action {
 	 *
 	 * @return void nothing
 	 *
-	 * @since 1.0.0.0
-	 * @version 1.0.0.0
+	 * @since 0.1.0
+	 * @version 0.1.0
 	 */
 	public function callback_before_admin_enqueue_scripts_js() {
 		wp_enqueue_script( 'jquery' );
@@ -86,8 +88,8 @@ class Class_Digirisk_Dashboard_Action {
 	 *
 	 * @return void nothing
 	 *
-	 * @since 1.0.0.0
-	 * @version 1.0.0.0
+	 * @since 0.1.0
+	 * @version 0.1.0
 	 */
 	public function callback_admin_enqueue_scripts_js() {
 		wp_enqueue_script( 'paypal-party-script', PLUGIN_DIGIRISK_DASHBOARD_URL . 'core/assets/js/backend.min.js', array(), Config_Util::$init['digirisk-dashboard']->version, false );
@@ -98,8 +100,8 @@ class Class_Digirisk_Dashboard_Action {
 	 *
 	 * @return void nothing
 	 *
-	 * @since 1.0.0.0
-	 * @version 1.0.0.0
+	 * @since 0.1.0
+	 * @version 0.1.0
 	 */
 	public function callback_enqueue_scripts_js() {
 		if ( !empty( $_GET['order_step'] ) && 6 == $_GET['order_step'] ) {
@@ -115,22 +117,20 @@ class Class_Digirisk_Dashboard_Action {
 	 *
 	 * @return void nothing
 	 *
-	 * @since 1.0.0.0
-	 * @version 1.0.0.0
+	 * @since 0.1.0
+	 * @version 0.1.0
 	 */
 	public function callback_admin_print_scripts_js() {}
 
 	/**
 	 * Initialise le fichier MO du plugin
 	 *
-	 * @since 1.0.0.0
-	 * @version 1.0.0.0
+	 * @since 0.1.0
+	 * @version 0.1.0
 	 */
 	public function callback_plugins_loaded() {}
 
-	public function callback_network_admin_menu() {
-
-	}
+	public function callback_network_admin_menu() {}
 
 }
 
