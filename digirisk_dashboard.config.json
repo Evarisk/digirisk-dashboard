@@ -3,7 +3,9 @@
 	"slug": "digirisk_dashboard",
 	"version": "0.1.0-alpha",
 	"description": "Gestion de DigiRisk pour les multisites de WordPress",
-	"insert_scripts_pages_js": [],
+	"insert_scripts_pages_js": [
+		"digirisk-tools"
+	],
 	"insert_scripts_pages_css": [],
 	"externals": [
 

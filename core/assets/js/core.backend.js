@@ -1,5 +1,3 @@
-window.eoxiaJS.digiriskDashboard = {};
-
 window.eoxiaJS.digiriskDashboard.core = {};
 
 window.eoxiaJS.digiriskDashboard.core.init = function() {};

@@ -45,7 +45,7 @@ class Class_Digirisk_Dashboard_Action {
 		add_action( 'wp_enqueue_scripts', array( $this, 'callback_enqueue_scripts_js' ) );
 		add_action( 'init', array( $this, 'callback_plugins_loaded' ) );
 
-		add_action( 'network_admin_menu', array( $this, 'callback_network_admin_menu' ) );
+		add_action( 'wp_ajax_apply_to_all', array( $this, 'callback_apply_to_all' ) );
 	}
 
 	/**
@@ -59,7 +59,7 @@ class Class_Digirisk_Dashboard_Action {
 	public function callback_before_admin_enqueue_scripts_css() {}
 
 	/**
-	 * Initialise le fichier style.min.css du plugin Digirisk-EPI.
+	 * Initialise le fichier style.min.css du plugin Digirisk-Dashboard.
 	 *
 	 * @return void nothing
 	 *
@@ -84,7 +84,7 @@ class Class_Digirisk_Dashboard_Action {
 	}
 
 	/**
-	 * Initialise le fichier backend.min.js du plugin Digirisk-EPI.
+	 * Initialise le fichier backend.min.js du plugin Digirisk-Dashboard.
 	 *
 	 * @return void nothing
 	 *
@@ -92,11 +92,11 @@ class Class_Digirisk_Dashboard_Action {
 	 * @version 0.1.0
 	 */
 	public function callback_admin_enqueue_scripts_js() {
-		wp_enqueue_script( 'paypal-party-script', PLUGIN_DIGIRISK_DASHBOARD_URL . 'core/assets/js/backend.min.js', array(), Config_Util::$init['digirisk-dashboard']->version, false );
+		wp_enqueue_script( 'digirisk-dashboard-script', PLUGIN_DIGIRISK_DASHBOARD_URL . 'core/assets/js/backend.min.js', array(), \eoxia\Config_Util::$init['digirisk_dashboard']->version, false );
 	}
 
 	/**
-	 * Initialise le fichier Featured_Content::wp_loaded.min.js du plugin Digirisk-EPI.
+	 * Initialise le fichier Featured_Content::wp_loaded.min.js du plugin Digirisk-Dashboard.
 	 *
 	 * @return void nothing
 	 *
@@ -104,12 +104,6 @@ class Class_Digirisk_Dashboard_Action {
 	 * @version 0.1.0
 	 */
 	public function callback_enqueue_scripts_js() {
-		if ( !empty( $_GET['order_step'] ) && 6 == $_GET['order_step'] ) {
-
-			wp_enqueue_script( 'paypal-checkout-js', 'https://www.paypalobjects.com/api/checkout.js', array(), Config_Util::$init['digirisk-dashboard']->version, true );
-
-			wp_enqueue_script( 'paypal-party-frontend-script', PLUGIN_DIGIRISK_DASHBOARD_URL . 'core/assets/js/frontend.min.js', array(), Config_Util::$init['digirisk-dashboard']->version, false );
-		}
 	}
 
 	/**
@@ -130,7 +124,40 @@ class Class_Digirisk_Dashboard_Action {
 	 */
 	public function callback_plugins_loaded() {}
 
-	public function callback_network_admin_menu() {}
+	/**
+	 * Appliques le modèle sur tous les sites de MU.
+	 *
+	 * @since 0.1.0
+	 * @version 0.1.0
+	 *
+	 * @return void
+	 */
+	public function callback_apply_to_all() {
+		check_ajax_referer( 'apply_to_all' );
+
+		$type            = ! empty( $_POST['type'] ) ? sanitize_text_field( $_POST['type'] ) : '';
+		$current_blog_id = get_current_blog_id();
+		$model           = \digi\Document_Class::g()->get_model_for_element( array( $type ) );
+		$file_path       = str_replace( '\\', '/', get_attached_file( $model['model_id'] ) );
+
+		$sites = get_sites();
+		if ( ! empty( $sites ) ) {
+			foreach ( $sites as $site ) {
+				if ( (int) $site->blog_id !== (int) $current_blog_id ) {
+					switch_to_blog( $site->blog_id );
+					\digi\Handle_Model_Class::g()->upload_model( $type, $file_path );
+				}
+			}
+
+			restore_current_blog();
+		}
+
+		wp_send_json_success( array(
+			'namespace'        => 'digiriskDashboard',
+			'module'           => 'core',
+			'callback_success' => 'appliedToAll',
+		) );
+	}
 
 }
 
