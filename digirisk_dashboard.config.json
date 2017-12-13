@@ -1,0 +1,17 @@
+{
+	"name": "DigiRisk Dashboard",
+	"slug": "digirisk_dashboard",
+	"version": "0.1.0-alpha",
+	"description": "Gestion de DigiRisk pour les multisites de WordPress",
+	"insert_scripts_pages_js": [
+		"digirisk-tools"
+	],
+	"insert_scripts_pages_css": [],
+	"externals": [
+
+	],
+	"modules": [
+		"core/core.config.json"
+	],
+	"debug": false
+}
