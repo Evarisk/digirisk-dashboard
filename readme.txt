@@ -6,20 +6,50 @@ Requires at least: 4.4
 Tested up to: 4.9.1
 Stable tag: 0.1.0-alpha
 
-Gestion de DigiRisk pour les multisites de WordPress
+DigiRisk Dashboard handle MU WordPress instance of DigiRisk.
 
 == Description ==
 
+DigiRisk Dashboard handle MU WordPress instance of DigiRisk.
+
 == Installation ==
+
+The installation of the plugin can be done in two ways:
+
+* Method 1
+1. Download the zip file from the WordPress website
+2. Send the "fresh" folder to the "/wp-content/plugins/" directory
+3. Activate the plugin in the "Extensions" menu of WordPress
+
+* Method 2
+1. Search the plugin "digirisk-dashboard" from the menu "Extensions" of WordPress
+2. Start the installation of the plugin
 
 == Frequently Asked Questions ==
 
+
 == Screenshots ==
+
+1. Dashboard
 
 == Changelog ==
 
-* Veillez à bien sauvegarder vos données avant d'effectuer une mise à jour du plugin
+= Version 0.1.0 =
+
+* Initial version.
+
+Initial WordPress Release.
+
+== Upgrade Notice ==
+
+1) Save your data
+2) Test your backups!
+3) Check the tests of the backups !!
+4) Make sure of yours Backups !!!
+Our plugins are made with Love but sometimes Love is badly done ;)
+5) Click update
 
 == Contactez l'auteur ==
 
+https://github.com/Evarisk/theepi
 dev@evarisk.com
