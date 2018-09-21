@@ -44,6 +44,7 @@ class Class_Digirisk_Dashboard_Action {
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'callback_enqueue_scripts_js' ) );
 		add_action( 'init', array( $this, 'callback_plugins_loaded' ) );
+		add_action( 'network_admin_menu', array( $this, 'callback_network_admin_menu' ), 99 );
 
 		add_action( 'wp_ajax_apply_to_all', array( $this, 'callback_apply_to_all' ) );
 	}
@@ -123,6 +124,18 @@ class Class_Digirisk_Dashboard_Action {
 	 * @version 0.1.0
 	 */
 	public function callback_plugins_loaded() {}
+		
+	/**
+	 * Ajoutes la page "Mêttre à jour DigiRisk sur le réseau".
+	 *
+	 * @since 0.2.0
+	 * @version 0.2.0
+	 *
+	 * @return void
+	 */
+	public function callback_network_admin_menu() {
+		add_submenu_page( 'index.php', __( 'Mêttre à jour le réseau DigiRisk', 'digirisk-dashboard' ), __( 'Mêttre à jour le réseau DigiRisk', 'digirisk-dashboard' ), 'manage_digirisk', 'upgrade-digirisk', array( Class_Digirisk_Dashboard_Core::g(), 'display' ) );
+	}
 
 	/**
 	 * Appliques le modèle sur tous les sites de MU.
