@@ -45,9 +45,33 @@ class Class_Digirisk_Dashboard_Core extends \eoxia\Singleton_Util {
 	 * @return void
 	 */
 	public function display() {
-		$done = ( ! empty( $_GET['done'] ) && 'true' == $_GET['done'] ) ? true : false;
+		if ( is_multisite() ) {
+			$version = (int) str_replace( '.', '', \eoxia\Config_Util::$init['digirisk']->version );
+			if ( 3 === strlen( $version ) ) {
+				$version *= 10;
+			}
+			
+			$sites = get_sites();
 
-		require_once PLUGIN_DIGIRISK_DASHBOARD_PATH . '/core/view/upgrade.view.php';
+			if ( ! empty( $sites ) ) {
+				foreach ( $sites as $site ) {
+					switch_to_blog( $site->blog_id );
+					
+					$digirisk_core = get_option( \eoxia\Config_Util::$init['digirisk']->core_option );
+					$last_update_version = get_option( '_digirisk_last_update_version', true );
+
+					if ( (int) $version > (int) $last_update_version && ! empty( $digirisk_core['installed'] ) ) {
+						delete_option( \eoxia\Config_Util::$init['digirisk']->key_waiting_updates );
+						$url = admin_url( 'admin.php?page=digirisk-update' );
+						break;
+					}
+				}
+
+				restore_current_blog();
+			}
+		}
+		
+		echo '<a href="' . $url . '">Lancer la MAJ</a>';
 	}
 }
 
