@@ -1,0 +1,27 @@
+Date de controle :
+Site n
+-Siret
+
+Indicateur HSE
+-Date DUER
+--Calcul nombre de jour de retard
+-Nombre Accident sur DateControle - 2ans
+-Nombre d'enquete accident
+--Calcul enquete accident manquante
+--Nombre de jour d'arret
+-Nombre de causerie
+-Nombre de salarié
+-Risque
+--Noir
+--Rouge
+--Orange
+--Blanc
+-Risque
+--Catégorie - Nombre de Risque
+
+
+Indicateur Formation
+-
+
+Indicateur Financier
+-
