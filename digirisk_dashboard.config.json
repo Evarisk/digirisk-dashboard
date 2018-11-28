@@ -4,14 +4,18 @@
 	"version": "0.1.0-alpha",
 	"description": "Gestion de DigiRisk pour les multisites de WordPress",
 	"insert_scripts_pages_js": [
-		"digirisk-tools"
+		"digirisk-tools",
+    "digirisk-dashboard"
 	],
 	"insert_scripts_pages_css": [],
 	"externals": [
 
 	],
 	"modules": [
-		"core/core.config.json"
+		"core/core.config.json",
+    "modules/document/document.config.json",
+		"modules/site/site.config.json",
+		"modules/duer/duer.config.json"
 	],
 	"debug": false
 }

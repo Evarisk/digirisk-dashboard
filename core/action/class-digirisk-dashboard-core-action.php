@@ -5,7 +5,6 @@
  * @package DigiRisk_Dashboard
  *
  * @since 0.1.0
- * @version 0.1.0
  */
 
 namespace digirisk_dashboard;
@@ -18,6 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Initialise les actions princiaples de Digirisk EPI
  */
 class Class_Digirisk_Dashboard_Action {
+	
 	/**
 	 * Le constructeur ajoutes les actions WordPress suivantes:
 	 * admin_enqueue_scripts (Pour appeller les scripts JS et CSS dans l'admin)
@@ -25,7 +25,6 @@ class Class_Digirisk_Dashboard_Action {
 	 * plugins_loaded (Pour appeler le domaine de traduction)
 	 *
 	 * @since 0.1.0
-	 * @version 0.1.0
 	 */
 	public function __construct() {
 		// Initialises ses actions que si nous sommes sur une des pages réglés dans le fichier digirisk.config.json dans la clé "insert_scripts_pages".
@@ -44,6 +43,7 @@ class Class_Digirisk_Dashboard_Action {
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'callback_enqueue_scripts_js' ) );
 		add_action( 'init', array( $this, 'callback_plugins_loaded' ) );
+		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ) );
 		add_action( 'network_admin_menu', array( $this, 'callback_network_admin_menu' ), 99 );
 
 		add_action( 'wp_ajax_apply_to_all', array( $this, 'callback_apply_to_all' ) );
@@ -52,30 +52,21 @@ class Class_Digirisk_Dashboard_Action {
 	/**
 	 * Initialise les fichiers CSS inclus dans WordPress (jQuery, wp.media et thickbox)
 	 *
-	 * @return void nothing
-	 *
 	 * @since 0.1.0
-	 * @version 0.1.0
 	 */
 	public function callback_before_admin_enqueue_scripts_css() {}
 
 	/**
 	 * Initialise le fichier style.min.css du plugin Digirisk-Dashboard.
 	 *
-	 * @return void nothing
-	 *
 	 * @since 0.1.0
-	 * @version 0.1.0
 	 */
 	public function callback_admin_enqueue_scripts_css() {}
 
 	/**
 	 * Initialise les fichiers JS inclus dans WordPress (jQuery, wp.media et thickbox)
 	 *
-	 * @return void nothing
-	 *
 	 * @since 0.1.0
-	 * @version 0.1.0
 	 */
 	public function callback_before_admin_enqueue_scripts_js() {
 		wp_enqueue_script( 'jquery' );
@@ -87,10 +78,7 @@ class Class_Digirisk_Dashboard_Action {
 	/**
 	 * Initialise le fichier backend.min.js du plugin Digirisk-Dashboard.
 	 *
-	 * @return void nothing
-	 *
 	 * @since 0.1.0
-	 * @version 0.1.0
 	 */
 	public function callback_admin_enqueue_scripts_js() {
 		wp_enqueue_script( 'digirisk-dashboard-script', PLUGIN_DIGIRISK_DASHBOARD_URL . 'core/assets/js/backend.min.js', array(), \eoxia\Config_Util::$init['digirisk_dashboard']->version, false );
@@ -99,21 +87,14 @@ class Class_Digirisk_Dashboard_Action {
 	/**
 	 * Initialise le fichier Featured_Content::wp_loaded.min.js du plugin Digirisk-Dashboard.
 	 *
-	 * @return void nothing
-	 *
 	 * @since 0.1.0
-	 * @version 0.1.0
 	 */
-	public function callback_enqueue_scripts_js() {
-	}
+	public function callback_enqueue_scripts_js() {}
 
 	/**
 	 * Initialise en php le fichier permettant la traduction des variables string JavaScript.
 	 *
-	 * @return void nothing
-	 *
 	 * @since 0.1.0
-	 * @version 0.1.0
 	 */
 	public function callback_admin_print_scripts_js() {}
 
@@ -121,17 +102,22 @@ class Class_Digirisk_Dashboard_Action {
 	 * Initialise le fichier MO du plugin
 	 *
 	 * @since 0.1.0
-	 * @version 0.1.0
 	 */
 	public function callback_plugins_loaded() {}
 		
 	/**
+	 * Ajoutes le menu DigiRisk Dashboard dans l'administration de WordPress.
+	 *
+	 * @since 0.2.0
+	 */
+	public function callback_admin_menu() {
+		add_menu_page( __( 'DigiRisk Dashboard', 'digirisk' ), __( 'DigiRisk Dashboard', 'digirisk' ), 'manage_options', 'digirisk-dashboard', array( Class_Digirisk_Dashboard_Core::g(), 'display_page' ) );
+	}
+	
+	/**
 	 * Ajoutes la page "Mêttre à jour DigiRisk sur le réseau".
 	 *
 	 * @since 0.2.0
-	 * @version 0.2.0
-	 *
-	 * @return void
 	 */
 	public function callback_network_admin_menu() {
 		add_submenu_page( 'index.php', __( 'Mêttre à jour le réseau DigiRisk', 'digirisk-dashboard' ), __( 'Mêttre à jour le réseau DigiRisk', 'digirisk-dashboard' ), 'manage_digirisk', 'upgrade-digirisk', array( Class_Digirisk_Dashboard_Core::g(), 'display' ) );
@@ -141,9 +127,6 @@ class Class_Digirisk_Dashboard_Action {
 	 * Appliques le modèle sur tous les sites de MU.
 	 *
 	 * @since 0.1.0
-	 * @version 0.1.0
-	 *
-	 * @return void
 	 */
 	public function callback_apply_to_all() {
 		check_ajax_referer( 'apply_to_all' );

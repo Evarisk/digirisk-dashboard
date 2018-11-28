@@ -1,0 +1,12 @@
+{
+	"name": "Les sites",
+	"slug": "site",
+	"version": "0.2.0",
+	"description": "Le module gérant les sites",
+	"path": "modules/site/",
+	"dependencies": {
+		"action": {},
+		"class": {}
+	},
+  "site_key": "digirisk_dashboard_sites"
+}
