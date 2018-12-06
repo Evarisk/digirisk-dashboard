@@ -33,16 +33,21 @@ defined( 'ABSPATH' ) || exit; ?>
 	</thead>
 	<tbody>
 		<?php
-		if ( ! empty( $sites ) ) :
-			foreach ( $sites as $id => $site ) :
-				\eoxia\View_Util::exec( 'digirisk_dashboard', 'duer', 'item' );
+		if ( ! empty( $duers ) ) :
+			foreach ( $duers as $duer ) :
+				\eoxia\View_Util::exec( 'digirisk_dashboard', 'duer', 'item', array(
+					'duer'  => $duer,
+					'sites' => $sites,
+				) );
 			endforeach;
 		endif;
 
-		\eoxia\View_Util::exec( 'digirisk_dashboard', 'duer', 'edit' );
+		\eoxia\View_Util::exec( 'digirisk_dashboard', 'duer', 'edit', array(
+			'element' => $new_duer,
+			'sites'   => $sites,
+		) );
 		?>
 	</tbody>
 </table>
 
-<?php
-Class_DUER::g()->display_modal();
+<?php \eoxia\View_Util::exec( 'digirisk_dashboard', 'duer', 'edit-modal' ); ?>

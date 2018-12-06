@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Class site class.
  */
-class Class_DUER extends Document_Class {
+class DUER_Class extends Document_Class {
 
 	/**
 	 * Le nom du modèle
@@ -80,44 +80,24 @@ class Class_DUER extends Document_Class {
 	protected function construct() {}
 
 	public function display() {
-		\eoxia\View_Util::exec( 'digirisk_dashboard', 'duer', 'main' );
+		$sites     = get_option( \eoxia\Config_Util::$init['digirisk_dashboard']->site->site_key, array() );
+		$duers     = $this->get();
+		$new_duer  = $this->get( array( 'schema' => true ), true );
+
+		\eoxia\View_Util::exec( 'digirisk_dashboard', 'duer', 'main', array(
+			'sites'    => $sites,
+			'duers'    => $duers,
+			'new_duer' => $new_duer,
+		) );
 	}
 
 	public function display_modal() {
 		$sites     = get_option( \eoxia\Config_Util::$init['digirisk_dashboard']->site->site_key, array() );
-		$societies = array();
-
-		if ( ! empty( $sites ) ) {
-			foreach ( $sites as $id => $site ) {
-				$api_url = $site['url'] . '/wp-json/digi/v1/duer/tree';
-
-				$request = wp_remote_get( $api_url );
-
-				if ( ! is_wp_error( $request ) ) {
-					if ( $request['response']['code'] == 200 ) {
-						$response = json_decode( $request['body'] );
-
-						if ( ! empty( $response ) ) {
-							foreach ( $response as $element ) {
-								$societies[ $id ][] = $element->data;
-							}
-						}
-					}
-				}
-			}
-		}
-
-		echo '<pre>'; print_r( $societies ); echo '</pre>';
 
 		\eoxia\View_Util::exec( 'digirisk_dashboard', 'duer', 'modal-content', array(
 			'sites'     => $sites,
-			'societies' => $societies,
 		) );
-	}
-
-	public function generate() {
-
 	}
 }
 
-new Class_DUER();
+new DUER_Class();

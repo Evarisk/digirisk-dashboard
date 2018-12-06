@@ -23,6 +23,7 @@ class Class_Site_Action {
 	 */
 	public function __construct() {
 		add_action( 'wp_ajax_digi_dashboard_add_site', array( $this, 'ajax_add_site' ) );
+		add_action( 'wp_ajax_digi_dashboard_delete_site', array( $this, 'ajax_delete_site' ) );
 	}
 
 	public function ajax_add_site() {
@@ -44,43 +45,34 @@ class Class_Site_Action {
 			'unique_key' => $unique_key,
 		);
 
-		$request = wp_remote_post( $api_url, array(
-			'method' => 'POST',
-			'blocking' => true,
-			'headers' => array(
-				'Content-Type' => 'application/json',
-			),
-			'sslverify' > false,
-			'body' => json_encode( $data ),
-		) );
+		$response = Request_Util::g()->post( $api_url, $data );
 
-		if ( ! is_wp_error( $request ) ) {
-			if ( $request['response']['code'] == 200 ) {
-				$response = json_decode( $request['body'] );
+		if ( $response ) {
+			$site_key = \eoxia\Config_Util::$init['digirisk_dashboard']->site->site_key;
+			$sites    = get_option( $site_key, array() );
 
-				$site_key = \eoxia\Config_Util::$init['digirisk_dashboard']->site->site_key;
-				$sites    = get_option( $site_key, array() );
+			$last_id = 0;
 
-				$already_exist = false;
-				if ( ! empty( $sites ) ) {
-					foreach ( $sites as $site ) {
-						if ( $data['url'] == $site['url'] ) {
-							$already_exist = true;
-							break;
-						}
+			$already_exist = false;
+			if ( ! empty( $sites ) ) {
+				foreach ( $sites as $id => $site ) {
+					if ( $data['url'] == $site['url'] ) {
+						$already_exist = true;
 					}
-				}
 
-				if ( ! $already_exist ) {
-					$data_to_hash          = implode( '', $data );
-					$string_to_hash        = hash( 'sha256', $data_to_hash );
-					$sites[ count( $sites ) + 1 ] = array(
-						'title' => $response->title,
-						'url'   => $data['url'],
-						'hash'  => $string_to_hash,
-					);
-					update_option( $site_key, $sites );
+					$last_id = $id;
 				}
+			}
+
+			if ( ! $already_exist ) {
+				$data_to_hash          = implode( '', $data );
+				$string_to_hash        = hash( 'sha256', $data_to_hash );
+				$sites[ $last_id + 1 ] = array(
+					'title' => $response->title,
+					'url'   => $data['url'],
+					'hash'  => $string_to_hash,
+				);
+				update_option( $site_key, $sites );
 			}
 		}
 
@@ -88,6 +80,29 @@ class Class_Site_Action {
 			'namespace'        => 'digiriskDashboard',
 			'module'           => 'site',
 			'callback_success' => 'addedSiteSuccess',
+		) );
+	}
+
+	public function ajax_delete_site() {
+		$id = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
+
+		if ( empty( $id ) ) {
+			wp_send_json_error();
+		}
+
+		$site_key = \eoxia\Config_Util::$init['digirisk_dashboard']->site->site_key;
+		$sites    = get_option( $site_key, array() );
+
+		if ( ! empty( $sites[ $id ] ) ) {
+			unset( $sites[ $id ] );
+		}
+
+		update_option( $site_key, $sites );
+
+		wp_send_json_success( array(
+			'namespace'        => 'digiriskDashboard',
+			'module'           => 'site',
+			'callback_success' => 'deletedSiteSuccess',
 		) );
 	}
 

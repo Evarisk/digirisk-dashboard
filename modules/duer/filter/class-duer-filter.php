@@ -27,31 +27,7 @@ class DUER_Filter extends Identifier_Filter {
 	 */
 	public function __construct() {
 		parent::__construct();
-
-		add_filter( 'digi_tab', array( $this, 'callback_digi_tab' ), 5, 2 );
-
-		add_filter( 'digi_duer_document_data', array( $this, 'callback_digi_document_data' ), 10, 2 );
-		add_filter( 'digi_duer_document_data', array( $this, 'callback_hierarchy' ), 11, 2 );
-		add_filter( 'digi_duer_document_data', array( $this, 'callback_risks' ), 12, 2 );
-	}
-
-	/**
-	 * Ajoutes une entrée dans le tableau $list_tab pour la société.
-	 *
-	 * @param  array   $list_tab  La liste des filtres.
-	 * @param  integer $id        L'ID de la société.
-	 * @return array              La liste des filtres + le filtre ajouté par cette méthode.
-	 *
-	 * @since 6.4.4
-	 */
-	public function callback_digi_tab( $list_tab, $id ) {
-		$list_tab['digi-society']['list-duer'] = array(
-			'type'  => 'text',
-			'text'  => __( 'DUER ', 'digirisk' ),
-			'title' => __( 'DUER', 'digirisk' ),
-		);
-
-		return $list_tab;
+		add_filter( 'digi_dashboard_duer_mu_document_data', array( $this, 'callback_digi_document_data' ), 10, 2 );
 	}
 
 	/**
@@ -65,16 +41,16 @@ class DUER_Filter extends Identifier_Filter {
 	 * @return array                  Les données pour le registre des AT bénins modifié.
 	 */
 	public function callback_digi_document_data( $data, $args ) {
-		$society = Society_Class::g()->get( array(
-			'posts_per_page' => 1,
-		), true );
+		$quotationsTotal = array();
 
-		$user = wp_get_current_user();
+		$url = $args['model_site']['url'] . '/wp-json/digi/v1/duer/society';
 
-		$data['nomEntreprise']      = $society->data['title'];
-		$data['emetteurDUER']       = $user->display_name;
+		$response = Request_Util::get( $url, $args['model_site']['hash'] );
+
+		$data['nomEntreprise']      = $response->title;
+		$data['emetteurDUER']       =  '';
 		$data['destinataireDUER']   = $args['destinataire_duer'];
-		$data['telephone']          = ! empty( $society->data['contact']['phone'] ) ? end( $society->data['contact']['phone'] ) : '';
+		$data['telephone']          = ! empty( $response->data['contact']['phone'] ) ? end( $response->data['contact']['phone'] ) : '';
 		$data['portable']           = '';
 		$data['methodologie']       = $args['methodologie'];
 		$data['sources']            = $args['sources'];
@@ -98,110 +74,86 @@ class DUER_Filter extends Identifier_Filter {
 
 		$data['dateAudit'] = $audit_date;
 
-		$data['elementParHierarchie'] = array(
+		$data['sites'] = array(
 			'type'  => 'segment',
 			'value' => array(),
 		);
 
-		$level_risk = array( '1', '2', '3', '4' );
+		$data['sites']['value'][] = array(
+			'id'    => $args['model_site']['id'],
+			'url'   => $args['model_site']['url'],
+			'titre' => $args['model_site']['title'],
+		);
 
-		foreach( $level_risk as $level ) {
+		$data['sitesComplementaire'] = array(
+			'type'  => 'segment',
+			'value' => array(),
+		);
+
+		// Test
+		$level_risk = array( '1', '2', '3', '4' );
+		foreach ( $level_risk as $level ) {
 			$data[ 'risk' . $level ] = array(
 				'type'  => 'segment',
 				'value' => array(),
 			);
-
 			$data[ 'planDactionRisq' . $level ] = array(
 				'type'  => 'segment',
 				'value' => array(),
 			);
 		}
 
-		$data['risqueFiche'] = array(
+
+		if ( ! empty( $args['sites'] ) ) {
+			foreach ( $args['sites'] as $site ) {
+				$data['sites']['value'][] = array(
+					'id'    => $site['id'],
+					'url'   => $site['url'],
+					'titre' => $site['title'],
+				);
+
+				$url = $site['url'] . '/wp-json/digi/v1/duer/society/tree/' . $site['id'];
+
+				$response = Request_Util::get( $url, $site['hash'] );
+				$element_per_hierarchy = json_decode( json_encode( $response->elementParHierarchie ), true );
+
+				$data['sitesComplementaire']['value'][] = array(
+					'nomEntrepriseComplementaire'        => 'D' . $site['id'],
+					'elementParHierarchieComplementaire' => array(
+						'type' => 'sub_segment',
+						'value' => $element_per_hierarchy['value'],
+					)
+				);
+
+				$url = $site['url'] . '/wp-json/digi/v1/duer/risk/' . $site['id'];
+
+				$response = Request_Util::get( $url, $site['hash'] );
+				$risks = json_decode( json_encode( $response ), true );
+
+				if ( ! empty( $risks ) ) {
+					foreach ( $risks as $risk ) {
+						$data[ 'risk' . $risk['scale'] ]['value'][]            = $risk;
+						$data[ 'planDactionRisq' . $risk['scale'] ]['value'][] = $risk;
+
+						if ( empty( $quotationsTotal[ $risk['nomElement'] ] ) ) {
+							$quotationsTotal[ $risk['nomElement'] ] = 0;
+						}
+						$quotationsTotal[ $risk['nomElement'] ] += $risk['quotationRisque'];
+					}
+				}
+			}
+		}
+
+		$data['elementParHierarchie'] = array(
 			'type'  => 'segment',
 			'value' => array(),
 		);
 
-		return $data;
-	}
+		$url = $args['model_site']['url'] . '/wp-json/digi/v1/duer/society/tree/' . $args['model_site']['id'];
 
-	public function callback_hierarchy( $data, $args ) {
-		$societies = Society_Class::g()->get_societies_in( $args['parent_id'], 'inherit' );
-
-		if ( ! empty( $societies ) ) {
-			foreach ( $societies as $society ) {
-
-				$tabulation = '';
-
-				for ( $i = 0; $i < count( get_post_ancestors( $society->data['id'] ) ); $i++) {
-					$tabulation .= '-';
-				}
-
-				$data['elementParHierarchie']['value'][] = array(
-					'nomElement' => $tabulation . ' ' . $society->data['unique_identifier'] . ' - ' . $society->data['title'],
-				);
-
-				$args['parent_id'] = $society->data['id'];
-
-				$data = $this->callback_hierarchy( $data, $args );
-
-				$tabulation .= '-';
-			}
-		}
-
-		return $data;
-	}
-
-	public function callback_risks( $data, $args ) {
-		$quotationsTotal = array();
-
-		$args_where = array(
-			'post_status'    => array( 'publish', 'inherit' ),
-			'meta_key'       => '_wpdigi_equivalence',
-			'orderby'        => 'meta_value_num',
-			'meta_query' => array(
-				array(
-					'key'     => '_wpdigi_preset',
-					'value'   => 1,
-					'compare' => '!=',
-				)
-			)
-		);
-
-		$risks = Risk_Class::g()->get( $args_where );
-
-		if ( ! empty( $risks ) ) {
-			foreach ( $risks as $risk ) {
-				$output_comment = '';
-
-				if ( ! empty( $risk->data['comment'] ) ) {
-					foreach ( $risk->data['comment'] as $comment ) {
-						$output_comment .= point_to_string( $comment );
-					}
-				}
-
-				$risk = Corrective_Task_Class::g()->output_odt( $risk );
-
-				$risk_data = array(
-					'nomElement'                  => $risk->data['parent']->data['unique_identifier'] . ' - ' . $risk->data['parent']->data['title'],
-					'identifiantRisque'           => $risk->data['unique_identifier'] . ' - ' . $risk->data['evaluation']->data['unique_identifier'],
-					'quotationRisque'             => $risk->data['current_equivalence'],
-					'nomDanger'                   => $risk->data['risk_category']->data['name'],
-					'commentaireRisque'           => $output_comment,
-					'actionPreventionUncompleted' => $risk->data['output_action_prevention_uncompleted'],
-					'actionPreventionCompleted'   => $risk->data['output_action_prevention_completed'],
-				);
-
-				$data[ 'risk' . $risk->data['evaluation']->data['scale'] ]['value'][]            = $risk_data;
-				$data[ 'planDactionRisq' . $risk->data['evaluation']->data['scale'] ]['value'][] = $risk_data;
-
-				if ( empty( $quotationsTotal[ $risk->data['parent']->data['unique_identifier'] . ' - ' . $risk->data['parent']->data['title'] ] ) ) {
-					$quotationsTotal[ $risk->data['parent']->data['unique_identifier'] . ' - ' . $risk->data['parent']->data['title'] ] = 0;
-				}
-
-				$quotationsTotal[ $risk->data['parent']->data['unique_identifier'] . ' - ' . $risk->data['parent']->data['title'] ] += $risk->data['current_equivalence'];
-			}
-		}
+		$response = Request_Util::get( $url, $args['model_site']['hash'] );
+		$element_per_hierarchy = json_decode( json_encode( $response->elementParHierarchie ), true );
+		$data['elementParHierarchie']['value'] = $element_per_hierarchy['value'];
 
 		if ( count( $quotationsTotal ) > 1 ) {
 			uasort( $quotationsTotal, function( $a, $b ) {
@@ -211,6 +163,11 @@ class DUER_Filter extends Identifier_Filter {
 				return ( $a > $b ) ? -1 : 1;
 			} );
 		}
+
+		$data['risqueFiche'] = array(
+			'type'  => 'segment',
+			'value' => array(),
+		);
 
 		if ( ! empty( $quotationsTotal ) ) {
 			foreach ( $quotationsTotal as $key => $quotationTotal ) {

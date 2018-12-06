@@ -26,8 +26,9 @@ class Class_Digirisk_Dashboard_Core extends \eoxia\Singleton_Util {
 	 * @version 0.1.0
 	 */
 	protected function construct() {}
-		
+
 	public function display_page() {
+
 		require_once \eoxia\Config_Util::$init['digirisk_dashboard']->core->path . 'view/main-page.view.php';
 	}
 
@@ -40,18 +41,20 @@ class Class_Digirisk_Dashboard_Core extends \eoxia\Singleton_Util {
 	 * @return void
 	 */
 	public function display() {
+
+
 		if ( is_multisite() ) {
 			$version = (int) str_replace( '.', '', \eoxia\Config_Util::$init['digirisk']->version );
 			if ( 3 === strlen( $version ) ) {
 				$version *= 10;
 			}
-			
+
 			$sites = get_sites();
 
 			if ( ! empty( $sites ) ) {
 				foreach ( $sites as $site ) {
 					switch_to_blog( $site->blog_id );
-					
+
 					$digirisk_core = get_option( \eoxia\Config_Util::$init['digirisk']->core_option );
 					$last_update_version = get_option( '_digirisk_last_update_version', true );
 
@@ -65,7 +68,7 @@ class Class_Digirisk_Dashboard_Core extends \eoxia\Singleton_Util {
 				restore_current_blog();
 			}
 		}
-		
+
 		echo '<a href="' . $url . '">Lancer la MAJ</a>';
 	}
 }

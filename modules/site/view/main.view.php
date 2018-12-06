@@ -16,45 +16,9 @@ namespace digirisk_dashboard;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<div class="wpeo-gridlayout grid-4 grid-gap-0 wpeo-form">
-	<div class="form-element form-align-horizontal">
-		<label class="form-field-container">
-			<div class="form-field-inline">
-				<input type="text" class="form-field" />
-			</div>
-			<div class="form-field-inline">
-				<div class="wpeo-button button-main">Appliquer</div>
-			</div>
-		</label>
-	</div>
-
-	<div class="form-element form-align-horizontal">
-		<label class="form-field-container">
-			<div class="form-field-inline">
-				<input type="text" class="form-field" />
-			</div>
-			<div class="form-field-inline">
-				<div class="wpeo-button button-main">Filtrer</div>
-			</div>
-		</label>
-	</div>
-
-	<div class="form-element form-align-horizontal">
-		<label class="form-field-container">
-			<div class="form-field-inline">
-				<input type="text" class="form-field" />
-			</div>
-			<div class="form-field-inline">
-				<div class="wpeo-button button-main">Recherche un site</div>
-			</div>
-		</label>
-	</div>
-</div>
-
 <table class="wpeo-table">
 	<thead>
 		<tr>
-			<th data-title="checkbox"><input type="checkbox" /></th>
 			<th data-title="ID">ID</th>
 			<th data-title="Site">Site</th>
 			<th data-title="URL">URL</th>
@@ -68,7 +32,6 @@ defined( 'ABSPATH' ) || exit; ?>
 			foreach ( $sites as $id => $site ) :
 				?>
 				<tr>
-					<td data-title="checkbox"><input type="checkbox" /></td>
 					<td data-title="ID"><?php echo esc_html( $id ); ?></td>
 					<td data-title="Site"><?php echo esc_html( $site['title'] ); ?></td>
 					<td data-title="URL"><?php echo esc_html( $site['url'] ); ?></td>
