@@ -41,6 +41,7 @@ class Class_Site_Action {
 
 		$data = array(
 			'url'        => $url,
+			'url_parent' => get_site_url(),
 			'login'      => $login,
 			'unique_key' => $unique_key,
 		);
@@ -65,6 +66,7 @@ class Class_Site_Action {
 			}
 
 			if ( ! $already_exist ) {
+				unset( $data['url_parent'] );
 				$data_to_hash          = implode( '', $data );
 				$string_to_hash        = hash( 'sha256', $data_to_hash );
 				$sites[ $last_id + 1 ] = array(
