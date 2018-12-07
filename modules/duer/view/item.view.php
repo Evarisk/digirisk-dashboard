@@ -31,7 +31,6 @@ defined( 'ABSPATH' ) || exit; ?>
 					class="wpeo-modal-event wpeo-button-pulse">
 
 			<i class="button-icon fas fa-user"></i>
-			<span class="button-float-icon animated"><i class="fas fa-eye"></i></span>
 		</span>
 	</td>
 
@@ -45,7 +44,6 @@ defined( 'ABSPATH' ) || exit; ?>
 					class="wpeo-modal-event wpeo-button-pulse">
 
 			<i class="button-icon fas fa-search"></i>
-			<span class="button-float-icon animated"><i class="fas fa-eye"></i></span>
 		</span>
 	</td>
 
@@ -59,7 +57,6 @@ defined( 'ABSPATH' ) || exit; ?>
 					class="wpeo-modal-event wpeo-button-pulse">
 
 			<i class="button-icon fas fa-link"></i>
-			<span class="button-float-icon animated"><i class="fas fa-eye"></i></span>
 		</span>
 		</td>
 
@@ -73,7 +70,6 @@ defined( 'ABSPATH' ) || exit; ?>
 					class="wpeo-modal-event wpeo-button-pulse">
 
 			<i class="button-icon fas fa-map-marker-alt"></i>
-			<span class="button-float-icon animated"><i class="fas fa-eye"></i></span>
 		</span>
 	</td>
 
@@ -87,7 +83,6 @@ defined( 'ABSPATH' ) || exit; ?>
 					class="wpeo-modal-event wpeo-button-pulse">
 
 			<i class="button-icon fas fa-file"></i>
-			<span class="button-float-icon animated"><i class="fas fa-eye"></i></span>
 		</span>
 	</td>
 
@@ -96,7 +91,7 @@ defined( 'ABSPATH' ) || exit; ?>
 			data-id="<?php echo esc_attr( $duer->data['id'] ); ?>"
 			data-title="Sites concernés"
 			class="wpeo-modal-event wpeo-button-pulse">
-			Ouvertureeeeeeeeeeeee
+			<i class="button-icon fas fa-sitemap"></i>
 		</span>
 	</td>
 
@@ -120,5 +115,7 @@ defined( 'ABSPATH' ) || exit; ?>
 				</span>
 			<?php endif; ?>
 		</div>
+
+		<?php echo apply_filters( 'digi_dashboard_list_duer_single_item_action_end', '', $duer ); ?>
 	</td>
 </tr>

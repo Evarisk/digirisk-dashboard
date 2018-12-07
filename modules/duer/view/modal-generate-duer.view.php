@@ -1,5 +1,5 @@
 
-<div class="wpeo-modal duer-modal-generate">
+<div class="wpeo-modal duer-modal-generate modal-force-display">
 	<div class="modal-container">
 
 		<!-- Entête -->
@@ -32,13 +32,17 @@
 					Génération du DUER MU
 					<img src="<?php echo esc_attr( admin_url( '/images/loading.gif' ) ); ?>" alt="<?php echo esc_attr( 'Chargement...' ); ?>" />
 				</li>
+
+				<li data-type="zip">
+					Génération du ZIP
+					<img src="<?php echo esc_attr( admin_url( '/images/loading.gif' ) ); ?>" alt="<?php echo esc_attr( 'Chargement...' ); ?>" />
+				</li>
 			</ul>
 		</div>
 
 		<!-- Footer -->
 		<div class="modal-footer">
-			<a class="wpeo-button button-grey button-uppercase modal-close"><span>Annuler</span></a>
-			<a class="wpeo-button button-main button-uppercase modal-close"><span>Valider</span></a>
+			<a class="wpeo-button button-main button-uppercase modal-close"><span>Fermer</span></a>
 		</div>
 	</div>
 </div>

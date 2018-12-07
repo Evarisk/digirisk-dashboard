@@ -25,7 +25,7 @@ defined( 'ABSPATH' ) || exit; ?>
         </ul>
 
         <div class="tab-container">
-        	<div class="tab-content tab-active"><?php DUER_Class::g()->display(); ?></div>
+        	<div class="tab-content tab-active"><?php Class_Site::g()->display(); ?></div>
         </div>
     </div>
 </div>

@@ -30,7 +30,7 @@ class Class_DUER_Action {
 
 	public function callback_load_modal_generate_duer() {
 		$model_site_id       = ! empty( $_POST['model_site_id'] ) ? (int) $_POST['model_site_id'] : 0;
-		$sites_id            = ! empty( $_POST['sites_id'] ) ? (array) $_POST['sites_id'] : 0;
+		$sites_id            = ! empty( $_POST['sites_id'] ) ? (array) $_POST['sites_id'] : array();
 		$date_debut_audit    = ! empty( $_POST['dateDebutAudit'] ) ? sanitize_text_field( wp_unslash( $_POST['dateDebutAudit'] ) ) : ''; // WPCS: input var ok.
 		$date_fin_audit      = ! empty( $_POST['dateFinAudit'] ) ? sanitize_text_field( wp_unslash( $_POST['dateFinAudit'] ) ) : ''; // WPCS: input var ok.
 		$destinataire_duer   = ! empty( $_POST['destinataireDUER'] ) ? sanitize_textarea_field( wp_unslash( $_POST['destinataireDUER'] ) ) : ''; // WPCS: input var ok.
@@ -63,11 +63,14 @@ class Class_DUER_Action {
 			}
 		}
 
+		ZIP_Class::g()->clear_temporarly_files_details();
+
 		ob_start();
 		\eoxia\View_Util::exec( 'digirisk_dashboard', 'duer', 'modal-generate-duer', array(
 			'sites' => $available_sites,
 		) );
 		$view = ob_get_clean();
+
 		wp_send_json_success( array(
 			'namespace'        => 'digiriskDashboard',
 			'module'           => 'duer',
@@ -75,7 +78,7 @@ class Class_DUER_Action {
 			'view'             => $view,
 			'args'             => array(
 				'model_site_id'      => $model_site_id,
-				'sites_id'           => implode( ',', $sites_checked_id ),
+				'sites_id'           => ! empty( $sites_checked_id ) ? implode( ',', $sites_checked_id ) : array(),
 				'dateDebutAudit'     => $date_debut_audit,
 				'dateFinAudit'       => $date_fin_audit,
 				'destinataireDuer'   => $destinataire_duer,
@@ -95,6 +98,10 @@ class Class_DUER_Action {
 		}
 
 		$duer  = DUER_Class::g()->get( array( 'id' => $id ), true );
+
+		if ( empty( $duer->data['sites'][0]['id'] ) ) {
+			$duer->data['sites'] = array();
+		}
 
 		ob_start();
 		\eoxia\View_Util::exec( 'digirisk_dashboard', 'duer', 'item-modal-sites', array(
@@ -118,8 +125,8 @@ class Class_DUER_Action {
 		$sources             = ! empty( $_POST['args']['sources'] ) ? sanitize_textarea_field( wp_unslash( $_POST['args']['sources'] ) ) : ''; // WPCS: input var ok.
 		$dispo_des_plans     = ! empty( $_POST['args']['dispoDesPlans'] ) ? sanitize_textarea_field( wp_unslash( $_POST['args']['dispoDesPlans'] ) ) : ''; // WPCS: input var ok.
 		$remarque_importante = ! empty( $_POST['args']['remarqueImportante'] ) ? sanitize_textarea_field( wp_unslash( $_POST['args']['remarqueImportante'] ) ) : ''; // WPCS: input var ok.
-		$sites_id            = ! empty( $_POST['args']['sites_id'] ) ? sanitize_text_field( $_POST['args']['sites_id'] ) : '';
-		$sites_id            = explode( ',', $sites_id );
+		$sites_id            = ! empty( $_POST['args']['sites_id'] ) ? sanitize_text_field( $_POST['args']['sites_id'] ) : null;
+		$sites_id            = ! empty( $sites_id ) ? explode( ',', $sites_id ) : null;
 
 		$sites = get_option( \eoxia\Config_Util::$init['digirisk_dashboard']->site->site_key, array() );
 
@@ -150,28 +157,35 @@ class Class_DUER_Action {
 			if ( ! is_wp_error( $request ) ) {
 				if ( $request['response']['code'] == 200 ) {
 					$response = json_decode( $request['body'] );
+					if ( ! empty( $response ) ) {
+						foreach ( $response as $file ) {
+							ZIP_Class::g()->update_temporarly_files_details( array(
+								'filename' => $file->title . '.odt',
+								'url'     => $file->link,
+							) );
+						}
+					}
 				}
 			}
 		}
 
 		if ( ! empty( $type ) ) {
+			$model_site = null;
+
+			if ( ! empty( $sites[ $model_site_id ] ) ) {
+				$sites[ $model_site_id ]['id'] = $model_site_id;
+				$model_site = $sites[ $model_site_id ];
+			}
+
 			if ( 'construct-duer-mu' === $type ) {
 
-				$model_site = null;
-
-				if ( ! empty( $sites[ $model_site_id ] ) ) {
-					$sites[ $model_site_id ]['id'] = $model_site_id;
-					$model_site = $sites[ $model_site_id ];
-				}
-
 				$sites_data = array();
-
 
 				if ( ! empty( $sites_id ) ) {
 					foreach ( $sites_id as $site_id ) {
 						$site_id                 = (int) $site_id;
 						$sites[ $site_id ]['id'] = $site_id;
-						$sites_data[ $site_id ]  = $sites[ $site_id ];
+						$sites_data[]  = $sites[ $site_id ];
 					}
 				}
 
@@ -190,12 +204,27 @@ class Class_DUER_Action {
 				$duer_id = $data['document']->data['id'];
 				$duer = DUER_Class::g()->get( array( 'id' => $duer_id ), true );
 
-				$duer->data['model_site'] = $model_site;
-				$duer->data['sites']      = $sites_data;
+				$duer->data['model_site']    = $model_site;
+				$duer->data['sites']         = null;
+
+				if ( ! empty( $sites_id ) ) {
+					$duer->data['sites'] = $sites_data;
+				}
+				$duer->data['model_site_id'] = $model_site_id;
 
 				DUER_Class::g()->update( $duer->data );
 			} else if ( 'duer-mu' === $type ) {
 				$generation_status = DUER_Class::g()->create_document( $duer_id );
+				ZIP_Class::g()->update_temporarly_files_details( array(
+					'filename' => $generation_status['document']->data['title'] . '.odt',
+					'url'      => $generation_status['document']->data['link'],
+				) );
+			} else if ( 'zip' === $type ) {
+				$generation_status = ZIP_Class::g()->generate( $model_site );
+
+				$duer = DUER_Class::g()->get( array( 'id' => $duer_id ), true );
+				$duer->data['zip_path'] = $generation_status['zip_path'];
+				DUER_Class::g()->update( $duer->data );
 			}
 		}
 
@@ -213,7 +242,7 @@ class Class_DUER_Action {
 				'dispoDesPlans'      => $dispo_des_plans,
 				'remarqueImportante' => $remarque_importante,
 				'model_site_id'      => $model_site_id,
-				'sites_id'           => implode( ',', $sites_id ),
+				'sites_id'           => ! empty( $sites_id ) ? implode( ',', $sites_id ) : array(),
 			)
 		) );
 	}

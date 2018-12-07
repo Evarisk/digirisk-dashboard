@@ -37,6 +37,13 @@ class DUER_Model extends Document_Model {
 			'field'      => '_model_site',
 		);
 
+		$this->schema['model_site_id'] = array(
+			'since'     => '0.2.0',
+			'type'      => 'integer',
+			'meta_type' => 'single',
+			'field'     => '_model_site_id',
+		);
+
 		$this->schema['sites'] = array(
 			'since'      => '0.2.0',
 			'type'       => 'array',
@@ -172,6 +179,10 @@ Dans ce document vous trouverez:
 					'type'      => 'array',
 					'meta_type' => 'multiple',
 				),
+				'model_site' => array(
+					'type'      => 'array',
+					'meta_type' => 'mutiple',
+				)
 			),
 		);
 

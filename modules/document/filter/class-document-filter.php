@@ -47,14 +47,14 @@ class Document_Filter extends \eoxia\Singleton_Util {
 	 * @return mixed
 	 */
 	public function before_save_doc( $data, $args ) {
+
 		$upload_dir = wp_upload_dir();
 
-		// $data['title']  = current_time( 'Ymd' ) . '_';
-		// $data['title'] .= $data['parent']->data['unique_identifier'] . '_' . sanitize_title( $data['type'] ) . '_';
-		// $data['title'] .= sanitize_title( $data['parent']->data['title'] ) . '_';
-		// $data['title'] .= 'V' . \eoxia\ODT_Class::g()->get_revision( $data['type'], $data['parent']->data['id'] );
-		// $data['title']  = str_replace( '-', '_', $data['title'] );
-		$data['title'] = 'test';
+		$data['title']  = current_time( 'Ymd' ) . '_';
+		$data['title'] .= 'D' . $data['document_meta']['model_site']['id'] . '_' . sanitize_title( $data['type'] ) . '_';
+		$data['title'] .= sanitize_title(  $data['document_meta']['model_site']['title'] ) . '_';
+		$data['title'] .= 'V' . DUER_Class::g()->get_revision( $data['type'], $data['document_meta']['model_site']['id'] );
+		$data['title']  = str_replace( '-', '_', $data['title'] );
 
 		$data['guid'] = $upload_dir['baseurl'] . '/digirisk-dashboard/' . sanitize_title( $data['title'] ) . '.odt';
 		$data['path'] = $upload_dir['basedir'] . '/digirisk-dashboard/' . sanitize_title( $data['title'] ) . '.odt';

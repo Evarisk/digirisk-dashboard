@@ -47,6 +47,7 @@ class DUER_Filter extends Identifier_Filter {
 
 		$response = Request_Util::get( $url, $args['model_site']['hash'] );
 
+		$data['model_site']         = $args['model_site'];
 		$data['nomEntreprise']      = $response->title;
 		$data['emetteurDUER']       =  '';
 		$data['destinataireDUER']   = $args['destinataire_duer'];
@@ -103,27 +104,30 @@ class DUER_Filter extends Identifier_Filter {
 			);
 		}
 
+		$args['sites'][] = $args['model_site'];
 
 		if ( ! empty( $args['sites'] ) ) {
 			foreach ( $args['sites'] as $site ) {
-				$data['sites']['value'][] = array(
-					'id'    => $site['id'],
-					'url'   => $site['url'],
-					'titre' => $site['title'],
-				);
+				if ( $args['model_site']['id'] != $site['id'] ) {
+					$data['sites']['value'][] = array(
+						'id'    => $site['id'],
+						'url'   => $site['url'],
+						'titre' => $site['title'],
+					);
 
-				$url = $site['url'] . '/wp-json/digi/v1/duer/society/tree/' . $site['id'];
+					$url = $site['url'] . '/wp-json/digi/v1/duer/society/tree/' . $site['id'];
 
-				$response = Request_Util::get( $url, $site['hash'] );
-				$element_per_hierarchy = json_decode( json_encode( $response->elementParHierarchie ), true );
+					$response = Request_Util::get( $url, $site['hash'] );
+					$element_per_hierarchy = json_decode( json_encode( $response->elementParHierarchie ), true );
 
-				$data['sitesComplementaire']['value'][] = array(
-					'nomEntrepriseComplementaire'        => 'D' . $site['id'],
-					'elementParHierarchieComplementaire' => array(
-						'type' => 'sub_segment',
-						'value' => $element_per_hierarchy['value'],
-					)
-				);
+					$data['sitesComplementaire']['value'][] = array(
+						'nomEntrepriseComplementaire'        => 'D' . $site['id'],
+						'elementParHierarchieComplementaire' => array(
+							'type' => 'sub_segment',
+							'value' => $element_per_hierarchy['value'],
+						)
+					);
+				}
 
 				$url = $site['url'] . '/wp-json/digi/v1/duer/risk/' . $site['id'];
 

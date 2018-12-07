@@ -98,6 +98,43 @@ class DUER_Class extends Document_Class {
 			'sites'     => $sites,
 		) );
 	}
+
+	/**
+	 * Récupération de la prochaine version pour un type de document pour le jour J
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param string  $type       Le type de document actuellement en cours de création.
+	 * @param integer $element_id L'ID de l'élément.
+	 *
+	 * @return integer            La version +1 du document actuellement en cours de création.
+	 */
+	public function get_revision( $type, $element_id ) {
+		global $wpdb;
+
+		// Récupération de la date courante.
+		$today = getdate();
+
+		// Définition des paramètres de la requête de récupération des documents du type donné pour la date actuelle.
+		$args = array(
+			'count'          => true,
+			'posts_per_page' => -1,
+			'meta_key'       => '_model_site_id',
+			'meta_value'     => $element_id,
+			'post_type'      => $type,
+			'post_status'    => array( 'publish', 'inherit' ),
+			'date_query' => array(
+				array(
+					'year'  => $today['year'],
+					'month' => $today['mon'],
+					'day'   => $today['mday'],
+				),
+			),
+		);
+
+		$document_revision = new \WP_Query( $args );
+		return ( $document_revision->post_count + 1 );
+	}
 }
 
 new DUER_Class();

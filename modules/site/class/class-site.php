@@ -26,6 +26,18 @@ class Class_Site extends \eoxia\Singleton_Util {
 	public function display() {
 		$sites = get_option( \eoxia\Config_Util::$init['digirisk_dashboard']->site->site_key, array() );
 
+		if ( ! empty( $sites ) ) {
+			foreach( $sites as $id => &$site ) {
+				$site['last_duer'] = DUER_Class::g()->get( array(
+					'meta_key'       => '_model_site_id',
+					'meta_value'     => $id,
+					'posts_per_page' => 1,
+				), true );
+			}
+		}
+
+		unset( $site );
+
 		\eoxia\View_Util::exec( 'digirisk_dashboard', 'site', 'main', array(
 			'sites' => $sites,
 		) );

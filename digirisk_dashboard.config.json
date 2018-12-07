@@ -15,7 +15,8 @@
 		"core/core.config.json",
     "modules/document/document.config.json",
 		"modules/site/site.config.json",
-		"modules/duer/duer.config.json"
+		"modules/duer/duer.config.json",
+		"modules/zip/zip.config.json"
 	],
 	"debug": false
 }

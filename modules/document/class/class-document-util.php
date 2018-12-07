@@ -47,9 +47,9 @@ class Document_Util_Class extends \eoxia\Singleton_Util {
 	 *
 	 * @see https://developer.wordpress.org/reference/functions/wp_upload_dir/
 	 */
-	public function get_digirisk_upload_dir() {
+	public function get_digirisk_dashboard_upload_dir() {
 		$upload_dir = wp_upload_dir();
-		return str_replace( '\\', '/', $upload_dir['basedir'] ) . '/digirisk';
+		return str_replace( '\\', '/', $upload_dir['basedir'] ) . '/digirisk-dashboard';
 	}
 
 	/**
