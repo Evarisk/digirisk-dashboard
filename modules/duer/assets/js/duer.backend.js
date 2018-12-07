@@ -5,6 +5,7 @@ window.eoxiaJS.digiriskDashboard.duer.init = function() {
 };
 window.eoxiaJS.digiriskDashboard.duer.event = function() {
 	jQuery( document ).on( 'modal-opened', '.duer-modal', window.eoxiaJS.digiriskDashboard.duer.modalOpened );
+	jQuery( document ).on( 'change', '.duer-modal-site select', window.eoxiaJS.digiriskDashboard.duer.selectModel );
 	jQuery( document ).on( 'click', '.duer-modal .button-main', window.eoxiaJS.digiriskDashboard.duer.applyValueToTextarea );
 	jQuery( document ).on( 'keyup', '.duer-modal-site .filter-site', window.eoxiaJS.digiriskDashboard.duer.filterSite );
 };
@@ -24,12 +25,21 @@ window.eoxiaJS.digiriskDashboard.duer.modalOpened = function( event, triggeredEl
 		jQuery( this ).find( '.modal-content' ).html( '<textarea data-to="' + jQuery( triggeredElement ).data( 'src' ) + '" rows="8" style="width: 100%; display: inline-block;"></textarea>' );
 
 		jQuery( '.duer-modal' ).find( 'textarea' ).val( textareaContent );
+
 	} else {
 		var content = jQuery( triggeredElement ).closest( 'tr' ).find( '.text-content-' + jQuery( triggeredElement ).data( 'src' ) ).html();
 		jQuery( this ).find( '.modal-content' ).html( '<p></p>' );
 
 		jQuery( '.duer-modal' ).find( 'p' ).html( content );
 	}
+};
+
+window.eoxiaJS.digiriskDashboard.duer.selectModel = function( event ) {
+	var optionSelect = jQuery( 'option:selected', this );
+	var id = optionSelect.val();
+
+	jQuery( '.duer-modal-site .list-sites .selected-model label span' ).hide();
+	jQuery( '.duer-modal-site .list-sites li[data-id="' + id + '"] label span' ).show();
 };
 
 /**

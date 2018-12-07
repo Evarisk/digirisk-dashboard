@@ -110,7 +110,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 	<td>
 		<div class="action w50">
-			<div class="action-input add wpeo-button button-square-50"
+			<div class="action-input add wpeo-button button-disable button-square-50"
 					data-parent="row"
 					data-action="digi_dashboard_load_modal_generate_duer"
 					data-title="Génération du DUER">

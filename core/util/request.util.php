@@ -50,6 +50,8 @@ class Request_Util extends \eoxia\Singleton_Util {
 			if ( $request['response']['code'] == 200 ) {
 				$response = json_decode( $request['body'] );
 				return $response;
+			} else {
+				return $request;
 			}
 		}
 

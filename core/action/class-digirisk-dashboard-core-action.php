@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Initialise les actions princiaples de Digirisk EPI
  */
 class Class_Digirisk_Dashboard_Action {
-	
+
 	/**
 	 * Le constructeur ajoutes les actions WordPress suivantes:
 	 * admin_enqueue_scripts (Pour appeller les scripts JS et CSS dans l'admin)
@@ -46,6 +46,7 @@ class Class_Digirisk_Dashboard_Action {
 		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ) );
 		add_action( 'network_admin_menu', array( $this, 'callback_network_admin_menu' ), 99 );
 
+		add_action( 'wp_ajax_digi_dashboard_load_tab', array( $this, 'callback_load_tab' ) );
 		add_action( 'wp_ajax_apply_to_all', array( $this, 'callback_apply_to_all' ) );
 	}
 
@@ -104,7 +105,7 @@ class Class_Digirisk_Dashboard_Action {
 	 * @since 0.1.0
 	 */
 	public function callback_plugins_loaded() {}
-		
+
 	/**
 	 * Ajoutes le menu DigiRisk Dashboard dans l'administration de WordPress.
 	 *
@@ -113,7 +114,7 @@ class Class_Digirisk_Dashboard_Action {
 	public function callback_admin_menu() {
 		add_menu_page( __( 'DigiRisk Dashboard', 'digirisk' ), __( 'DigiRisk Dashboard', 'digirisk' ), 'manage_options', 'digirisk-dashboard', array( Class_Digirisk_Dashboard_Core::g(), 'display_page' ) );
 	}
-	
+
 	/**
 	 * Ajoutes la page "Mêttre à jour DigiRisk sur le réseau".
 	 *
@@ -121,6 +122,32 @@ class Class_Digirisk_Dashboard_Action {
 	 */
 	public function callback_network_admin_menu() {
 		add_submenu_page( 'index.php', __( 'Mêttre à jour le réseau DigiRisk', 'digirisk-dashboard' ), __( 'Mêttre à jour le réseau DigiRisk', 'digirisk-dashboard' ), 'manage_digirisk', 'upgrade-digirisk', array( Class_Digirisk_Dashboard_Core::g(), 'display' ) );
+	}
+
+	public function callback_load_tab() {
+		$type = ! empty( $_POST['type'] ) ? sanitize_text_field( $_POST['type'] ) : '';
+		$view = '';
+
+		ob_start();
+		switch ( $type ) {
+			case 'sites':
+				Class_Site::g()->display();
+				break;
+			case 'add-site':
+				Class_Site::g()->display_edit();
+				break;
+			case 'duer':
+				DUER_Class::g()->display();
+				break;
+			default:
+				break;
+		}
+
+		$view = ob_get_clean();
+
+		wp_send_json_success( array(
+			'view' => $view,
+		) );
 	}
 
 	/**

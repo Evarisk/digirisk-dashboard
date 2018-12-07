@@ -16,33 +16,36 @@ namespace digirisk_dashboard;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<div class="wpeo-form">
-	<input type="hidden" name="action" value="digi_dashboard_add_site" />
-	<?php wp_nonce_field( 'ajax_add_site' ); ?>
-
-	<div class="form-element">
-		<span class="form-label">URL du site</span>
-		<label class="form-field-container">
-			<input type="text" class="form-field" name="url" />
-		</label>
+<div class="edit-site">
+	<div class="notice notice-success hidden">
+		<p></p>
 	</div>
 
-	<div class="form-element">
-		<span class="form-label">Login</span>
-		<label class="form-field-container">
-			<input type="text" class="form-field" name="login" />
-		</label>
+	<div class="notice notice-error hidden">
+		<p></p>
 	</div>
 
-	<div class="form-element">
-		<span class="form-label">Clé unique</span>
-		<label class="form-field-container">
-			<input type="text" class="form-field" name="unique_key" />
-		</label>
-	</div>
+	<div class="wpeo-form">
+		<input type="hidden" name="action" value="digi_dashboard_add_site" />
+		<?php wp_nonce_field( 'ajax_add_site' ); ?>
 
-	<div class="wpeo-button button-main action-input"
-		data-parent="wpeo-form">
-		<span>Ajouter le site</span>
+		<div class="form-element form-element-required">
+			<span class="form-label">URL du site </span>
+			<label class="form-field-container">
+				<input type="text" class="form-field" name="url" />
+			</label>
+		</div>
+
+		<div class="form-element form-element-required">
+			<span class="form-label">Clé unique</span>
+			<label class="form-field-container">
+				<input type="text" class="form-field" name="unique_key" />
+			</label>
+		</div>
+
+		<div class="wpeo-button button-main button-disable action-input"
+			data-parent="wpeo-form">
+			<span>Ajouter le site</span>
+		</div>
 	</div>
 </div>

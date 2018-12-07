@@ -13,7 +13,9 @@ namespace digirisk_dashboard;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
-} ?>
+}
+
+$model_id = null; ?>
 
 <div class="wpeo-modal duer-modal-site">
 	<div class="modal-container">
@@ -26,42 +28,60 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<!-- Corps -->
 		<div class="modal-content wpeo-form">
-			<div class="form-element">
-				<span class="form-label">Site modèle</span>
-				<label class="form-field-container">
-					<select style="padding:0;" id="site-model" class="form-field" name="model_site_id">
-						<?php
-						if ( ! empty( $sites ) ) :
-							foreach ( $sites as $id => $site ) :
-								?><option value="<?php echo esc_attr( $id ); ?>"><?php echo $site['title'] . ' (' . $site['url'] . ')'; ?></option><?php
-							endforeach;
-						endif;
-						?>
-					</select>
-				</label>
-			</div>
-
-			<div class="form-element">
-				<span class="form-label">Sélection des sites pour le DUER</span>
-				<label class="form-field-container">
-					<input type="text" class="form-field filter-site" placeholder="Tapez ici pour filtrer les sites" />
-				</label>
-			</div>
-
-			<ul class="list-sites" style="width: 100%; height: 200px; overflow-y: scroll; background-color: #ececec; padding: 10px;">
-				<?php
-				if ( ! empty( $sites ) ) :
-					foreach ( $sites as $id => $site ) :
-						?>
-						<li class="form-element">
-							<input type="checkbox" name="sites_id[<?php echo esc_attr( $id ); ?>]" id="checkbox-<?php echo esc_attr( $id ); ?>" class="form-field">
-							<label for="checkbox-<?php echo esc_attr( $id ); ?>"><?php echo $id . ' ' . $site['title'] . ' (' . $site['url'] . ')'; ?></label>
-						</li>
-						<?php
-					endforeach;
-				endif;
+			<?php
+			if ( empty( $sites ) ) :
 				?>
-			</ul>
+				<p>Aucun site ajouté au dashboard</p>
+				<p>Veuillez ajouter un ou plusieurs sites avant de générer un DUER</p>
+				<p>Pour ce faire, aller dans l'onglet "Ajouter un site"</p>
+				<?php
+			else:
+				?>
+				<div class="form-element">
+					<span class="form-label">Site modèle</span>
+					<label class="form-field-container">
+						<select style="padding:0;" id="site-model" class="form-field" name="model_site_id">
+							<?php
+							if ( ! empty( $sites ) ) :
+								foreach ( $sites as $id => $site ) :
+									if ( $model_id == null ) :
+										$model_id = $id;
+									endif;
+
+									?><option value="<?php echo esc_attr( $id ); ?>"><?php echo $site['title'] . ' (' . $site['url'] . ')'; ?></option><?php
+								endforeach;
+							endif;
+							?>
+						</select>
+					</label>
+				</div>
+
+				<div class="form-element">
+					<span class="form-label">Sélection des sites pour le DUER</span>
+					<label class="form-field-container">
+						<input type="text" class="form-field filter-site" placeholder="Tapez ici pour filtrer les sites" />
+					</label>
+				</div>
+
+				<ul class="list-sites" style="width: 100%; height: 200px; overflow-y: scroll; background-color: #ececec; padding: 10px;">
+					<?php
+					if ( ! empty( $sites ) ) :
+						foreach ( $sites as $id => $site ) :
+							?>
+							<li class="form-element selected-model" data-id="<?php echo esc_attr( $id ); ?>">
+								<input type="checkbox" <?php echo $model_id == $id ? 'disabled' : ''; ?> name="sites_id[<?php echo esc_attr( $id ); ?>]" id="checkbox-<?php echo esc_attr( $id ); ?>" class="form-field">
+								<label for="checkbox-<?php echo esc_attr( $id ); ?>"><?php echo $id . ' ' . $site['title'] . ' (' . $site['url'] . ')'; ?>
+									<span style="<?php echo $model_id == $id ? 'display: inline-block;' : 'display: none;'; ?>">Site modèle</span>
+								</label>
+							</li>
+							<?php
+						endforeach;
+					endif;
+					?>
+				</ul>
+				<?php
+			endif;
+			?>
 		</div>
 
 		<!-- Footer -->

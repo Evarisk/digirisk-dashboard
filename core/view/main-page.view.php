@@ -19,15 +19,13 @@ defined( 'ABSPATH' ) || exit; ?>
 <div class="wp-wrap wpeo-wrap">
     <div class="wpeo-tab">
         <ul class="tab-list">
-        	<li class="tab-element tab-active" data-target="my-sites"><?php esc_html_e( 'Mes sites', 'digirisk-dashboard' ); ?></li>
-        	<li class="tab-element" data-target="add-site"><?php esc_html_e( 'Ajouter un site', 'digirisk-dashboard' ); ?></li>
-        	<li class="tab-element" data-target="duer"><?php esc_html_e( 'DUER', 'digirisk-dashboard' ); ?></li>
+        	<li class="tab-element tab-active" data-action="digi_dashboard_load_tab" data-type="sites"><?php esc_html_e( 'Mes sites', 'digirisk-dashboard' ); ?></li>
+        	<li class="tab-element" data-action="digi_dashboard_load_tab" data-type="add-site"><?php esc_html_e( 'Ajouter un site', 'digirisk-dashboard' ); ?></li>
+        	<li class="tab-element" data-action="digi_dashboard_load_tab" data-type="duer"><?php esc_html_e( 'DUER', 'digirisk-dashboard' ); ?></li>
         </ul>
 
         <div class="tab-container">
-        	<div id="my-sites" class="tab-content tab-active"><?php Class_Site::g()->display(); ?></div>
-        	<div id="add-site" class="tab-content"><?php Class_Site::g()->display_edit(); ?></div>
-        	<div id="duer" class="tab-content"><?php DUER_Class::g()->display(); ?></div>
+        	<div class="tab-content tab-active"><?php DUER_Class::g()->display(); ?></div>
         </div>
     </div>
 </div>
