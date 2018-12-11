@@ -211,7 +211,6 @@ class Class_DUER_Action {
 					$duer->data['sites'] = $sites_data;
 				}
 				$duer->data['model_site_id'] = $model_site_id;
-
 				DUER_Class::g()->update( $duer->data );
 			} else if ( 'duer-mu' === $type ) {
 				$generation_status = DUER_Class::g()->create_document( $duer_id );

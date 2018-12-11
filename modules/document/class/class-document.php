@@ -102,6 +102,16 @@ class Document_Class extends \eoxia\ODT_Class {
 	 */
 	protected $odt_name = '';
 
+	protected $path = '';
+	protected $url = '';
+
+	protected function construct() {
+		$this->path = PLUGIN_DIGIRISK_DASHBOARD_PATH;
+		$this->url = PLUGIN_DIGIRISK_DASHBOARD_URL;
+
+		parent::construct();
+	}
+
 	public function prepare_document( $parent, $args = array() ) {
 		$args = wp_parse_args( $args, array(
 			'parent' => $parent,

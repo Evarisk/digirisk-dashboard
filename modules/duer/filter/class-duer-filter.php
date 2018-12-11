@@ -81,7 +81,7 @@ class DUER_Filter extends Identifier_Filter {
 		);
 
 		$data['sites']['value'][] = array(
-			'id'    => $args['model_site']['id'],
+			'id'    => 'D' . $args['model_site']['id'],
 			'url'   => $args['model_site']['url'],
 			'titre' => $args['model_site']['title'],
 		);

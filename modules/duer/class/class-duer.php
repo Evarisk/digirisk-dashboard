@@ -72,13 +72,6 @@ class DUER_Class extends Document_Class {
 	 */
 	protected $odt_name = 'document_unique_mu';
 
-	/**
-	 * Le constructeur
-	 *
-	 * @since 0.2.0
-	 */
-	protected function construct() {}
-
 	public function display() {
 		$sites     = get_option( \eoxia\Config_Util::$init['digirisk_dashboard']->site->site_key, array() );
 		$duers     = $this->get();
