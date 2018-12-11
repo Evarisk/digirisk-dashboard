@@ -4,7 +4,7 @@ Tags: Evaluation des risques, document unique, risques professionnels, audit ris
 Donate link: http://www.evarisk.com/document-unique-logiciel
 Requires at least: 4.4
 Tested up to: 4.9.1
-Stable tag: 0.1.0-alpha
+Stable tag: 0.2.0
 
 DigiRisk Dashboard handle MU WordPress instance of DigiRisk.
 

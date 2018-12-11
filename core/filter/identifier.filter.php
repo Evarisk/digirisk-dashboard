@@ -3,8 +3,7 @@
  * Gestion des filtres relatifs aux identifiants de DigiRisk.
  *
  * @author Evarisk <dev@evarisk.com>
- * @since 7.0.0
- * @version 7.0.0
+ * @since 0.2.0
  * @copyright 2015-2018 Evarisk
  * @package DigiRisk
  */
@@ -16,14 +15,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Gestion des filtres relatifs aux identifiants de DigiRisk.
+ * Gestion des filtres relatifs aux identifiants de DigiRisk Dashboard.
  */
 class Identifier_Filter {
 
 	/**
 	 * Constructeur.
 	 *
-	 * @since 7.0.0
+	 * @since 0.2.0
 	 */
 	public function __construct() {
 		add_filter( 'eo_model_handle_schema', array( $this, 'callback_handle_schema' ), 10, 2 );
@@ -45,7 +44,7 @@ class Identifier_Filter {
 	/**
 	 * Ajoutes les entrées "unique_key" et "unique_identifier" dans tous les schémas de DigiRisk.
 	 *
-	 * @since 7.0.0
+	 * @since 0.2.0
 	 *
 	 * @param  array  $schema     Le schéma.
 	 * @param  string $req_method La méthode de la requête.
@@ -54,16 +53,14 @@ class Identifier_Filter {
 	 */
 	public function callback_handle_schema( $schema, $req_method ) {
 		$schema['unique_key'] = array(
-			'since'     => '6.1.6',
-			'version'   => '7.0.0',
+			'since'     => '0.2.0',
 			'type'      => 'integer',
 			'meta_type' => 'single',
 			'field'     => '_wpdigi_unique_key',
 		);
 
 		$schema['unique_identifier'] = array(
-			'since'     => '6.1.6',
-			'version'   => '7.0.0',
+			'since'     => '0.2.0',
 			'type'      => 'string',
 			'meta_type' => 'single',
 			'field'     => '_wpdigi_unique_identifier',
@@ -76,7 +73,7 @@ class Identifier_Filter {
 	/**
 	 * Construit l'identifiant unique d'un modèle
 	 *
-	 * @since 6.0.0
+	 * @since 0.2.0
 	 *
 	 * @param  array $data Les données du modèle.
 	 * @param  array $args Les arguments supplémentaires.
@@ -110,7 +107,7 @@ class Identifier_Filter {
 	/**
 	 * Remplaces l'identifiant du modèle par l'identifiant personnalisé qui se trouve dans la BDD
 	 *
-	 * @since 6.0.0
+	 * @since 0.2.0
 	 *
 	 * @param  object $object Les données du modèle.
 	 * @param  array  $args   Les données de la requête.
@@ -142,7 +139,7 @@ class Identifier_Filter {
 	/**
 	 * Renvoie la dernière clé unique selon le type de l'élement
 	 *
-	 * @since 6.3.1
+	 * @since 0.2.0
 	 *
 	 * @param string $controller Le nom du controller.
 	 *

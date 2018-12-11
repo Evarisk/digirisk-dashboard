@@ -12,9 +12,9 @@
  *
  * @license   AGPLv3 <https://spdx.org/licenses/AGPL-3.0-or-later.html>
  *
- * @package   DigiRisk\Classes
+ * @package   DigiRisk_Dashboard\Classes
  *
- * @since     6.0.0
+ * @since     0.2.0
  */
 
 namespace digirisk_dashboard;
@@ -107,7 +107,7 @@ class Document_Class extends \eoxia\ODT_Class {
 
 	protected function construct() {
 		$this->path = PLUGIN_DIGIRISK_DASHBOARD_PATH;
-		$this->url = PLUGIN_DIGIRISK_DASHBOARD_URL;
+		$this->url  = PLUGIN_DIGIRISK_DASHBOARD_URL;
 
 		parent::construct();
 	}

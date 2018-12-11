@@ -11,9 +11,9 @@
  *
  * @license   AGPLv3 <https://spdx.org/licenses/AGPL-3.0-or-later.html>
  *
- * @package   DigiRisk\Classes
+ * @package   DigiRisk_Dashboard\Classes
  *
- * @since     7.0.0
+ * @since     0.2.0
  */
 
 namespace digirisk_dashboard;
@@ -28,7 +28,7 @@ class Document_Filter extends \eoxia\Singleton_Util {
 	/**
 	 * Constructeur.
 	 *
-	 * @since 7.0.0
+	 * @since 0.2.0
 	 */
 	protected function construct() {
 		add_filter( 'eo_model_duer_mu_before_post', array( $this, 'before_save_doc' ), 10, 2 );
@@ -39,7 +39,7 @@ class Document_Filter extends \eoxia\Singleton_Util {
 	 *
 	 * Cette méthode est appelée avant l'ajout du document en base de donnée.
 	 *
-	 * @since 7.0.0
+	 * @since 0.2.0
 	 *
 	 * @param  array $data Les données du document.
 	 * @param  array $args Les données de la requête.
@@ -47,7 +47,6 @@ class Document_Filter extends \eoxia\Singleton_Util {
 	 * @return mixed
 	 */
 	public function before_save_doc( $data, $args ) {
-
 		$upload_dir = wp_upload_dir();
 
 		$data['title']  = current_time( 'Ymd' ) . '_';

@@ -3,8 +3,7 @@
  * Les filtres relatives au DUER
  *
  * @author Evarisk <jimmy@evarisk.com>
- * @since 6.2.5
- * @version 6.4.4
+ * @since 0.2.0
  * @copyright 2015-2017 Evarisk
  * @package DigiRisk
  */
@@ -23,7 +22,7 @@ class DUER_Filter extends Identifier_Filter {
 	/**
 	 * Le constructeur ajoute le filtre society_header_end
 	 *
-	 * @since 6.2.5
+	 * @since 0.2.0
 	 */
 	public function __construct() {
 		parent::__construct();
@@ -33,7 +32,7 @@ class DUER_Filter extends Identifier_Filter {
 	/**
 	 * Ajoutes toutes les données nécessaire pour le registre des AT bénins.
 	 *
-	 * @since 7.0.0
+	 * @since 0.2.0
 	 *
 	 * @param  array         $data    Les données pour le registre des AT bénins.
 	 * @param  Society_Model $society Les données de la société.

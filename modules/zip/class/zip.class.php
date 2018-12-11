@@ -3,8 +3,7 @@
  * Gestion des ZIP
  *
  * @author    Evarisk <dev@evarisk.com>
- * @since     6.2.1
- * @version   7.0.0
+ * @since     0.2.0
  * @copyright 2018 Evarisk.
  * @package   DigiRisk
  */
@@ -87,8 +86,7 @@ class ZIP_Class extends Document_Class {
 	/**
 	 * Convertis le chemin absolu vers le fichier en URL
 	 *
-	 * @since 6.1.9
-	 * @version 6.4.4
+	 * @since 0.2.0
 	 *
 	 * @param  string $zip_path Le chemin absolu vers le fichier.
 	 *
@@ -110,8 +108,7 @@ class ZIP_Class extends Document_Class {
 	/**
 	 * Créé un fichier au format zip a partir d'une liste de fichiers passé en paramètres
 	 *
-	 * @since 6.1.9
-	 * @version 6.5.0
+	 * @since 0.2.0
 	 *
 	 * @param string $path     Le chemin vers lequel il faut sauvegarder le fichier zip.
 	 * @param object $element  L'élément auquel il faut associer le fichier zip.
@@ -169,8 +166,7 @@ class ZIP_Class extends Document_Class {
 	/**
 	 * Génères un zip et le met dans l'élément.
 	 *
-	 * @since 6.1.9
-	 * @version 6.5.0
+	 * @since 0.2.0
 	 *
 	 * @param Group_Model $element    Les données du groupement.
 	 *
@@ -194,10 +190,7 @@ class ZIP_Class extends Document_Class {
 	/**
 	 * Supprimes l'option temporaire des fichiers à zipper.
 	 *
-	 * @since 6.5.0
-	 * @version 6.5.0
-	 *
-	 * @return void
+	 * @since 0.2.0
 	 */
 	public function clear_temporarly_files_details() {
 		delete_option( \eoxia\Config_Util::$init['digirisk_dashboard']->zip->key_temporarly_files_details );
@@ -207,15 +200,12 @@ class ZIP_Class extends Document_Class {
 	 * Met dans une meta temporaire les fichiers à zipper.
 	 * Cette meta est utilisé et vidé dans la méthode create_zip.
 	 *
-	 * @since 6.5.0
-	 * @version 6.5.0
+	 * @since 0.2.0
 	 *
 	 * array['path']     string Le chemin vers le fichier.
 	 * array['filename'] string Le nom du fichier.
 	 *
 	 * @param array $file_details (Voir au dessus).
-	 *
-	 * @return void
 	 */
 	public function update_temporarly_files_details( $file_details ) {
 		$files_details = get_option( \eoxia\Config_Util::$init['digirisk_dashboard']->zip->key_temporarly_files_details, array() );

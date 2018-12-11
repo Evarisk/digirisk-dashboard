@@ -3,8 +3,7 @@
  * Appelle le filtre pour ajouter le bouton "Télécharger le ZIP"
  *
  * @author Evarisk <dev@evarisk.com>
- * @since 6.2.1
- * @version 6.5.0
+ * @since 0.2.0
  * @copyright 2015-2018 Evarisk
  * @package DigiRisk
  */
@@ -32,8 +31,7 @@ class ZIP_Filter extends Identifier_Filter {
 	/**
 	 * Cette méthode permet d'ajouter le bouton "Télécharger le ZIP" dans la liste des DUER
 	 *
-	 * @since 6.2.1
-	 * @version 6.5.0
+	 * @since 0.2.0
 	 *
 	 * @param  string     $content Un contenu vide.
 	 * @param  DUER_Model $element L'objet DUER.

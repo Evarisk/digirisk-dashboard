@@ -26,6 +26,11 @@ class Class_Site_Action {
 		add_action( 'wp_ajax_digi_dashboard_delete_site', array( $this, 'ajax_delete_site' ) );
 	}
 
+	/**
+	 * Ajoutes un site dans le dashboar
+	 *
+	 * @since 0.2.0
+	 */
 	public function ajax_add_site() {
 		check_ajax_referer( 'ajax_add_site' );
 
@@ -107,6 +112,11 @@ class Class_Site_Action {
 		}
 	}
 
+	/**
+	 * Supprimes un site du dashboard
+	 *
+	 * @since 0.2.0
+	 */
 	public function ajax_delete_site() {
 		$id = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
 

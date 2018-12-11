@@ -3,8 +3,7 @@
  * Définition des champs d'un zip.
  *
  * @author Evarisk <jimmy@evarisk.com>
- * @since 6.2.1
- * @version 6.2.1
+ * @since 0.2.0
  * @copyright 2015-2017 Evarisk
  * @package DigiRisk
  */
@@ -23,8 +22,7 @@ class ZIP_Model extends \eoxia\Post_Model {
 	/**
 	 * Le constructeur
 	 *
-	 * @since 6.2.1
-	 * @version 6.2.1
+	 * @since 0.2.0
 	 *
 	 * @param ZIP_Model $object L'objet zip.
 	 */
@@ -35,7 +33,7 @@ class ZIP_Model extends \eoxia\Post_Model {
 		);
 
 		$this->schema['path'] = array(
-			'since'     => '7.0.0',
+			'since'     => '0.2.0',
 			'type'      => 'string',
 			'meta_type' => 'single',
 			'field'     => '_wpdigi_path',

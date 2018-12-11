@@ -3,8 +3,7 @@
  * Le bouton "Télécharger le ZIP"
  *
  * @author Evarisk <jimmy@evarisk.com>
- * @since 6.0.0
- * @version 6.4.4
+ * @since 0.2.0
  * @copyright 2015-2017 Evarisk
  * @package DigiRisk
  */

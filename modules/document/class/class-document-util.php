@@ -9,7 +9,7 @@
  *
  * @package   DigiRisk\Classes
  *
- * @since     7.0.0
+ * @since     0.2.0
  */
 
 namespace digirisk_dashboard;

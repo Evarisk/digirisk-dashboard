@@ -121,9 +121,14 @@ class Class_Digirisk_Dashboard_Action {
 	 * @since 0.2.0
 	 */
 	public function callback_network_admin_menu() {
-		add_submenu_page( 'index.php', __( 'Mêttre à jour le réseau DigiRisk', 'digirisk-dashboard' ), __( 'Mêttre à jour le réseau DigiRisk', 'digirisk-dashboard' ), 'manage_digirisk', 'upgrade-digirisk', array( Class_Digirisk_Dashboard_Core::g(), 'display' ) );
+		add_submenu_page( 'index.php', __( 'Mêttre à jour le réseau DigiRisk', 'digirisk-dashboard' ), __( 'Mêttre à jour le réseau DigiRisk', 'digirisk-dashboard' ), 'manage_digirisk', 'upgrade-digirisk', array( Class_Digirisk_Dashboard_Core::g(), 'display_network' ) );
 	}
 
+	/**
+	 * Gestion des onglets en AJAX.
+	 *
+	 * @since 0.2.0
+	 */
 	public function callback_load_tab() {
 		$type = ! empty( $_POST['type'] ) ? sanitize_text_field( $_POST['type'] ) : '';
 		$view = '';
@@ -140,6 +145,7 @@ class Class_Digirisk_Dashboard_Action {
 				DUER_Class::g()->display();
 				break;
 			default:
+				Class_Site::g()->display();
 				break;
 		}
 

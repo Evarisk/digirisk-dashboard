@@ -72,6 +72,11 @@ class DUER_Class extends Document_Class {
 	 */
 	protected $odt_name = 'document_unique_mu';
 
+	/**
+	 * Affiches les DUER
+	 *
+	 * @since 0.2.0
+	 */
 	public function display() {
 		$sites     = get_option( \eoxia\Config_Util::$init['digirisk_dashboard']->site->site_key, array() );
 		$duers     = $this->get();
@@ -84,6 +89,11 @@ class DUER_Class extends Document_Class {
 		) );
 	}
 
+	/**
+	 * Affiches la modal pour sélectionner les sites.
+	 *
+	 * @since 0.2.0
+	 */
 	public function display_modal() {
 		$sites     = get_option( \eoxia\Config_Util::$init['digirisk_dashboard']->site->site_key, array() );
 
@@ -95,7 +105,7 @@ class DUER_Class extends Document_Class {
 	/**
 	 * Récupération de la prochaine version pour un type de document pour le jour J
 	 *
-	 * @since 6.0.0
+	 * @since 0.2.0
 	 *
 	 * @param string  $type       Le type de document actuellement en cours de création.
 	 * @param integer $element_id L'ID de l'élément.

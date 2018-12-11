@@ -43,12 +43,13 @@ class Class_Site extends \eoxia\Singleton_Util {
 		) );
 	}
 
+	/**
+	 * Affiches le formulaire pour ajouter un site.
+	 *
+	 * @since 0.2.0
+	 */
 	public function display_edit() {
 		\eoxia\View_Util::exec( 'digirisk_dashboard', 'site', 'edit/main' );
-	}
-
-	public function request() {
-
 	}
 }
 

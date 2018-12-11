@@ -11,7 +11,7 @@ namespace digirisk_dashboard;
  * Plugin Name: DigiRisk Dashboard
  * Plugin URI:  http://www.evarisk.com/document-unique-logiciel
  * Description: Gestion de DigiRisk pour les multisites de WordPress
- * Version:     0.1.0
+ * Version:     0.2.0
  * Author:      Evarisk
  * Author URI:  http://www.evarisk.com
  * License:     GPL2

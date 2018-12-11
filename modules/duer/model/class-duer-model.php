@@ -3,8 +3,7 @@
  * Définition des champs d'un document DUER.
  *
  * @author    Evarisk <dev@evarisk.com>
- * @since     6.5.0
- * @version   7.0.0
+ * @since     0.2.0
  * @copyright 2018 Evarisk.
  * @package   DigiRisk
  */
@@ -23,8 +22,7 @@ class DUER_Model extends Document_Model {
 	/**
 	 * Définition des champs
 	 *
-	 * @since   6.5.0
-	 * @version 7.0.0
+	 * @since   0.2.0
 	 *
 	 * @param array $data       Data.
 	 * @param mixed $req_method Peut être "GET", "POST", "PUT" ou null.

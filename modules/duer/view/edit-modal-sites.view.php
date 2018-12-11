@@ -3,8 +3,7 @@
  * La popup qui contient les formulaires ainsi que les informations de la génération du DUER.
  *
  * @author    Evarisk <dev@evarisk.com>
- * @since     6.0.0
- * @version   7.0.0
+ * @since     0.2.0
  * @copyright 2018 Evarisk.
  * @package   DigiRisk
  */

@@ -28,6 +28,13 @@ class Class_DUER_Action {
 		add_action( 'wp_ajax_digi_dashboard_generate', array( $this, 'ajax_generate' ) );
 	}
 
+	/**
+	 * Prépares l'arbre d'affichage pour générer le DUER et les sites enfants.
+	 *
+	 * @since 0.2.0
+	 *
+	 * @return void
+	 */
 	public function callback_load_modal_generate_duer() {
 		$model_site_id       = ! empty( $_POST['model_site_id'] ) ? (int) $_POST['model_site_id'] : 0;
 		$sites_id            = ! empty( $_POST['sites_id'] ) ? (array) $_POST['sites_id'] : array();
@@ -90,6 +97,11 @@ class Class_DUER_Action {
 		) );
 	}
 
+	/**
+	 * La modal qui affiches les sites selectionné lors de la génération.
+	 *
+	 * @since 0.2.0
+	 */
 	public function callback_load_modal_duer_site() {
 		$id = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
 
@@ -113,6 +125,11 @@ class Class_DUER_Action {
 		) );
 	}
 
+	/**
+	 * Généres le DUER, le ZIP et les sites enfants.
+	 *
+	 * @since 0.2.0
+	 */
 	public function ajax_generate() {
 		$id                  = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
 		$type                = ! empty( $_POST['type'] ) ? sanitize_text_field( $_POST['type'] ) : '';
