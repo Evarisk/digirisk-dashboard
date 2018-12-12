@@ -40,7 +40,7 @@ class Request_Util extends \eoxia\Singleton_Util {
 		$data = array();
 
 		if ( ! empty( $hash ) ) {
-			$data['token'] = $site['hash'];
+			$data['hash'] = $hash;
 		}
 
 		$data = array_merge( $data, $body );
@@ -60,7 +60,7 @@ class Request_Util extends \eoxia\Singleton_Util {
 				$response = json_decode( $request['body'] );
 				return $response;
 			} else {
-				return $request;
+				return false;
 			}
 		}
 
@@ -75,7 +75,7 @@ class Request_Util extends \eoxia\Singleton_Util {
 	 * @return array|boolean   Retournes les données de la requête ou false.
 	 */
 	public static function get( $api_url, $hash ) {
-		$api_url . '?token=' . $hash;
+		$api_url . '?hash=' . $hash;
 
 		$request = wp_remote_get( $api_url );
 

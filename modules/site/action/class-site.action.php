@@ -44,6 +44,17 @@ class Class_Site_Action {
 		}
 
 		if ( empty( $error_message ) ) {
+			$already_exist = false;
+			if ( ! empty( $sites ) ) {
+				foreach ( $sites as $id => $site ) {
+					if ( $data['url'] == $site['url'] ) {
+						$already_exist = true;
+					}
+
+					$last_id = $id;
+				}
+			}
+
 			$api_url = $url . '/wp-json/digi/v1/register-site';
 
 			$data = array(
@@ -66,17 +77,6 @@ class Class_Site_Action {
 					$sites    = get_option( $site_key, array() );
 
 					$last_id = 0;
-
-					$already_exist = false;
-					if ( ! empty( $sites ) ) {
-						foreach ( $sites as $id => $site ) {
-							if ( $data['url'] == $site['url'] ) {
-								$already_exist = true;
-							}
-
-							$last_id = $id;
-						}
-					}
 
 					if ( ! $already_exist ) {
 						unset( $data['url_parent'] );

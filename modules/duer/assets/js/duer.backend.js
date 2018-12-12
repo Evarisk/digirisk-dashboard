@@ -105,6 +105,7 @@ window.eoxiaJS.digiriskDashboard.duer.generate = function( args ) {
 
 window.eoxiaJS.digiriskDashboard.duer.generatedSuccess = function( triggeredElement, response ) {
 	jQuery( '.duer-modal-generate li:not(.completed):first' ).find( 'img' ).remove();
+
 	jQuery( '.duer-modal-generate li:not(.completed):first' ).append( '<span class="dashicons dashicons-yes"></span>' );
 	jQuery( '.duer-modal-generate li:not(.completed):first' ).addClass( 'completed' );
 
@@ -113,6 +114,14 @@ window.eoxiaJS.digiriskDashboard.duer.generatedSuccess = function( triggeredElem
 	} else {
 		jQuery( '.duer-modal-generate' ).removeClass( 'no-close modal-force-display' );
 	}
+};
+
+window.eoxiaJS.digiriskDashboard.duer.generatedError = function( triggeredElement, response ) {
+	jQuery( '.duer-modal-generate .notice-error' ).removeClass( 'hidden').find( 'p' ).html( response.data.error_message );
+	jQuery( '.duer-modal-generate li' ).find( 'img' ).remove();
+	jQuery( '.duer-modal-generate li' ).find( 'span' ).remove();
+	jQuery( '.duer-modal-generate li' ).append( '<span class="dashicons dashicons-no"></span>' );
+	jQuery( '.duer-modal-generate' ).removeClass( 'no-close modal-force-display' );
 };
 
 window.eoxiaJS.digiriskDashboard.duer.modalDUERClosed = function( modal ) {

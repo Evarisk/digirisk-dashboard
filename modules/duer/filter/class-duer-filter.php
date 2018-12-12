@@ -26,7 +26,8 @@ class DUER_Filter extends Identifier_Filter {
 	 */
 	public function __construct() {
 		parent::__construct();
-		add_filter( 'digi_dashboard_duer_mu_document_data', array( $this, 'callback_digi_document_data' ), 10, 2 );
+		add_filter( 'digi_dashboard_duer_mu_document_data', array( $this, 'callback_digi_header' ), 10, 2 );
+		add_filter( 'digi_dashboard_duer_mu_document_data', array( $this, 'callback_digi_site' ), 11, 2 );
 	}
 
 	/**
@@ -39,12 +40,17 @@ class DUER_Filter extends Identifier_Filter {
 	 *
 	 * @return array                  Les données pour le registre des AT bénins modifié.
 	 */
-	public function callback_digi_document_data( $data, $args ) {
-		$quotationsTotal = array();
-
+	public function callback_digi_header( $data, $args ) {
 		$url = $args['model_site']['url'] . '/wp-json/digi/v1/duer/society';
+		$response = Request_Util::post( $url, array(), $args['model_site']['hash'] );
 
-		$response = Request_Util::get( $url, $args['model_site']['hash'] );
+		if ( ! $response ) {
+			remove_all_filters( 'digi_dashboard_duer_mu_document_data' );
+			return array(
+				'status'        => false,
+				'error_message' => sprintf( __( 'Erreur lors de la génération du DUER: #%d %s (%s): Le token est invalide.', 'digirisk-dashboard' ), $args['model_site']['id'], $args['model_site']['title'], $args['model_site']['url'] ),
+			);
+		}
 
 		$data['model_site']         = $args['model_site'];
 		$data['nomEntreprise']      = $response->title;
@@ -60,6 +66,7 @@ class DUER_Filter extends Identifier_Filter {
 		$data['dateDebutAudit']     = $args['date_debut_audit'];
 		$data['dateFinAudit']       = $args['date_fin_audit'];
 
+
 		$audit_date = '';
 
 		if ( ! empty( $args['date_debut_audit'] ) ) {
@@ -74,23 +81,10 @@ class DUER_Filter extends Identifier_Filter {
 
 		$data['dateAudit'] = $audit_date;
 
-		$data['sites'] = array(
-			'type'  => 'segment',
-			'value' => array(),
-		);
+		return $data;
+	}
 
-		$data['sites']['value'][] = array(
-			'id'    => 'D' . $args['model_site']['id'],
-			'url'   => $args['model_site']['url'],
-			'titre' => $args['model_site']['title'],
-		);
-
-		$data['sitesComplementaire'] = array(
-			'type'  => 'segment',
-			'value' => array(),
-		);
-
-		// Test
+	public function callback_digi_site( $data, $args ) {
 		$level_risk = array( '1', '2', '3', '4' );
 		foreach ( $level_risk as $level ) {
 			$data[ 'risk' . $level ] = array(
@@ -102,6 +96,27 @@ class DUER_Filter extends Identifier_Filter {
 				'value' => array(),
 			);
 		}
+
+		$data['risqueFiche'] = array(
+			'type'  => 'segment',
+			'value' => array(),
+		);
+
+		$data['sites'] = array(
+			'type'  => 'segment',
+			'value' => array(),
+		);
+
+		$data['sitesComplementaire'] = array(
+			'type'  => 'segment',
+			'value' => array(),
+		);
+
+		$data['sites']['value'][] = array(
+			'id'    => 'D' . $args['model_site']['id'],
+			'url'   => $args['model_site']['url'],
+			'titre' => $args['model_site']['title'],
+		);
 
 		$args['sites'][] = $args['model_site'];
 
@@ -116,34 +131,30 @@ class DUER_Filter extends Identifier_Filter {
 
 					$url = $site['url'] . '/wp-json/digi/v1/duer/society/tree/' . $site['id'];
 
-					$response = Request_Util::get( $url, $site['hash'] );
-					$element_per_hierarchy = json_decode( json_encode( $response->elementParHierarchie ), true );
+					$response              = Request_Util::post( $url, array(), $site['hash'] );
+					if ( ! $response ) {
+						remove_all_filters( 'digi_dashboard_duer_mu_document_data' );
+						\eoxia\LOG_Util::log( sprintf( 'Erreur pour récupérer les sociétées lors de la génération du DUER pour le site enfant: #%d %s (%s): Le token est invalide.', $site['model_site']['id'], $site['model_site']['title'], $site['model_site']['url'] ), 'digirisk-dashboard' );
+						return array(
+							'status'        => false,
+							'error_message' => sprintf( __( 'Erreur pour récupérer les sociétées lors de la génération du DUER pour le site enfant: #%d %s (%s): Le token est invalide.', 'digirisk-dashboard' ), $site['model_site']['id'], $site['model_site']['title'], $site['model_site']['url'] ),
+						);
+					}
 
-					$data['sitesComplementaire']['value'][] = array(
-						'nomEntrepriseComplementaire'        => 'D' . $site['id'],
-						'elementParHierarchieComplementaire' => array(
-							'type' => 'sub_segment',
-							'value' => $element_per_hierarchy['value'],
-						)
-					);
-				}
+					if ( $response ) {
+						$element_per_hierarchy = json_decode( json_encode( $response->elementParHierarchie ), true );
 
-				$url = $site['url'] . '/wp-json/digi/v1/duer/risk/' . $site['id'];
-
-				$response = Request_Util::get( $url, $site['hash'] );
-				$risks = json_decode( json_encode( $response ), true );
-
-				if ( ! empty( $risks ) ) {
-					foreach ( $risks as $risk ) {
-						$data[ 'risk' . $risk['scale'] ]['value'][]            = $risk;
-						$data[ 'planDactionRisq' . $risk['scale'] ]['value'][] = $risk;
-
-						if ( empty( $quotationsTotal[ $risk['nomElement'] ] ) ) {
-							$quotationsTotal[ $risk['nomElement'] ] = 0;
-						}
-						$quotationsTotal[ $risk['nomElement'] ] += $risk['quotationRisque'];
+						$data['sitesComplementaire']['value'][] = array(
+							'nomEntrepriseComplementaire'        => 'D' . $site['id'],
+							'elementParHierarchieComplementaire' => array(
+								'type' => 'sub_segment',
+								'value' => $element_per_hierarchy['value'],
+							)
+						);
 					}
 				}
+
+				$data = $this->callback_digi_risks( $data, $site );
 			}
 		}
 
@@ -154,30 +165,71 @@ class DUER_Filter extends Identifier_Filter {
 
 		$url = $args['model_site']['url'] . '/wp-json/digi/v1/duer/society/tree/' . $args['model_site']['id'];
 
-		$response = Request_Util::get( $url, $args['model_site']['hash'] );
-		$element_per_hierarchy = json_decode( json_encode( $response->elementParHierarchie ), true );
-		$data['elementParHierarchie']['value'] = $element_per_hierarchy['value'];
-
-		if ( count( $quotationsTotal ) > 1 ) {
-			uasort( $quotationsTotal, function( $a, $b ) {
-				if( $a == $b ) {
-					return 0;
-				}
-				return ( $a > $b ) ? -1 : 1;
-			} );
+		$response = Request_Util::post( $url, array(), $args['model_site']['hash'] );
+		if ( ! $response ) {
+			remove_all_filters( 'digi_dashboard_duer_mu_document_data' );
+			\eoxia\LOG_Util::log( sprintf( 'Erreur pour récupérer les sociétées lors de la génération du DUER pour le site modèle: #%d %s (%s): Le token est invalide.', $args['model_site']['id'], $args['model_site']['title'], $args['model_site']['url'] ), 'digirisk-dashboard' );
+			return array(
+				'status'        => false,
+				'error_message' => sprintf( __( 'Erreur pour récupérer les sociétées lors de la génération du DUER pour le site modèle: #%d %s (%s): Le token est invalide.', 'digirisk-dashboard' ), $args['model_site']['id'], $args['model_site']['title'], $args['model_site']['url'] ),
+			);
 		}
 
-		$data['risqueFiche'] = array(
-			'type'  => 'segment',
-			'value' => array(),
-		);
+		if ( $response ) {
+			$element_per_hierarchy = json_decode( json_encode( $response->elementParHierarchie ), true );
+			$data['elementParHierarchie']['value'] = $element_per_hierarchy['value'];
+		}
 
-		if ( ! empty( $quotationsTotal ) ) {
-			foreach ( $quotationsTotal as $key => $quotationTotal ) {
-				$data['risqueFiche']['value'][] = array(
-					'nomElement'      => $key,
-					'quotationTotale' => $quotationTotal,
-				);
+		return $data;
+	}
+
+	public function callback_digi_risks( $data, $site ) {
+		$quotationsTotal = array();
+
+		$url = $site['url'] . '/wp-json/digi/v1/duer/risk/' . $site['id'];
+
+		$response = Request_Util::post( $url, array(), $site['hash'] );
+
+		if ( ! $response ) {
+			remove_all_filters( 'digi_dashboard_duer_mu_document_data' );
+			\eoxia\LOG_Util::log( sprintf( 'Erreur pour récupérer les risques lors de la génération du DUER pour le site enfant: #%d %s (%s): Le token est invalide.', $site['model_site']['id'], $site['model_site']['title'], $site['model_site']['url'] ), 'digirisk-dashboard' );
+			return array(
+				'status'        => false,
+				'error_message' => sprintf( __( 'Erreur pour récupérer les risques lors de la génération du DUER pour le site enfant: #%d %s (%s): Le token est invalide.', 'digirisk-dashboard' ), $site['model_site']['id'], $site['model_site']['title'], $site['model_site']['url'] ),
+			);
+		}
+
+		if ( $response ) {
+			$risks = json_decode( json_encode( $response ), true );
+
+			if ( ! empty( $risks ) ) {
+				foreach ( $risks as $risk ) {
+					$data[ 'risk' . $risk['scale'] ]['value'][]            = $risk;
+					$data[ 'planDactionRisq' . $risk['scale'] ]['value'][] = $risk;
+
+					if ( empty( $quotationsTotal[ $risk['nomElement'] ] ) ) {
+						$quotationsTotal[ $risk['nomElement'] ] = 0;
+					}
+					$quotationsTotal[ $risk['nomElement'] ] += $risk['quotationRisque'];
+				}
+			}
+
+			if ( count( $quotationsTotal ) > 1 ) {
+				uasort( $quotationsTotal, function( $a, $b ) {
+					if( $a == $b ) {
+						return 0;
+					}
+					return ( $a > $b ) ? -1 : 1;
+				} );
+			}
+
+			if ( ! empty( $quotationsTotal ) ) {
+				foreach ( $quotationsTotal as $key => $quotationTotal ) {
+					$data['risqueFiche']['value'][] = array(
+						'nomElement'      => $key,
+						'quotationTotale' => $quotationTotal,
+					);
+				}
 			}
 		}
 

@@ -145,7 +145,7 @@ class Class_DUER_Action {
 		$sites_id            = ! empty( $_POST['args']['sites_id'] ) ? sanitize_text_field( $_POST['args']['sites_id'] ) : null;
 		$sites_id            = ! empty( $sites_id ) ? explode( ',', $sites_id ) : null;
 
-		$sites = get_option( \eoxia\Config_Util::$init['digirisk_dashboard']->site->site_key, array() );
+		$sites      = get_option( \eoxia\Config_Util::$init['digirisk_dashboard']->site->site_key, array() );
 
 		if ( ! empty( $id ) ) {
 
@@ -158,17 +158,17 @@ class Class_DUER_Action {
 			$api_url = $site['url'] . '/wp-json/digi/v1/duer/generate';
 
 			$data = array(
-				'token' => $site['hash'],
+				'hash' => $site['hash'],
 			);
 
 			$request = wp_remote_post( $api_url, array(
-				'method' => 'POST',
+				'method'   => 'POST',
 				'blocking' => true,
-				'headers' => array(
+				'headers'  => array(
 					'Content-Type' => 'application/json',
 				),
-				'sslverify' > false,
-				'body' => json_encode( $data ),
+				'sslverify' => false,
+				'body'      => json_encode( $data ),
 			) );
 
 			if ( ! is_wp_error( $request ) ) {
@@ -178,10 +178,20 @@ class Class_DUER_Action {
 						foreach ( $response as $file ) {
 							ZIP_Class::g()->update_temporarly_files_details( array(
 								'filename' => $file->title . '.odt',
-								'url'     => $file->link,
+								'url'      => $file->link,
 							) );
 						}
 					}
+				} else {
+					\eoxia\LOG_Util::log( sprintf( 'Erreur lors de la génération des documents du site enfant: #%d %s (%s): Le token est invalide.', $id, $site['title'], $site['url'] ), 'digirisk-dashboard' );
+					// Log erreur lors de la génération
+					wp_send_json_success( array(
+						'namespace'        => 'digiriskDashboard',
+						'module'           => 'duer',
+						'callback_success' => 'generatedError',
+						'error_site'       => $id,
+						'error_message'    => sprintf( __( 'Erreur lors de la génération des documents du site enfant: #%d %s (%s): Le token est invalide.', 'digirisk-dashboard' ), $id, $site['title'], $site['url'] ),
+					) );
 				}
 			}
 		}
@@ -218,6 +228,16 @@ class Class_DUER_Action {
 					'model_site'          => $model_site,
 					'sites'               => $sites_data,
 				) );
+
+				if ( isset( $data['status'] ) && ! $data['status'] ) {
+					wp_send_json_success( array(
+						'namespace'        => 'digiriskDashboard',
+						'module'           => 'duer',
+						'callback_success' => 'generatedError',
+						'error_message'    => $data['error_message'],
+					) );
+				}
+
 				$duer_id = $data['document']->data['id'];
 				$duer = DUER_Class::g()->get( array( 'id' => $duer_id ), true );
 

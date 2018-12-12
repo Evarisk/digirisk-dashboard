@@ -118,6 +118,9 @@ class Document_Class extends \eoxia\ODT_Class {
 		) );
 
 		$document_data = apply_filters( 'digi_dashboard_' . $this->get_type() . '_document_data', array(), $args );
+		if ( isset( $document_data['status'] ) && false == $document_data['status'] ) {
+			return $document_data;
+		}
 
 		return $this->save_document_data( ! empty( $parent ) ? $parent->data['id'] : 0, $document_data, $args );
 	}
