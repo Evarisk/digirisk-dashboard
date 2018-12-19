@@ -62,7 +62,9 @@ class Class_Digirisk_Dashboard_Action {
 	 *
 	 * @since 0.1.0
 	 */
-	public function callback_admin_enqueue_scripts_css() {}
+	public function callback_admin_enqueue_scripts_css() {
+		wp_enqueue_style( 'digirisk-dashboard-style', PLUGIN_DIGIRISK_DASHBOARD_URL . 'core/assets/css/style.min.css', array(), \eoxia\Config_Util::$init['digirisk_dashboard']->version );
+	}
 
 	/**
 	 * Initialise les fichiers JS inclus dans WordPress (jQuery, wp.media et thickbox)

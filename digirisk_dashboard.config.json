@@ -7,10 +7,10 @@
 		"digirisk-tools",
     "digirisk-dashboard"
 	],
-	"insert_scripts_pages_css": [],
-	"externals": [
-
-	],
+	"insert_scripts_pages_css": [
+    "digirisk-dashboard"
+  ],
+	"externals": [],
 	"modules": [
 		"core/core.config.json",
     "modules/document/document.config.json",
