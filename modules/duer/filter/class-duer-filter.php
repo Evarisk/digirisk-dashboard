@@ -190,12 +190,12 @@ class DUER_Filter extends Identifier_Filter {
 
 		$response = Request_Util::post( $url, array(), $site['hash'] );
 
-		if ( ! $response ) {
+		if ( $response === false ) {
 			remove_all_filters( 'digi_dashboard_duer_mu_document_data' );
-			\eoxia\LOG_Util::log( sprintf( 'Erreur pour récupérer les risques lors de la génération du DUER pour le site enfant: #%d %s (%s): Le token est invalide.', $site['model_site']['id'], $site['model_site']['title'], $site['model_site']['url'] ), 'digirisk-dashboard' );
+			\eoxia\LOG_Util::log( sprintf( 'Erreur pour récupérer les risques lors de la génération du DUER pour le site enfant: #%d %s (%s): Le token est invalide.', $site['id'], $site['title'], $site['url'] ), 'digirisk-dashboard' );
 			return array(
 				'status'        => false,
-				'error_message' => sprintf( __( 'Erreur pour récupérer les risques lors de la génération du DUER pour le site enfant: #%d %s (%s): Le token est invalide.', 'digirisk-dashboard' ), $site['model_site']['id'], $site['model_site']['title'], $site['model_site']['url'] ),
+				'error_message' => sprintf( __( 'Erreur pour récupérer les risques lors de la génération du DUER pour le site enfant: #%d %s (%s): Le token est invalide.', 'digirisk-dashboard' ), $site['id'], $site['title'], $site['url'] ),
 			);
 		}
 
