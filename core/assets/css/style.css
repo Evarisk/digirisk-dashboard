@@ -65,6 +65,12 @@
     font-weight: 900; }
   .wpeo-wrap input, .wpeo-wrap textarea {
     max-width: 100%; }
+  .wpeo-wrap .list-sites .selected-model {
+    pointer-events: none; }
+    .wpeo-wrap .list-sites .selected-model > label {
+      text-decoration: line-through; }
+      .wpeo-wrap .list-sites .selected-model > label::before {
+        opacity: 0.4; }
 
 /*---
   Animations from animate.css

@@ -1,0 +1,13 @@
+.list-sites {
+	.selected-model {
+		pointer-events: none;
+
+		> label {
+			text-decoration: line-through;
+
+			&::before {
+				opacity: 0.4;
+			}
+		}
+	}
+}
