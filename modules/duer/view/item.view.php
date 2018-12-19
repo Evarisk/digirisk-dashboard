@@ -16,12 +16,12 @@ namespace digirisk_dashboard;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<tr>
-	<td class="padding w50"><strong><?php echo esc_html( $duer->data['unique_identifier'] ); ?></strong></td>
-	<td class="padding"><?php echo esc_html( $duer->data['document_meta']['dateDebutAudit']['rendered']['date'] ); ?></td>
-	<td class="padding"><?php echo esc_html( $duer->data['document_meta']['dateFinAudit']['rendered']['date'] ); ?></td>
+<div class="table-row">
+	<div class="table-cell table-50"><strong><?php echo esc_html( $duer->data['unique_identifier'] ); ?></strong></div>
+	<div class="table-cell table-150"><?php echo esc_html( $duer->data['document_meta']['dateDebutAudit']['rendered']['date'] ); ?></div>
+	<div class="table-cell table-150"><?php echo esc_html( $duer->data['document_meta']['dateFinAudit']['rendered']['date'] ); ?></div>
 
-	<td class="padding padding text-center">
+	<div class="table-cell table-100 text-center">
 		<span class="hidden text-content-destinataire-duer"><?php echo nl2br( $duer->data['document_meta']['destinataireDUER'] ); // WPCS: XSS is ok. ?></span>
 		<span data-parent="tab-content"
 					data-type="view"
@@ -33,9 +33,9 @@ defined( 'ABSPATH' ) || exit; ?>
 			<i class="button-icon fas fa-user"></i>
 			<span class="button-float-icon animated"><i class="fas fa-eye"></i></span>
 		</span>
-	</td>
+	</div>
 
-	<td class="padding text-center">
+	<div class="table-cell table-100 text-center">
 		<span class="hidden text-content-methodology"><?php echo nl2br( $duer->data['document_meta']['methodologie'] ); // WPCS: XSS is ok. ?></span>
 		<span data-parent="tab-content"
 					data-type="view"
@@ -47,9 +47,9 @@ defined( 'ABSPATH' ) || exit; ?>
 			<i class="button-icon fas fa-search"></i>
 			<span class="button-float-icon animated"><i class="fas fa-eye"></i></span>
 		</span>
-	</td>
+	</div>
 
-	<td class="padding text-center">
+	<div class="table-cell table-100 text-center">
 		<span class="hidden text-content-sources"><?php echo nl2br( $duer->data['document_meta']['sources'] ); // WPCS: XSS is ok. ?></span>
 		<span data-parent="tab-content"
 					data-type="view"
@@ -61,9 +61,9 @@ defined( 'ABSPATH' ) || exit; ?>
 			<i class="button-icon fas fa-link"></i>
 			<span class="button-float-icon animated"><i class="fas fa-eye"></i></span>
 		</span>
-		</td>
+	</div>
 
-	<td class="padding text-center">
+	<div class="table-cell table-100 text-center">
 		<span class="hidden text-content-dispo-des-plans"><?php echo nl2br( $duer->data['document_meta']['dispoDesPlans'] ); // WPCS: XSS is ok. ?></span>
 		<span data-parent="tab-content"
 					data-type="view"
@@ -75,9 +75,9 @@ defined( 'ABSPATH' ) || exit; ?>
 			<i class="button-icon fas fa-map-marker-alt"></i>
 			<span class="button-float-icon animated"><i class="fas fa-eye"></i></span>
 		</span>
-	</td>
+	</div>
 
-	<td class="padding text-center">
+	<div class="table-cell table-100 text-center">
 		<span class="hidden text-content-notes-importantes"><?php echo nl2br( $duer->data['document_meta']['remarqueImportante'] ); // WPCS: XSS is ok. ?></span>
 		<span data-parent="tab-content"
 					data-type="view"
@@ -89,9 +89,9 @@ defined( 'ABSPATH' ) || exit; ?>
 			<i class="button-icon fas fa-file"></i>
 			<span class="button-float-icon animated"><i class="fas fa-eye"></i></span>
 		</span>
-	</td>
+	</div>
 
-	<td class="padding text-center">
+	<div class="table-cell text-center">
 		<span data-action="digi_dashboard_load_modal_duer_site"
 			data-id="<?php echo esc_attr( $duer->data['id'] ); ?>"
 			data-title="Sites concernés"
@@ -99,18 +99,18 @@ defined( 'ABSPATH' ) || exit; ?>
 			<i class="button-icon fas fa-sitemap"></i>
 			<span class="button-float-icon animated"><i class="fas fa-eye"></i></span>
 		</span>
-	</td>
+	</div>
 
-	<td>
+	<div class="table-cell table-padding-0 table-end table-100">
 		<div class="action wpeo-gridlayout grid-2 grid-gap-0">
 			<?php if ( ! empty( $duer->data['file_generated'] ) ) : ?>
-				<a class="wpeo-button button-purple button-square-50 wpeo-tooltip-event"
+				<a class="wpeo-button button-main button-square-50 wpeo-tooltip-event"
 					aria-label="<?php echo esc_attr_e( 'DUER', 'digirisk' ); ?>"
 					href="<?php echo esc_attr( $duer->data['link'] ); ?>">
 					<i class="icon fas fa-file-alt"></i>
 				</a>
 			<?php else : ?>
-				<span class="action-attribute wpeo-button button-grey button-square-50 wpeo-tooltip-event"
+				<span class="action-attribute wpeo-button button-transparent button-square-50 wpeo-tooltip-event"
 					data-id="<?php echo esc_attr( $duer->data['id'] ); ?>"
 					data-model="<?php echo esc_attr( $duer->get_class() ); ?>"
 					data-action="generate_document"
@@ -120,8 +120,8 @@ defined( 'ABSPATH' ) || exit; ?>
 					<i class="far fa-times icon" aria-hidden="true"></i>
 				</span>
 			<?php endif; ?>
-		</div>
 
-		<?php echo apply_filters( 'digi_dashboard_list_duer_single_item_action_end', '', $duer ); ?>
-	</td>
-</tr>
+			<?php echo apply_filters( 'digi_dashboard_list_duer_single_item_action_end', '', $duer ); ?>
+		</div>
+	</div>
+</div>

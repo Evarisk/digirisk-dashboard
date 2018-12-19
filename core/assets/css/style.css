@@ -63,6 +63,8 @@
   .wpeo-wrap .fas {
     font-family: 'Font Awesome 5 Pro';
     font-weight: 900; }
+  .wpeo-wrap input, .wpeo-wrap textarea {
+    max-width: 100%; }
 
 /*---
   Animations from animate.css

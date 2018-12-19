@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 } ?>
 
 <?php if ( ! empty( $zip_url ) ) : ?>
-	<a class="wpeo-button button-purple button-square-50 wpeo-tooltip-event"
+	<a class="wpeo-button button-main button-square-50 wpeo-tooltip-event"
 		href="<?php echo esc_attr( $zip_url ); ?>"
 		aria-label="<?php echo esc_attr_e( 'ZIP', 'digirisk' ); ?>">
 		<i class="far fa-file-archive" aria-hidden="true"></i>
