@@ -43,6 +43,8 @@ class Class_Site_Action {
 			$error_message = __( 'Veuillez saisir l\'url du site et la clé unique', 'digirisk-dashboard' );
 		}
 
+		$last_id = 0;
+
 		if ( empty( $error_message ) ) {
 			$already_exist = false;
 			if ( ! empty( $sites ) ) {
@@ -76,7 +78,6 @@ class Class_Site_Action {
 					$site_key = \eoxia\Config_Util::$init['digirisk_dashboard']->site->site_key;
 					$sites    = get_option( $site_key, array() );
 
-					$last_id = 0;
 
 					if ( ! $already_exist ) {
 						unset( $data['url_parent'] );
