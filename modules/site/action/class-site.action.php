@@ -136,11 +136,7 @@ class Class_Site_Action {
 		$hash    = $site['hash'];
 		$api_url = $site['url'] . '/wp-json/digi/v1/delete-site';
 
-		$data = array(
-			'hash' => $hash,
-		);
-
-		$response = Request_Util::g()->post( $api_url, $data );
+		$response = Request_Util::g()->post( $api_url, array(), $hash );
 
 		if ( empty( $response['code_error'] ) ) {
 			update_option( $site_key, $sites );
