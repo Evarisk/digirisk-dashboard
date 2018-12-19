@@ -31,7 +31,7 @@ class ZIP_Class extends Document_Class {
 	 *
 	 * @var string
 	 */
-	protected $type = 'zip';
+	protected $type = 'zip-mu';
 
 	/**
 	 * A faire
