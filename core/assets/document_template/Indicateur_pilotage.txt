@@ -6,15 +6,28 @@ Indicateur
 Document Unique
 -Date DUER
 --Calcul nombre de jour de retard
--Risque
+Pour le site
+-Risque toutes catégories confondues
 --Noir
 --Rouge
 --Orange
 --Blanc
 -Risque
---Catégorie - Nombre de Risque
+--Risque 1 ou X Catégories - Nombre de Risque
+---Noir
+---Rouge
+---Orange
+---Blanc
 -Nombre de salarié
 --Nombre heures travaillé 1645 heures par Salariés Temps plein (mettre en paramètre)
+
+Pour un Groupement
+-Risque pour X catégories
+--Noir
+--Rouge
+--Orange
+--Blanc
+
 
 Accidents
 -Nombre presque accident < 1 jour d'arret
