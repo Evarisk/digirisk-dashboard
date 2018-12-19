@@ -41,6 +41,7 @@ defined( 'ABSPATH' ) || exit; ?>
 				class="wpeo-modal-event wpeo-button-pulse span-content-destinataire-duer">
 
 			<i class="button-icon fas fa-user"></i>
+			<span class="button-float-icon animated"><i class="fas fa-pencil"></i></span>
 		</span>
 	</td>
 
@@ -53,6 +54,7 @@ defined( 'ABSPATH' ) || exit; ?>
 					class="wpeo-modal-event wpeo-button-pulse span-content-methodology">
 
 			<i class="button-icon fas fa-search"></i>
+			<span class="button-float-icon animated"><i class="fas fa-pencil"></i></span>
 		</span>
 	</td>
 
@@ -65,6 +67,7 @@ defined( 'ABSPATH' ) || exit; ?>
 					class="wpeo-modal-event wpeo-button-pulse span-content-sources">
 
 			<i class="button-icon fas fa-link"></i>
+			<span class="button-float-icon animated"><i class="fas fa-pencil"></i></span>
 		</span>
 	</td>
 
@@ -77,6 +80,7 @@ defined( 'ABSPATH' ) || exit; ?>
 					class="wpeo-modal-event wpeo-button-pulse span-content-dispo-des-plans">
 
 			<i class="button-icon fas fa-map-marker-alt"></i>
+			<span class="button-float-icon animated"><i class="fas fa-pencil"></i></span>
 		</span>
 	</td>
 
@@ -89,6 +93,7 @@ defined( 'ABSPATH' ) || exit; ?>
 					class="wpeo-modal-event wpeo-button-pulse span-content-notes-importantes">
 
 			<i class="button-icon fas fa-file"></i>
+			<span class="button-float-icon animated"><i class="fas fa-pencil"></i></span>
 		</span>
 	</td>
 
@@ -98,6 +103,7 @@ defined( 'ABSPATH' ) || exit; ?>
 					data-title="Selectionner les sites concernés"
 					class="wpeo-modal-event wpeo-button-pulse">
 			<i class="button-icon fas fa-sitemap"></i>
+			<span class="button-float-icon animated"><i class="fas fa-pencil"></i></span>
 		</span>
 		<?php \eoxia\View_Util::exec( 'digirisk_dashboard', 'duer', 'edit-modal-sites', array(
 			'sites' => $sites,

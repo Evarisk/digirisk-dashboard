@@ -31,6 +31,7 @@ defined( 'ABSPATH' ) || exit; ?>
 					class="wpeo-modal-event wpeo-button-pulse">
 
 			<i class="button-icon fas fa-user"></i>
+			<span class="button-float-icon animated"><i class="fas fa-eye"></i></span>
 		</span>
 	</td>
 
@@ -44,6 +45,7 @@ defined( 'ABSPATH' ) || exit; ?>
 					class="wpeo-modal-event wpeo-button-pulse">
 
 			<i class="button-icon fas fa-search"></i>
+			<span class="button-float-icon animated"><i class="fas fa-eye"></i></span>
 		</span>
 	</td>
 
@@ -57,6 +59,7 @@ defined( 'ABSPATH' ) || exit; ?>
 					class="wpeo-modal-event wpeo-button-pulse">
 
 			<i class="button-icon fas fa-link"></i>
+			<span class="button-float-icon animated"><i class="fas fa-eye"></i></span>
 		</span>
 		</td>
 
@@ -70,6 +73,7 @@ defined( 'ABSPATH' ) || exit; ?>
 					class="wpeo-modal-event wpeo-button-pulse">
 
 			<i class="button-icon fas fa-map-marker-alt"></i>
+			<span class="button-float-icon animated"><i class="fas fa-eye"></i></span>
 		</span>
 	</td>
 
@@ -83,6 +87,7 @@ defined( 'ABSPATH' ) || exit; ?>
 					class="wpeo-modal-event wpeo-button-pulse">
 
 			<i class="button-icon fas fa-file"></i>
+			<span class="button-float-icon animated"><i class="fas fa-eye"></i></span>
 		</span>
 	</td>
 
@@ -92,6 +97,7 @@ defined( 'ABSPATH' ) || exit; ?>
 			data-title="Sites concernés"
 			class="wpeo-modal-event wpeo-button-pulse">
 			<i class="button-icon fas fa-sitemap"></i>
+			<span class="button-float-icon animated"><i class="fas fa-eye"></i></span>
 		</span>
 	</td>
 
