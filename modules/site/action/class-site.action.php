@@ -43,7 +43,9 @@ class Class_Site_Action {
 			$error_message = __( 'Veuillez saisir l\'url du site et la clé unique', 'digirisk-dashboard' );
 		}
 
-		$last_id = 0;
+		$last_id  = 0;
+		$site_key = \eoxia\Config_Util::$init['digirisk_dashboard']->site->site_key;
+		$sites    = get_option( $site_key, array() );
 
 		if ( empty( $error_message ) ) {
 			$already_exist = false;
@@ -75,10 +77,6 @@ class Class_Site_Action {
 						$error_message = sprintf( __( 'Le site url %s est déjà ajouté', 'digirisk-dashboard' ), $data['url'] );
 					}
 				} else {
-					$site_key = \eoxia\Config_Util::$init['digirisk_dashboard']->site->site_key;
-					$sites    = get_option( $site_key, array() );
-
-
 					if ( ! $already_exist ) {
 						unset( $data['url_parent'] );
 						$data_to_hash          = implode( '', $data );

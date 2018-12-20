@@ -114,7 +114,7 @@ defined( 'ABSPATH' ) || exit; ?>
 		<div class="action wpeo-gridlayout grid-2 grid-gap-0">
 			<div></div>
 			<div class="action-input add wpeo-button button-blue button-square-50"
-					data-parent="row"
+					data-parent="table-row"
 					data-action="digi_dashboard_load_modal_generate_duer">
 					<i class="button-icon far fa-plus"></i>
 			</div>

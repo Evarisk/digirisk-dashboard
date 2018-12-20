@@ -67,7 +67,7 @@ $model_id = null; ?>
 					if ( ! empty( $sites ) ) :
 						foreach ( $sites as $id => $site ) :
 							?>
-							<li class="form-element selected-model" data-id="<?php echo esc_attr( $id ); ?>">
+							<li class="form-element <?php echo ( $model_id == $id ) ? 'selected-model' : ''; ?>" data-id="<?php echo esc_attr( $id ); ?>">
 								<input type="checkbox" <?php echo $model_id == $id ? 'disabled' : ''; ?> name="sites_id[<?php echo esc_attr( $id ); ?>]" id="checkbox-<?php echo esc_attr( $id ); ?>" class="form-field">
 								<label for="checkbox-<?php echo esc_attr( $id ); ?>"><?php echo $id . ' ' . $site['title'] . ' (' . $site['url'] . ')'; ?>
 									<span style="<?php echo $model_id == $id ? 'display: inline-block;' : 'display: none;'; ?>">Site modèle</span>

@@ -124,7 +124,7 @@ class DUER_Filter extends Identifier_Filter {
 			foreach ( $args['sites'] as $site ) {
 				if ( $args['model_site']['id'] != $site['id'] ) {
 					$data['sites']['value'][] = array(
-						'id'    => $site['id'],
+						'id'    => 'D' . $site['id'],
 						'url'   => $site['url'],
 						'titre' => $site['title'],
 					);
