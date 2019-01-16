@@ -50,8 +50,8 @@ class Request_Util extends \eoxia\Singleton_Util {
 			'Content-Type' => 'application/json',
 		);
 
-		if ( ! empty( $auth_basic ) && ! empty( $auth_basic['auth_user'] ) && ! empty( $auth_basic['password'] ) ) {
-			$headers['Authorization'] = 'Basic ' . base64_encode( $auth_basic['auth_user'] . ':' . $auth_basic['password'] );
+		if ( ! empty( $auth_basic ) && ! empty( $auth_basic['auth_user'] ) && ! empty( $auth_basic['auth_password'] ) ) {
+			$headers['Authorization'] = 'Basic ' . base64_encode( $auth_basic['auth_user'] . ':' . $auth_basic['auth_password'] );
 		}
 
 		$request = wp_remote_post( $api_url, array(
