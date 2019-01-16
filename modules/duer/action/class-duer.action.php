@@ -155,44 +155,31 @@ class Class_DUER_Action {
 
 			$site = $sites[ $id ];
 
-			$api_url = $site['url'] . '/wp-json/digi/v1/duer/generate';
 
-			$data = array(
-				'hash' => $site['hash'],
-			);
+			$url = $site['url'] . '/wp-json/digi/v1/duer/generate';
 
-			$request = wp_remote_post( $api_url, array(
-				'method'   => 'POST',
-				'blocking' => true,
-				'headers'  => array(
-					'Content-Type' => 'application/json',
-				),
-				'sslverify' => false,
-				'body'      => json_encode( $data ),
-			) );
+			$response = Request_Util::post( $url, array(), array(
+				'auth_user'     => $site['auth_user'],
+				'auth_password' => $site['auth_password'],
+			), $site['hash'] );
 
-			if ( ! is_wp_error( $request ) ) {
-				if ( $request['response']['code'] == 200 ) {
-					$response = json_decode( $request['body'] );
-					if ( ! empty( $response ) ) {
-						foreach ( $response as $file ) {
-							ZIP_Class::g()->update_temporarly_files_details( array(
-								'filename' => $file->title . '.odt',
-								'url'      => $file->link,
-							) );
-						}
-					}
-				} else {
-					\eoxia\LOG_Util::log( sprintf( 'Erreur lors de la génération des documents du site enfant: #%d %s (%s): Le token est invalide.', $id, $site['title'], $site['url'] ), 'digirisk-dashboard' );
-					// Log erreur lors de la génération
-					wp_send_json_success( array(
-						'namespace'        => 'digiriskDashboard',
-						'module'           => 'duer',
-						'callback_success' => 'generatedError',
-						'error_site'       => $id,
-						'error_message'    => sprintf( __( 'Erreur lors de la génération des documents du site enfant: #%d %s (%s): Le token est invalide.', 'digirisk-dashboard' ), $id, $site['title'], $site['url'] ),
+			if ( $response ) {
+				foreach ( $response as $file ) {
+					ZIP_Class::g()->update_temporarly_files_details( array(
+						'filename' => $file->title . '.odt',
+						'url'      => $file->link,
 					) );
 				}
+			} else {
+				\eoxia\LOG_Util::log( sprintf( 'Erreur lors de la génération des documents du site enfant: #%d %s (%s): Le token est invalide.', $id, $site['title'], $site['url'] ), 'digirisk-dashboard' );
+				// Log erreur lors de la génération
+				wp_send_json_success( array(
+					'namespace'        => 'digiriskDashboard',
+					'module'           => 'duer',
+					'callback_success' => 'generatedError',
+					'error_site'       => $id,
+					'error_message'    => sprintf( __( 'Erreur lors de la génération des documents du site enfant: #%d %s (%s): Le token est invalide.', 'digirisk-dashboard' ), $id, $site['title'], $site['url'] ),
+				) );
 			}
 		}
 

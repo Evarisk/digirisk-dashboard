@@ -34,8 +34,10 @@ class Class_Site_Action {
 	public function ajax_add_site() {
 		check_ajax_referer( 'ajax_add_site' );
 
-		$url        = ! empty( $_POST['url'] ) ? esc_url_raw( $_POST['url'] ) : '';
-		$unique_key = ! empty( $_POST['unique_key'] ) ? sanitize_text_field( $_POST['unique_key'] ) : '';
+		$url           = ! empty( $_POST['url'] ) ? esc_url_raw( $_POST['url'] ) : '';
+		$unique_key    = ! empty( $_POST['unique_key'] ) ? sanitize_text_field( $_POST['unique_key'] ) : '';
+	 	$auth_user     = ! empty( $_POST['auth_user'] ) ? sanitize_text_field( $_POST['auth_user'] ) : '';
+		$auth_password = ! empty( $_POST['auth_password'] ) ? sanitize_text_field( $_POST['auth_password'] ) : '';
 
 		$error_message = '';
 
@@ -67,7 +69,10 @@ class Class_Site_Action {
 				'unique_key' => $unique_key,
 			);
 
-			$response = Request_Util::g()->post( $api_url, $data );
+			$response = Request_Util::g()->post( $api_url, $data, array(
+				'auth_user'     => $auth_user,
+				'auth_password' => $auth_password,
+			) );
 
 			if ( $response ) {
 				if ( ! empty( $response->error_code ) ) {
@@ -82,9 +87,11 @@ class Class_Site_Action {
 						$data_to_hash          = implode( '', $data );
 						$string_to_hash        = hash( 'sha256', $data_to_hash );
 						$sites[ $last_id + 1 ] = array(
-							'title' => $response->title,
-							'url'   => $data['url'],
-							'hash'  => $string_to_hash,
+							'title'         => $response->title,
+							'url'           => $data['url'],
+							'hash'          => $string_to_hash,
+							'auth_user'     => $auth_user,
+							'auth_password' => $auth_password,
 						);
 						update_option( $site_key, $sites );
 					}
@@ -135,7 +142,10 @@ class Class_Site_Action {
 		$hash    = $site['hash'];
 		$api_url = $site['url'] . '/wp-json/digi/v1/delete-site';
 
-		$response = Request_Util::g()->post( $api_url, array(), $hash );
+		$response = Request_Util::g()->post( $api_url, array(), array(
+			'auth_user'     => $site['auth_user'],
+			'auth_password' => $site['auth_password'],
+		), $hash );
 
 		if ( empty( $response['code_error'] ) ) {
 			update_option( $site_key, $sites );

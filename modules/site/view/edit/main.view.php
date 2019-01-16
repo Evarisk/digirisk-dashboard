@@ -30,7 +30,7 @@ defined( 'ABSPATH' ) || exit; ?>
 		<?php wp_nonce_field( 'ajax_add_site' ); ?>
 
 		<div class="form-element form-element-required">
-			<span class="form-label">URL du site </span>
+			<span class="form-label">URL du site</span>
 			<label class="form-field-container">
 				<input type="text" class="form-field" name="url" />
 			</label>
@@ -40,6 +40,20 @@ defined( 'ABSPATH' ) || exit; ?>
 			<span class="form-label">Clé unique</span>
 			<label class="form-field-container">
 				<input type="text" class="form-field" name="unique_key" />
+			</label>
+		</div>
+
+		<div class="form-element">
+			<span class="form-label">Authentification User</span>
+			<label class="form-field-container">
+				<input type="text" class="form-field" name="auth_user" />
+			</label>
+		</div>
+
+		<div class="form-element">
+			<span class="form-label">Authentification Password</span>
+			<label class="form-field-container">
+				<input type="password" class="form-field" name="auth_password" />
 			</label>
 		</div>
 

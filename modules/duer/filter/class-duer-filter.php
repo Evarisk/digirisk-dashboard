@@ -42,7 +42,10 @@ class DUER_Filter extends Identifier_Filter {
 	 */
 	public function callback_digi_header( $data, $args ) {
 		$url = $args['model_site']['url'] . '/wp-json/digi/v1/duer/society';
-		$response = Request_Util::post( $url, array(), $args['model_site']['hash'] );
+		$response = Request_Util::post( $url, array(), array(
+			'auth_user'     => $args['model_site']['auth_user'],
+			'auth_password' => $args['model_site']['auth_password'],
+		), $args['model_site']['hash'] );
 
 		if ( ! $response ) {
 			remove_all_filters( 'digi_dashboard_duer_mu_document_data' );
@@ -131,7 +134,10 @@ class DUER_Filter extends Identifier_Filter {
 
 					$url = $site['url'] . '/wp-json/digi/v1/duer/society/tree/' . $site['id'];
 
-					$response              = Request_Util::post( $url, array(), $site['hash'] );
+					$response              = Request_Util::post( $url, array(), array(
+						'auth_user'     => $site['auth_user'],
+						'auth_password' => $site['auth_password'],
+					), $site['hash'] );
 					if ( ! $response ) {
 						remove_all_filters( 'digi_dashboard_duer_mu_document_data' );
 						\eoxia\LOG_Util::log( sprintf( 'Erreur pour récupérer les sociétées lors de la génération du DUER pour le site enfant: #%d %s (%s): Le token est invalide.', $site['model_site']['id'], $site['model_site']['title'], $site['model_site']['url'] ), 'digirisk-dashboard' );
@@ -165,7 +171,10 @@ class DUER_Filter extends Identifier_Filter {
 
 		$url = $args['model_site']['url'] . '/wp-json/digi/v1/duer/society/tree/' . $args['model_site']['id'];
 
-		$response = Request_Util::post( $url, array(), $args['model_site']['hash'] );
+		$response = Request_Util::post( $url, array(), array(
+			'auth_user'     => $args['model_site']['auth_user'],
+			'auth_password' => $args['model_site']['auth_password'],
+		), $args['model_site']['hash'] );
 		if ( ! $response ) {
 			remove_all_filters( 'digi_dashboard_duer_mu_document_data' );
 			\eoxia\LOG_Util::log( sprintf( 'Erreur pour récupérer les sociétées lors de la génération du DUER pour le site modèle: #%d %s (%s): Le token est invalide.', $args['model_site']['id'], $args['model_site']['title'], $args['model_site']['url'] ), 'digirisk-dashboard' );
@@ -188,7 +197,10 @@ class DUER_Filter extends Identifier_Filter {
 
 		$url = $site['url'] . '/wp-json/digi/v1/duer/risk/' . $site['id'];
 
-		$response = Request_Util::post( $url, array(), $site['hash'] );
+		$response = Request_Util::post( $url, array(), array(
+			'auth_user'     => $site['auth_user'],
+			'auth_password' => $site['auth_password'],
+		), $site['hash'] );
 
 		if ( $response === false ) {
 			remove_all_filters( 'digi_dashboard_duer_mu_document_data' );
