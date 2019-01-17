@@ -116,7 +116,7 @@ class DUER_Filter extends Identifier_Filter {
 		);
 
 		$data['sites']['value'][] = array(
-			'id'    => 'D' . $args['model_site']['id'],
+			'id'    => 'S' . $args['model_site']['id'],
 			'url'   => $args['model_site']['url'],
 			'titre' => $args['model_site']['title'],
 		);
@@ -127,7 +127,7 @@ class DUER_Filter extends Identifier_Filter {
 			foreach ( $args['sites'] as $site ) {
 				if ( $args['model_site']['id'] != $site['id'] ) {
 					$data['sites']['value'][] = array(
-						'id'    => 'D' . $site['id'],
+						'id'    => 'S' . $site['id'],
 						'url'   => $site['url'],
 						'titre' => $site['title'],
 					);
@@ -151,7 +151,7 @@ class DUER_Filter extends Identifier_Filter {
 						$element_per_hierarchy = json_decode( json_encode( $response->elementParHierarchie ), true );
 
 						$data['sitesComplementaire']['value'][] = array(
-							'nomEntrepriseComplementaire'        => 'D' . $site['id'],
+							'nomEntrepriseComplementaire'        => 'S' . $site['id'],
 							'elementParHierarchieComplementaire' => array(
 								'type' => 'sub_segment',
 								'value' => $element_per_hierarchy['value'],
