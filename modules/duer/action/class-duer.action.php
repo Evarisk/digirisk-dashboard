@@ -166,8 +166,10 @@ class Class_DUER_Action {
 			if ( $response ) {
 				foreach ( $response as $file ) {
 					ZIP_Class::g()->update_temporarly_files_details( array(
-						'filename' => $file->title . '.odt',
-						'url'      => $file->link,
+						'filename'      => $file->title . '.odt',
+						'url'           => $file->link,
+						'auth_user'     => $site['auth_user'],
+						'auth_password' => $site['auth_password'],
 					) );
 				}
 			} else {
@@ -239,8 +241,10 @@ class Class_DUER_Action {
 			} else if ( 'duer-mu' === $type ) {
 				$generation_status = DUER_Class::g()->create_document( $duer_id );
 				ZIP_Class::g()->update_temporarly_files_details( array(
-					'filename' => $generation_status['document']->data['title'] . '.odt',
-					'url'      => $generation_status['document']->data['link'],
+					'filename'      => $generation_status['document']->data['title'] . '.odt',
+					'url'           => $generation_status['document']->data['link'],
+					'auth_user'     => '',
+					'auth_password' => '',
 				) );
 			} else if ( 'zip' === $type ) {
 				$generation_status = ZIP_Class::g()->generate( $model_site );

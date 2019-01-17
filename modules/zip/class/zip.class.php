@@ -126,16 +126,28 @@ class ZIP_Class extends Document_Class {
 		if ( empty( $files_details ) ) {
 			return $response;
 		}
+
 		if ( $zip->open( $path, \ZipArchive::CREATE ) !== true ) {
 			$response['status']  = false;
 			$response['message'] = __( 'An error occured while opening zip file to write', 'digirisk' );
 			return $response;
 		}
 
+
 		if ( ! empty( $files_details ) ) {
 			foreach ( $files_details as $file_details ) {
 				if ( ! empty( $file_details['url'] ) && ! empty( $file_details['filename'] ) ) {
-					$donwload_file = file_get_contents( $file_details['url'] );
+					$context = null;
+
+					if ( ! empty( $file_details['auth_user'] ) && ! empty( $file_details['auth_password'] ) ) {
+						$context = stream_context_create( array(
+							"http" => array(
+								"header" => "Authorization: Basic " . base64_encode( $file_details['auth_user'] . ':' . $file_details['auth_password'] ),
+							)
+						) );
+					}
+
+					$donwload_file = file_get_contents( $file_details['url'], false, $context );
 					$zip->addFromString( $file_details['filename'], $donwload_file );
 				}
 			}
