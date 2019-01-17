@@ -177,10 +177,10 @@ class DUER_Filter extends Identifier_Filter {
 		), $args['model_site']['hash'] );
 		if ( ! $response ) {
 			remove_all_filters( 'digi_dashboard_duer_mu_document_data' );
-			\eoxia\LOG_Util::log( sprintf( 'Erreur pour récupérer les sociétées lors de la génération du DUER pour le site modèle: #%d %s (%s): Le token est invalide.', $args['model_site']['id'], $args['model_site']['title'], $args['model_site']['url'] ), 'digirisk-dashboard' );
+			\eoxia\LOG_Util::log( sprintf( 'Erreur pour récupérer les sociétées lors de la génération du DUER pour le site générique: #%d %s (%s): Le token est invalide.', $args['model_site']['id'], $args['model_site']['title'], $args['model_site']['url'] ), 'digirisk-dashboard' );
 			return array(
 				'status'        => false,
-				'error_message' => sprintf( __( 'Erreur pour récupérer les sociétées lors de la génération du DUER pour le site modèle: #%d %s (%s): Le token est invalide.', 'digirisk-dashboard' ), $args['model_site']['id'], $args['model_site']['title'], $args['model_site']['url'] ),
+				'error_message' => sprintf( __( 'Erreur pour récupérer les sociétées lors de la génération du DUER pour le site générique: #%d %s (%s): Le token est invalide.', 'digirisk-dashboard' ), $args['model_site']['id'], $args['model_site']['title'], $args['model_site']['url'] ),
 			);
 		}
 

@@ -37,7 +37,7 @@ $model_id = null; ?>
 			else:
 				?>
 				<div class="form-element">
-					<span class="form-label">Site modèle</span>
+					<span class="form-label">Site générique</span>
 					<label class="form-field-container">
 						<select style="padding:0;" id="site-model" class="form-field" name="model_site_id">
 							<?php
@@ -70,7 +70,7 @@ $model_id = null; ?>
 							<li class="form-element <?php echo ( $model_id == $id ) ? 'selected-model' : ''; ?>" data-id="<?php echo esc_attr( $id ); ?>">
 								<input type="checkbox" <?php echo $model_id == $id ? 'disabled' : ''; ?> name="sites_id[<?php echo esc_attr( $id ); ?>]" id="checkbox-<?php echo esc_attr( $id ); ?>" class="form-field">
 								<label for="checkbox-<?php echo esc_attr( $id ); ?>"><?php echo $id . ' ' . $site['title'] . ' (' . $site['url'] . ')'; ?>
-									<span style="<?php echo $model_id == $id ? 'display: inline-block;' : 'display: none;'; ?>">Site modèle</span>
+									<span style="<?php echo $model_id == $id ? 'display: inline-block;' : 'display: none;'; ?>">Site générique</span>
 								</label>
 							</li>
 							<?php

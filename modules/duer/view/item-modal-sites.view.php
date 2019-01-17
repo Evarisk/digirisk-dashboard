@@ -14,12 +14,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } ?>
 
-<h3>Site modèle</h3>
+<h3>Site générique</h3>
 
 <?php if ( ! empty( $duer->data['model_site'] ) ) : ?>
 	<span><?php echo $duer->data['model_site']['id'] . ' ' . $duer->data['model_site']['title'] . ' (' . $duer->data['model_site']['url'] . ')'; ?></span>
 <?php else: ?>
-	<span>Aucun site modèle sélectionné</span>
+	<span>Aucun site générique sélectionné</span>
 <?php endif; ?>
 
 <h3>Sélection des sites pour le DUER</h3>
