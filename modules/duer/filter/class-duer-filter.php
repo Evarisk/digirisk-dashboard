@@ -115,6 +115,8 @@ class DUER_Filter extends Identifier_Filter {
 			'value' => array(),
 		);
 
+		$data['quotationsTotal'] = array();
+
 		$data['sites']['value'][] = array(
 			'id'    => 'S' . $args['model_site']['id'],
 			'url'   => $args['model_site']['url'],
@@ -161,6 +163,16 @@ class DUER_Filter extends Identifier_Filter {
 				}
 
 				$data = $this->callback_digi_risks( $data, $site );
+			}
+		}
+		arsort( $data['quotationsTotal'] );
+
+		if ( ! empty( $data['quotationsTotal'] ) ) {
+			foreach ( $data['quotationsTotal'] as $key => $quotationTotal ) {
+				$data['risqueFiche']['value'][] = array(
+					'nomElement'      => $key,
+					'quotationTotale' => $quotationTotal,
+				);
 			}
 		}
 
@@ -226,23 +238,7 @@ class DUER_Filter extends Identifier_Filter {
 				}
 			}
 
-			if ( count( $quotationsTotal ) > 1 ) {
-				uasort( $quotationsTotal, function( $a, $b ) {
-					if( $a == $b ) {
-						return 0;
-					}
-					return ( $a > $b ) ? -1 : 1;
-				} );
-			}
-
-			if ( ! empty( $quotationsTotal ) ) {
-				foreach ( $quotationsTotal as $key => $quotationTotal ) {
-					$data['risqueFiche']['value'][] = array(
-						'nomElement'      => $key,
-						'quotationTotale' => $quotationTotal,
-					);
-				}
-			}
+			$data['quotationsTotal'] = array_merge( $data['quotationsTotal'], $quotationsTotal );
 		}
 
 		return $data;
