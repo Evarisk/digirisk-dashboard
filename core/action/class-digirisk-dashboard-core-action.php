@@ -147,11 +147,11 @@ class Class_Digirisk_Dashboard_Action {
 	 */
 	public function callback_apply_to_all() {
 		check_ajax_referer( 'apply_to_all' );
-
+		
 		$type            = ! empty( $_POST['type'] ) ? sanitize_text_field( $_POST['type'] ) : '';
 		$current_blog_id = get_current_blog_id();
-		$model           = \digi\Document_Class::g()->get_model_for_element( array( $type ) );
-		$file_path       = str_replace( '\\', '/', get_attached_file( $model['model_id'] ) );
+		$model           = \eoxia\ODT_Class::g()->get_default_model( $type );
+		$file_path       = str_replace( '\\', '/', get_attached_file( $model['id'] ) );
 
 		$sites = get_sites();
 		if ( ! empty( $sites ) ) {
