@@ -32,37 +32,9 @@
   /*--------------------------------------------------------------
 	# Fonticons
 	--------------------------------------------------------------*/
-  /*!
- * Font Awesome Pro 5.0.10 by @fontawesome - https://fontawesome.com
- * License - https://fontawesome.com/license (Commercial License)
- */
   /*--------------------------------------------------------------
 	# Modules
 	--------------------------------------------------------------*/ }
-  .wpeo-wrap .fa,
-  .wpeo-wrap .fas,
-  .wpeo-wrap .far,
-  .wpeo-wrap .fal,
-  .wpeo-wrap .fab {
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    display: inline-block;
-    font-style: normal;
-    font-variant: normal;
-    text-rendering: auto;
-    line-height: 1; }
-  .wpeo-wrap .fab {
-    font-family: 'Font Awesome 5 Brands'; }
-  .wpeo-wrap .fal {
-    font-family: 'Font Awesome 5 Pro';
-    font-weight: 300; }
-  .wpeo-wrap .far {
-    font-family: 'Font Awesome 5 Pro';
-    font-weight: 400; }
-  .wpeo-wrap .fa,
-  .wpeo-wrap .fas {
-    font-family: 'Font Awesome 5 Pro';
-    font-weight: 900; }
   .wpeo-wrap input, .wpeo-wrap textarea {
     max-width: 100%; }
   .wpeo-wrap .list-sites .selected-model {

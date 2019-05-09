@@ -64,7 +64,7 @@ defined( 'ABSPATH' ) || exit; ?>
 					</span>
 				</div>
 				<div class="table-cell table-50 table-end" data-title="Actions">
-					<div 	class="wpeo-button button-square-40 button-transparent delete action-delete"
+					<div class="wpeo-button button-square-40 button-transparent delete action-delete"
 					data-id="<?php echo esc_attr( $id ); ?>"
 					data-nonce="<?php echo esc_attr( wp_create_nonce( 'ajax_delete_site' ) ); ?>"
 					data-message-delete="<?php esc_attr_e( 'Êtes-vous sûr(e) de vouloir supprimer ce site ?', 'digirisk' ); ?>"

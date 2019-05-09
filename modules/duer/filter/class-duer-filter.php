@@ -165,6 +165,7 @@ class DUER_Filter extends Identifier_Filter {
 				$data = $this->callback_digi_risks( $data, $site );
 			}
 		}
+
 		arsort( $data['quotationsTotal'] );
 
 		if ( ! empty( $data['quotationsTotal'] ) ) {
@@ -201,6 +202,16 @@ class DUER_Filter extends Identifier_Filter {
 			$data['elementParHierarchie']['value'] = $element_per_hierarchy['value'];
 		}
 
+		foreach ( $level_risk as $level ) {
+			usort( $data[ 'planDactionRisq' . $level ]['value'], function( $a, $b ) {
+				if ( $a['quotationRisque'] == $b['quotationRisque'] ) {
+					return 0;
+				}
+
+				return ( $a['quotationRisque'] > $b['quotationRisque'] ) ? -1 : 1;
+			} );
+		};
+
 		return $data;
 	}
 
@@ -228,7 +239,7 @@ class DUER_Filter extends Identifier_Filter {
 
 			if ( ! empty( $risks ) ) {
 				foreach ( $risks as $risk ) {
-					$data[ 'risk' . $risk['scale'] ]['value'][]            = $risk;
+					// $data[ 'risk' . $risk['scale'] ]['value'][]            = $risk;
 					$data[ 'planDactionRisq' . $risk['scale'] ]['value'][] = $risk;
 
 					if ( empty( $quotationsTotal[ $risk['nomElement'] ] ) ) {
