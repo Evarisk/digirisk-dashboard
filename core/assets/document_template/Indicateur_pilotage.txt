@@ -1,18 +1,17 @@
-Date de controle :
+Date de contrôle :
 Site n
 -Siret
 
-Indicateur
+Indicateurs sur le site :
 Document Unique
 -Date DUER
 --Calcul nombre de jour de retard
-Pour le site
--Risque toutes catégories confondues
+-Nombre de risques toutes catégories confondues
 --Noir
 --Rouge
 --Orange
 --Blanc
--Risque
+-Nombre de risque par catégories
 --Risque 1 ou X Catégories - Nombre de Risque
 ---Noir
 ---Rouge
