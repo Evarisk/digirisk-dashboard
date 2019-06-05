@@ -40,6 +40,7 @@ $model_id = null; ?>
 					<span class="form-label">Site générique</span>
 					<label class="form-field-container">
 						<select style="padding:0;" id="site-model" class="form-field" name="model_site_id">
+							<option>Sélectionner un site</option>
 							<?php
 							if ( ! empty( $sites ) ) :
 								foreach ( $sites as $id => $site ) :
@@ -47,7 +48,10 @@ $model_id = null; ?>
 										$model_id = $id;
 									endif;
 
-									?><option value="<?php echo esc_attr( $id ); ?>"><?php echo $site['title'] . ' (' . $site['url'] . ')'; ?></option><?php
+									?><option <?php echo ! $site['check_connect'] ? 'disabled' : ''; ?> value="<?php echo esc_attr( $id ); ?>">
+										<?php echo $site['title'] . ' (' . $site['url'] . ')'; ?>
+										<?php echo ! $site['check_connect'] ? 'Site désynchronisé' : ''; ?>
+									</option><?php
 								endforeach;
 							endif;
 							?>
@@ -67,10 +71,11 @@ $model_id = null; ?>
 					if ( ! empty( $sites ) ) :
 						foreach ( $sites as $id => $site ) :
 							?>
-							<li class="form-element <?php echo ( $model_id == $id ) ? 'selected-model' : ''; ?>" data-id="<?php echo esc_attr( $id ); ?>">
-								<input type="checkbox" <?php echo $model_id == $id ? 'disabled' : ''; ?> name="sites_id[<?php echo esc_attr( $id ); ?>]" id="checkbox-<?php echo esc_attr( $id ); ?>" class="form-field">
+							<li class="form-element <?php echo ( $model_id == $id || ! $site['check_connect'] ) ? 'selected-model' : ''; ?>" data-id="<?php echo esc_attr( $id ); ?>">
+								<input type="checkbox" <?php echo ( $model_id == $id || ! $site['check_connect'] ) ? 'disabled' : ''; ?> name="sites_id[<?php echo esc_attr( $id ); ?>]" id="checkbox-<?php echo esc_attr( $id ); ?>" class="form-field">
 								<label for="checkbox-<?php echo esc_attr( $id ); ?>"><?php echo $id . ' ' . $site['title'] . ' (' . $site['url'] . ')'; ?>
 									<span style="<?php echo $model_id == $id ? 'display: inline-block;' : 'display: none;'; ?>">Site générique</span>
+									<span style="<?php echo ! $site['check_connect'] ? 'display: inline-block;' : 'display: none;'; ?>">Site désynchronisé</span>
 								</label>
 							</li>
 							<?php

@@ -22,6 +22,7 @@ defined( 'ABSPATH' ) || exit; ?>
 		<div class="table-cell table-200">Site</div>
 		<div class="table-cell">URL</div>
 		<div class="table-cell">Dernier DUER</div>
+		<div class="table-cell table-50">Statut</div>
 		<div class="table-cell table-50"></div>
 	</div>
 	<?php
@@ -63,6 +64,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 					</span>
 				</div>
+				<div class="table-cell table-50" style="color: <?php echo $site['check_connect'] ? 'green': 'red'; ?>"><i data-direction="left" aria-label="<?php echo $site['message']; ?>" class="wpeo-tooltip-event fas fa-circle"></i></div>
 				<div class="table-cell table-50 table-end" data-title="Actions">
 					<div class="wpeo-button button-square-40 button-transparent delete action-delete"
 					data-id="<?php echo esc_attr( $id ); ?>"

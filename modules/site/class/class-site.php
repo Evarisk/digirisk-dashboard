@@ -33,6 +33,19 @@ class Class_Site extends \eoxia\Singleton_Util {
 					'meta_value'     => $id,
 					'posts_per_page' => 1,
 				), true );
+
+				$url = $site['url'] . '/wp-json/digi/v1/statut';
+
+				$site['check_connect'] = Request_Util::post( $url, array(), array(
+					'auth_user'     => $site['auth_user'],
+					'auth_password' => $site['auth_password'],
+				), $site['hash'] );
+
+				if ( ! $site['check_connect'] ) {
+					$site['message'] = __( 'Site désynchronisé. Veuillez le supprimer et le recréer', 'digirisk' );
+				} else {
+					$site['message'] = __( 'Site synchronisé', 'digirisk' );
+				}
 			}
 		}
 
