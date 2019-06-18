@@ -43,6 +43,12 @@
       text-decoration: line-through; }
       .wpeo-wrap .list-sites .selected-model > label::before {
         opacity: 0.4; }
+  .wpeo-wrap .list-sites .disabled {
+    pointer-events: none; }
+    .wpeo-wrap .list-sites .disabled > label {
+      text-decoration: line-through; }
+      .wpeo-wrap .list-sites .disabled > label::before {
+        opacity: 0.4; }
 
 /*---
   Animations from animate.css

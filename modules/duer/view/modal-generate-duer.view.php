@@ -22,7 +22,7 @@ defined( 'ABSPATH' ) || exit; ?>
 		<!-- Entête -->
 		<div class="modal-header" style="min-height: 10%; height: auto; flex-wrap: wrap;">
 			<h2 class="modal-title" style="width: 90%;"><?php esc_html_e( 'Génération DUER', 'digirisk-dashboard' ); ?></h2>
-			<div class="modal-close" style="width: 10%;"><i class="fal fa-times"></i></div>
+			<div class="modal-close" style="width: 10%;"><i class="fas fa-times"></i></div>
 			<div class="notice notice-error hidden">
 				<p></p>
 			</div>

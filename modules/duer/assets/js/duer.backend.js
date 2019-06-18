@@ -42,6 +42,7 @@ window.eoxiaJS.digiriskDashboard.duer.selectModel = function( event ) {
 	jQuery( '.duer-modal-site .list-sites .selected-model label span' ).hide();
 	jQuery( '.duer-modal-site .list-sites .selected-model input[type="checkbox"]' ).removeAttr( 'disabled' );
 	jQuery( '.duer-modal-site .list-sites .selected-model' ).removeClass( 'selected-model' );
+
 	jQuery( '.duer-modal-site .list-sites li[data-id="' + id + '"] label span' ).show();
 	jQuery( '.duer-modal-site .list-sites li[data-id="' + id + '"] input[type="checkbox"]' ).attr( 'disabled', 'disabled' ).prop( 'checked', false );
 	jQuery( '.duer-modal-site .list-sites li[data-id="' + id + '"]' ).addClass( 'selected-model' );
@@ -70,7 +71,7 @@ window.eoxiaJS.digiriskDashboard.duer.applyValueToTextarea = function( event ) {
 };
 
 window.eoxiaJS.digiriskDashboard.duer.filterSite = function( event ) {
-	var sites = jQuery( '.duer-modal-site ul.list-sites li.form-element label' );
+	var sites = jQuery( '.duer-modal-site ul.list-sites li.form-element' );
 	sites.show();
 
 	for ( var i = 0; i < sites.length; i++ ) {

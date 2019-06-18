@@ -70,7 +70,7 @@ defined( 'ABSPATH' ) || exit; ?>
 					data-id="<?php echo esc_attr( $id ); ?>"
 					data-nonce="<?php echo esc_attr( wp_create_nonce( 'ajax_delete_site' ) ); ?>"
 					data-message-delete="<?php esc_attr_e( 'Êtes-vous sûr(e) de vouloir supprimer ce site ?', 'digirisk' ); ?>"
-					data-action="digi_dashboard_delete_site"><i class="button-icon far fa-times"></i></div>
+					data-action="digi_dashboard_delete_site"><i class="button-icon fas fa-times"></i></div>
 				</div>
 			</div>
 			<?php

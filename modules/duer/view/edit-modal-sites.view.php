@@ -22,7 +22,7 @@ $model_id = null; ?>
 		<!-- Entête -->
 		<div class="modal-header">
 			<h2 class="modal-title">Édition des sites</h2>
-			<div class="modal-close"><i class="fal fa-times"></i></div>
+			<div class="modal-close"><i class="fas fa-times"></i></div>
 		</div>
 
 		<!-- Corps -->
@@ -71,10 +71,10 @@ $model_id = null; ?>
 					if ( ! empty( $sites ) ) :
 						foreach ( $sites as $id => $site ) :
 							?>
-							<li class="form-element <?php echo ( $model_id == $id || ! $site['check_connect'] ) ? 'selected-model' : ''; ?>" data-id="<?php echo esc_attr( $id ); ?>">
-								<input type="checkbox" <?php echo ( $model_id == $id || ! $site['check_connect'] ) ? 'disabled' : ''; ?> name="sites_id[<?php echo esc_attr( $id ); ?>]" id="checkbox-<?php echo esc_attr( $id ); ?>" class="form-field">
+							<li class="form-element <?php echo ( ! $site['check_connect'] ) ? 'disabled' : ''; ?>" data-id="<?php echo esc_attr( $id ); ?>">
+								<input type="checkbox" <?php echo ( ! $site['check_connect'] ) ? 'disabled' : ''; ?> name="sites_id[<?php echo esc_attr( $id ); ?>]" id="checkbox-<?php echo esc_attr( $id ); ?>" class="form-field">
 								<label for="checkbox-<?php echo esc_attr( $id ); ?>"><?php echo $id . ' ' . $site['title'] . ' (' . $site['url'] . ')'; ?>
-									<span style="<?php echo $model_id == $id ? 'display: inline-block;' : 'display: none;'; ?>">Site générique</span>
+									<span style="display: none;">Site générique</span>
 									<span style="<?php echo ! $site['check_connect'] ? 'display: inline-block;' : 'display: none;'; ?>">Site désynchronisé</span>
 								</label>
 							</li>

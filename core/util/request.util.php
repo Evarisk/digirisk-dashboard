@@ -56,11 +56,13 @@ class Request_Util extends \eoxia\Singleton_Util {
 
 		$request = wp_remote_post( $api_url, array(
 			'method'   => 'POST',
-			'blocking' => true,
+			'blocking' => false,
 			'headers'  => $headers,
 			'sslverify' => false,
 			'body'      => json_encode( $data ),
 		) );
+
+		echo "<pre>"; print_r( $request ); echo "</pre>";exit;
 
 		if ( ! is_wp_error( $request ) ) {
 			if ( $request['response']['code'] == 200 ) {

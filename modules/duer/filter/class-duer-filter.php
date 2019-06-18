@@ -198,8 +198,8 @@ class DUER_Filter extends Identifier_Filter {
 		}
 
 		if ( $response ) {
-			$element_per_hierarchy = json_decode( json_encode( $response->elementParHierarchie ), true );
-			$data['elementParHierarchie']['value'] = $element_per_hierarchy['value'];
+			// $element_per_hierarchy = json_decode( json_encode( $response->elementParHierarchie ), true );
+			// $data['elementParHierarchie']['value'] = $element_per_hierarchy['value'];
 		}
 
 		foreach ( $level_risk as $level ) {
