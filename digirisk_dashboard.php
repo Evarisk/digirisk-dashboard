@@ -11,7 +11,7 @@ namespace digirisk_dashboard;
  * Plugin Name: DigiRisk Dashboard
  * Plugin URI:  http://www.evarisk.com/document-unique-logiciel
  * Description: Gestion de DigiRisk pour les multisites de WordPress
- * Version:     0.1.0
+ * Version:     0.2.0
  * Author:      Evarisk
  * Author URI:  http://www.evarisk.com
  * License:     GPL2
@@ -20,9 +20,9 @@ namespace digirisk_dashboard;
  * Text Domain: digirisk-dashboard
  */
 
-DEFINE( 'PLUGIN_DIGIRISK_DASHBOARD_PATH', str_replace( '\\', '/', realpath( plugin_dir_path( __FILE__ ) ) . '/' ) );
 DEFINE( 'PLUGIN_DIGIRISK_DASHBOARD_URL', str_replace( '\\', '/', plugins_url( basename( __DIR__ ) ) . '/' ) );
 DEFINE( 'PLUGIN_DIGIRISK_DASHBOARD_DIR', basename( __DIR__ ) );
+DEFINE( 'PLUGIN_DIGIRISK_DASHBOARD_PATH', str_replace( '\\', '/', realpath( plugin_dir_path( __FILE__ ) ) . '/' ) );
 
 require_once 'core/external/eo-framework/eo-framework.php';
 

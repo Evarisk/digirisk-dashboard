@@ -23,40 +23,36 @@ class Class_Digirisk_Dashboard_Core extends \eoxia\Singleton_Util {
 	 * Le constructeur
 	 *
 	 * @since 0.1.0
-	 * @version 0.1.0
 	 */
 	protected function construct() {}
 
-		/**
-		 * Affiches la vue /core/view/upgrade.view.php
-		 *
-		 * @since 0.1.0
-		 * @version 0.1.0
-		 *
-		 * @return void
-		 */
+	/**
+	 * Affichage de la page du menu "Digirisk Dashboard".
+	 *
+	 * @since 0.2.0
+	 */
+	public function display_page() {
+		require_once \eoxia\Config_Util::$init['digirisk_dashboard']->core->path . 'view/main-page.view.php';
+	}
 
 	/**
 	 * Affiches la vue pour mêttre à jour les données de DigiRisk dans le réseau.
 	 *
-	 * @since 0.2.0
-	 * @version 0.2.0
-	 *
-	 * @return void
+	 * @since 0.1.0
 	 */
-	public function display() {
+	public function display_network() {
 		if ( is_multisite() ) {
 			$version = (int) str_replace( '.', '', \eoxia\Config_Util::$init['digirisk']->version );
 			if ( 3 === strlen( $version ) ) {
 				$version *= 10;
 			}
-			
+
 			$sites = get_sites();
 
 			if ( ! empty( $sites ) ) {
 				foreach ( $sites as $site ) {
 					switch_to_blog( $site->blog_id );
-					
+
 					$digirisk_core = get_option( \eoxia\Config_Util::$init['digirisk']->core_option );
 					$last_update_version = get_option( '_digirisk_last_update_version', true );
 
@@ -70,7 +66,7 @@ class Class_Digirisk_Dashboard_Core extends \eoxia\Singleton_Util {
 				restore_current_blog();
 			}
 		}
-		
+
 		echo '<a href="' . $url . '">Lancer la MAJ</a>';
 	}
 }

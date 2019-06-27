@@ -1,0 +1,49 @@
+Date de contrôle :
+Site n
+-Siret
+
+Indicateurs sur le site :
+Document Unique
+-Date DUER
+--Calcul nombre de jour de retard
+-Nombre de risques toutes catégories confondues
+--Noir
+--Rouge
+--Orange
+--Blanc
+-Nombre de risque par catégories
+--Risque 1 ou X Catégories - Nombre de Risque
+---Noir
+---Rouge
+---Orange
+---Blanc
+-Nombre de salarié
+--Nombre heures travaillé 1645 heures par Salariés Temps plein (mettre en paramètre)
+
+Pour un Groupement
+-Risque pour X catégories
+--Noir
+--Rouge
+--Orange
+--Blanc
+
+
+Accidents
+-Nombre presque accident < 1 jour d'arret
+-Nombre Accident > 1 jour arret sur DateControle - 1 an
+-Nombre d'enquete accident
+--Calcul enquete accident manquante
+--Nombre de jour d'arret
+--Taux de fréquence : Nbre AT * 1 000 000 / Nombres heures travaillées
+--Indice de fréquence : nombre d’accidents avec arrêt x 1 000 / nombre de salariés
+
+Prévention
+-Nombre de causerie sur 1 an
+-Nombre de salarié ayant participé à une causeries
+-Nombre risque mis à jour (Cotation ou commentaire) sur les 3 derniers mois
+
+Indicateur Formation
+-
+
+Indicateur Financier
+-

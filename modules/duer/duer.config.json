@@ -1,0 +1,13 @@
+{
+	"name": "Les DUER",
+	"slug": "duer",
+	"version": "0.2.0",
+	"description": "Le module gérant les DUER",
+	"path": "modules/duer/",
+	"dependencies": {
+		"action": {},
+		"class": {},
+    "filter": {},
+    "model": {}
+	}
+}
