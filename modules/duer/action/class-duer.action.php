@@ -47,7 +47,12 @@ class Class_DUER_Action {
 		$remarque_importante = ! empty( $_POST['remarqueImportante'] ) ? sanitize_textarea_field( wp_unslash( $_POST['remarqueImportante'] ) ) : ''; // WPCS: input var ok.
 
 		if ( empty( $model_site_id ) ) {
-			wp_send_json_error();
+			wp_send_json_success( array(
+				'namespace'        => 'digiriskDashboard',
+				'module'           => 'duer',
+				'callback_success' => 'loadedModalGenerateDuerSuccess',
+				'error_code'       => 1,
+			) );
 		}
 
 		if ( ! empty( $sites_id ) ) {
@@ -88,7 +93,7 @@ class Class_DUER_Action {
 				'sites_id'           => ! empty( $sites_checked_id ) ? implode( ',', $sites_checked_id ) : array(),
 				'dateDebutAudit'     => $date_debut_audit,
 				'dateFinAudit'       => $date_fin_audit,
-				'destinataireDuer'   => $destinataire_duer,
+				'destinataireDUER'   => $destinataire_duer,
 				'methodologie'       => $methodologie,
 				'sources'            => $sources,
 				'dispoDesPlans'      => $dispo_des_plans,
@@ -205,7 +210,7 @@ class Class_DUER_Action {
 					}
 				}
 
-				$data = DUER_Class::g()->prepare_document( null, array(
+				$data_document = array(
 					'parent_id'           => 0,
 					'date_debut_audit'    => $date_debut_audit,
 					'date_fin_audit'      => $date_fin_audit,
@@ -216,7 +221,9 @@ class Class_DUER_Action {
 					'remarque_importante' => $remarque_importante,
 					'model_site'          => $model_site,
 					'sites'               => $sites_data,
-				) );
+				);
+
+				$data = DUER_Class::g()->prepare_document( null, $data_document );
 
 				if ( isset( $data['status'] ) && ! $data['status'] ) {
 					wp_send_json_success( array(
@@ -263,7 +270,7 @@ class Class_DUER_Action {
 				'duer_id'            => ! empty( $duer_id ) ? $duer_id : 0,
 				'dateDebutAudit'     => $date_debut_audit,
 				'dateFinAudit'       => $date_fin_audit,
-				'destinataireDuer'   => $destinataire_duer,
+				'destinataireDUER'   => $destinataire_duer,
 				'methodologie'       => $methodologie,
 				'sources'            => $sources,
 				'dispoDesPlans'      => $dispo_des_plans,

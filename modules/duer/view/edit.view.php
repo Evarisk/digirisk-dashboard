@@ -41,7 +41,7 @@ defined( 'ABSPATH' ) || exit; ?>
 				class="wpeo-modal-event wpeo-button-pulse span-content-destinataire-duer">
 
 			<i class="button-icon fas fa-user"></i>
-			<span class="button-float-icon animated"><i class="fas fa-pencil-alt-alt"></i></span>
+			<span class="button-float-icon animated"><i class="fas fa-pencil-alt"></i></span>
 		</span>
 	</div>
 
@@ -101,7 +101,10 @@ defined( 'ABSPATH' ) || exit; ?>
 		<span data-parent="tab-content"
 					data-target="duer-modal-site"
 					data-title="Selectionner les sites concernés"
-					class="wpeo-modal-event wpeo-button-pulse">
+					aria-label="<?php esc_attr_e( 'Veuillez sélectionner un site générique' ); ?>"
+					data-tooltip-persist="true"
+					data-color="red"
+					class="wpeo-modal-event wpeo-button-pulse  wpeo-tooltip-event">
 			<i class="button-icon fas fa-sitemap"></i>
 			<span class="button-float-icon animated"><i class="fas fa-pencil-alt"></i></span>
 		</span>

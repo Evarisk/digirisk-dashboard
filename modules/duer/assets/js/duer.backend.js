@@ -6,6 +6,7 @@ window.eoxiaJS.digiriskDashboard.duer.init = function() {
 window.eoxiaJS.digiriskDashboard.duer.event = function() {
 	jQuery( document ).on( 'modal-opened', '.duer-modal', window.eoxiaJS.digiriskDashboard.duer.modalOpened );
 	jQuery( document ).on( 'change', '.duer-modal-site select', window.eoxiaJS.digiriskDashboard.duer.selectModel );
+	jQuery( document ).on( 'modal-opened', '.duer-modal-site', window.eoxiaJS.digiriskDashboard.duer.hideTooltip );
 	jQuery( document ).on( 'click', '.duer-modal .button-main', window.eoxiaJS.digiriskDashboard.duer.applyValueToTextarea );
 	jQuery( document ).on( 'keyup', '.duer-modal-site .filter-site', window.eoxiaJS.digiriskDashboard.duer.filterSite );
 	jQuery( document ).on( 'modal-closed', '.duer-modal-generate', window.eoxiaJS.digiriskDashboard.duer.modalDUERClosed );
@@ -22,13 +23,13 @@ window.eoxiaJS.digiriskDashboard.duer.modalOpened = function( event, triggeredEl
 	jQuery( this ).find( '.modal-content' ).html( '' );
 
 	if ( 'view' !== jQuery( triggeredElement ).data( 'type' ) ) {
-		var textareaContent = jQuery( triggeredElement ).closest( 'tr' ).find( '.textarea-content-' + jQuery( triggeredElement ).data( 'src' ) ).val();
+		var textareaContent = jQuery( triggeredElement ).closest( '.table-row' ).find( '.textarea-content-' + jQuery( triggeredElement ).data( 'src' ) ).val();
 		jQuery( this ).find( '.modal-content' ).html( '<textarea data-to="' + jQuery( triggeredElement ).data( 'src' ) + '" rows="8" style="width: 100%; display: inline-block;"></textarea>' );
 
 		jQuery( '.duer-modal' ).find( 'textarea' ).val( textareaContent );
 
 	} else {
-		var content = jQuery( triggeredElement ).closest( 'tr' ).find( '.text-content-' + jQuery( triggeredElement ).data( 'src' ) ).html();
+		var content = jQuery( triggeredElement ).closest( '.table-row' ).find( '.text-content-' + jQuery( triggeredElement ).data( 'src' ) ).html();
 		jQuery( this ).find( '.modal-content' ).html( '<p></p>' );
 
 		jQuery( '.duer-modal' ).find( 'p' ).html( content );
@@ -46,6 +47,10 @@ window.eoxiaJS.digiriskDashboard.duer.selectModel = function( event ) {
 	jQuery( '.duer-modal-site .list-sites li[data-id="' + id + '"] label span' ).show();
 	jQuery( '.duer-modal-site .list-sites li[data-id="' + id + '"] input[type="checkbox"]' ).attr( 'disabled', 'disabled' ).prop( 'checked', false );
 	jQuery( '.duer-modal-site .list-sites li[data-id="' + id + '"]' ).addClass( 'selected-model' );
+};
+
+window.eoxiaJS.digiriskDashboard.duer.hideTooltip = function ( event ) {
+	window.eoxiaJS.tooltip.remove( jQuery( '#duer .table-row:last .wpeo-tooltip-event' ) );
 };
 
 /**
@@ -66,8 +71,7 @@ window.eoxiaJS.digiriskDashboard.duer.viewInPopup = function( triggeredElement )
  */
 window.eoxiaJS.digiriskDashboard.duer.applyValueToTextarea = function( event ) {
 	var textarea =  jQuery( '.duer-modal' ).find( 'textarea' );
-
-	jQuery( '#duer table tr:last .textarea-content-' + textarea.attr( 'data-to' ) ).val( textarea.val() );
+	jQuery( '#duer .wpeo-table .table-row:last .textarea-content-' + textarea.attr( 'data-to' ) ).val( textarea.val() );
 };
 
 window.eoxiaJS.digiriskDashboard.duer.filterSite = function( event ) {
@@ -82,9 +86,13 @@ window.eoxiaJS.digiriskDashboard.duer.filterSite = function( event ) {
 };
 
 window.eoxiaJS.digiriskDashboard.duer.loadedModalGenerateDuerSuccess = function( triggeredElement, response ) {
-	jQuery( '.duer-modal-generate' ).replaceWith( response.data.view );
-	jQuery( '.duer-modal-generate' ).addClass( 'modal-active' );
-	window.eoxiaJS.digiriskDashboard.duer.generate( response.data.args );
+	if ( response.data.error_code == undefined ) {
+		jQuery( '.duer-modal-generate' ).replaceWith( response.data.view );
+		jQuery( '.duer-modal-generate' ).addClass( 'modal-active' );
+		window.eoxiaJS.digiriskDashboard.duer.generate( response.data.args );
+	} else {
+		window.eoxiaJS.tooltip.display( triggeredElement.closest( '.table-row' ).find( '.wpeo-tooltip-event' ) );
+	}
 };
 
 window.eoxiaJS.digiriskDashboard.duer.generate = function( args ) {

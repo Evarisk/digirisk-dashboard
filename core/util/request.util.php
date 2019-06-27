@@ -54,15 +54,14 @@ class Request_Util extends \eoxia\Singleton_Util {
 			$headers['Authorization'] = 'Basic ' . base64_encode( $auth_basic['auth_user'] . ':' . $auth_basic['auth_password'] );
 		}
 
-		$request = wp_remote_post( $api_url, array(
+		$data_request = array(
 			'method'   => 'POST',
-			'blocking' => false,
 			'headers'  => $headers,
 			'sslverify' => false,
 			'body'      => json_encode( $data ),
-		) );
+		);
 
-		echo "<pre>"; print_r( $request ); echo "</pre>";exit;
+		$request = wp_remote_post( $api_url, $data_request );
 
 		if ( ! is_wp_error( $request ) ) {
 			if ( $request['response']['code'] == 200 ) {

@@ -34,6 +34,12 @@ The installation of the plugin can be done in two ways:
 
 == Changelog ==
 
+= Version 0.2.0 =
+
+* 23231 - Connect multiple site to DigiRisk Dashboard.
+* 23233 - Generate DUER MU.
+* 23234 - Custom DUER MU ODT Model.
+
 = Version 0.1.0 =
 
 * Initial version.

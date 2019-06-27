@@ -69,7 +69,6 @@ class DUER_Filter extends Identifier_Filter {
 		$data['dateDebutAudit']     = $args['date_debut_audit'];
 		$data['dateFinAudit']       = $args['date_fin_audit'];
 
-
 		$audit_date = '';
 
 		if ( ! empty( $args['date_debut_audit'] ) ) {
