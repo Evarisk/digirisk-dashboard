@@ -165,10 +165,14 @@ class Class_Digirisk_Dashboard_Action {
 	 */
 	public function callback_apply_to_all() {
 		check_ajax_referer( 'apply_to_all' );
-
+		
 		$type            = ! empty( $_POST['type'] ) ? sanitize_text_field( $_POST['type'] ) : '';
 		$current_blog_id = get_current_blog_id();
+<<<<<<< HEAD
 		$model           = \eoxia\ODT_Class::g()->get_default_model( $type );
+=======
+		$model           = \eoxia\ODT_Class::g()->get_default_model( $type );
+>>>>>>> master
 		$file_path       = str_replace( '\\', '/', get_attached_file( $model['id'] ) );
 
 		$sites = get_sites();
