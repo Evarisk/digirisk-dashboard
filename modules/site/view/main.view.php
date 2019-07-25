@@ -23,7 +23,7 @@ defined( 'ABSPATH' ) || exit; ?>
 		<div class="table-cell">URL</div>
 		<div class="table-cell">Dernier DUER</div>
 		<div class="table-cell table-50">Statut</div>
-		<div class="table-cell table-50"></div>
+		<div class="table-cell table-150"></div>
 	</div>
 	<?php
 	if ( ! empty( $sites ) ) :
@@ -32,7 +32,7 @@ defined( 'ABSPATH' ) || exit; ?>
 			<div class="table-row">
 				<div class="table-cell table-50" data-title="ID"><strong><?php echo esc_html( $id ); ?></strong></div>
 				<div class="table-cell table-200" data-title="Site"><?php echo esc_html( $site['title'] ); ?></div>
-				<div class="table-cell" data-title="URL"><a href="<?php echo esc_attr( $site['url'] ); ?>" target="_blank"><?php echo esc_html( $site['url'] ); ?></a></div>
+				<div class="table-cell" data-title="URL"><a href="<?php echo esc_attr( $site['url'] ); ?>/wp-admin/" target="_blank"><?php echo esc_html( $site['url'] ); ?></a></div>
 				<div class="table-cell" data-title="Dernier DUER">
 					<span>
 						<?php
@@ -65,7 +65,12 @@ defined( 'ABSPATH' ) || exit; ?>
 					</span>
 				</div>
 				<div class="table-cell table-50" style="color: <?php echo $site['check_connect'] ? 'green': 'red'; ?>"><i data-direction="left" aria-label="<?php echo $site['message']; ?>" class="wpeo-tooltip-event fas fa-circle"></i></div>
-				<div class="table-cell table-50 table-end" data-title="Actions">
+				<div class="table-cell table-150 table-end" data-title="Actions">
+					<div class="wpeo-button button-square-40 button-transparent wpeo-modal-event"
+					data-id="<?php echo esc_attr( $id ); ?>"
+					data-nonce="<?php echo esc_attr( wp_create_nonce( 'load_edit_site' ) ); ?>"
+					data-action="digi_dashboard_load_edit_site"><i class="fas fa-edit"></i></div>
+
 					<div class="wpeo-button button-square-40 button-transparent delete action-delete"
 					data-id="<?php echo esc_attr( $id ); ?>"
 					data-nonce="<?php echo esc_attr( wp_create_nonce( 'ajax_delete_site' ) ); ?>"

@@ -40,11 +40,11 @@ window.eoxiaJS.digiriskDashboard.duer.selectModel = function( event ) {
 	var optionSelect = jQuery( 'option:selected', this );
 	var id = optionSelect.val();
 
-	jQuery( '.duer-modal-site .list-sites .selected-model label span' ).hide();
+	jQuery( '.duer-modal-site .list-sites .selected-model label span:first' ).hide();
 	jQuery( '.duer-modal-site .list-sites .selected-model input[type="checkbox"]' ).removeAttr( 'disabled' );
 	jQuery( '.duer-modal-site .list-sites .selected-model' ).removeClass( 'selected-model' );
 
-	jQuery( '.duer-modal-site .list-sites li[data-id="' + id + '"] label span' ).show();
+	jQuery( '.duer-modal-site .list-sites li[data-id="' + id + '"] label span:first' ).show();
 	jQuery( '.duer-modal-site .list-sites li[data-id="' + id + '"] input[type="checkbox"]' ).attr( 'disabled', 'disabled' ).prop( 'checked', false );
 	jQuery( '.duer-modal-site .list-sites li[data-id="' + id + '"]' ).addClass( 'selected-model' );
 };

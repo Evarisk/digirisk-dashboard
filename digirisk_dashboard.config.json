@@ -16,7 +16,8 @@
     "modules/document/document.config.json",
 		"modules/site/site.config.json",
 		"modules/duer/duer.config.json",
-		"modules/zip/zip.config.json"
+    "modules/zip/zip.config.json",
+		"modules/model/model.config.json"
 	],
 	"debug": false
 }

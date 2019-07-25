@@ -16,12 +16,13 @@ namespace digirisk_dashboard;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<div class="wp-wrap wpeo-wrap">
+<div class="wrap wpeo-wrap">
     <div class="wpeo-tab">
         <ul class="tab-list">
         	<li class="tab-element tab-active" data-action="digi_dashboard_load_tab" data-type="sites"><?php esc_html_e( 'Mes sites', 'digirisk-dashboard' ); ?></li>
         	<li class="tab-element" data-action="digi_dashboard_load_tab" data-type="add-site"><?php esc_html_e( 'Ajouter un site', 'digirisk-dashboard' ); ?></li>
-        	<li class="tab-element" data-action="digi_dashboard_load_tab" data-type="duer"><?php esc_html_e( 'DUER', 'digirisk-dashboard' ); ?></li>
+			<li class="tab-element" data-action="digi_dashboard_load_tab" data-type="duer"><?php esc_html_e( 'DUER', 'digirisk-dashboard' ); ?></li>
+        	<li class="tab-element" data-action="digi_dashboard_load_tab" data-type="model"><?php esc_html_e( 'Modèle(s) ODT', 'digirisk-dashboard' ); ?></li>
         </ul>
 
         <div class="tab-container">

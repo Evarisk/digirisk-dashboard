@@ -145,7 +145,7 @@ if ( ! window.eoxiaJS.action ) {
 	 * @returns {void}
 	 */
 	window.eoxiaJS.action.execAttribute = function( event ) {
-	  var element       = jQuery( this );
+	  	var element       = jQuery( this );
 		var loaderElement = element;
 		var doAction      = true;
 
@@ -200,7 +200,9 @@ if ( ! window.eoxiaJS.action ) {
 	 */
 	window.eoxiaJS.action.execDelete = function( event ) {
 		var element = jQuery( this );
+		var loaderElement = element;
 		var doAction = true;
+
 
 		event.preventDefault();
 
@@ -212,6 +214,10 @@ if ( ! window.eoxiaJS.action ) {
 
 		if ( element.hasClass( '.grey' ) ) {
 			doAction = false;
+		}
+
+		if ( element.attr( 'data-loader' ) ) {
+			loaderElement = element.closest( '.' + element.attr( 'data-loader' ) );
 		}
 
 		if ( doAction ) {

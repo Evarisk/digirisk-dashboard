@@ -1,0 +1,11 @@
+{
+	"name": "Gestion des modèles ODT",
+	"slug": "model",
+	"version": "0.3.0",
+	"description": "Le module gérant les modèles ODT",
+	"path": "modules/model/",
+	"dependencies": {
+		"action": {},
+		"class": {}
+	}
+}

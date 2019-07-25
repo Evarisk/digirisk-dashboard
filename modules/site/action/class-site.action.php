@@ -22,7 +22,8 @@ class Class_Site_Action {
 	 * @since 0.1.0
 	 */
 	public function __construct() {
-		add_action( 'wp_ajax_digi_dashboard_add_site', array( $this, 'ajax_add_site' ) );
+		add_action( 'wp_ajax_digi_dashboard_edit_site', array( $this, 'ajax_edit_site' ) );
+		add_action( 'wp_ajax_digi_dashboard_load_edit_site', array( $this, 'ajax_load_edit_site' ) );
 		add_action( 'wp_ajax_digi_dashboard_delete_site', array( $this, 'ajax_delete_site' ) );
 	}
 
@@ -31,9 +32,10 @@ class Class_Site_Action {
 	 *
 	 * @since 0.2.0
 	 */
-	public function ajax_add_site() {
-		check_ajax_referer( 'ajax_add_site' );
+	public function ajax_edit_site() {
+		check_ajax_referer( 'ajax_edit_site' );
 
+		$site_id       = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
 		$url           = ! empty( $_POST['url'] ) ? esc_url_raw( $_POST['url'] ) : '';
 		$unique_key    = ! empty( $_POST['unique_key'] ) ? sanitize_text_field( $_POST['unique_key'] ) : '';
 	 	$auth_user     = ! empty( $_POST['auth_user'] ) ? sanitize_text_field( $_POST['auth_user'] ) : '';
@@ -51,9 +53,10 @@ class Class_Site_Action {
 
 		if ( empty( $error_message ) ) {
 			$already_exist = false;
-			if ( ! empty( $sites ) ) {
+
+			if ( ! empty( $sites ) && empty( $site_id ) ) {
 				foreach ( $sites as $id => $site ) {
-					if ( $data['url'] == $site['url'] ) {
+					if ( $url == $site['url'] ) {
 						$already_exist = true;
 					}
 
@@ -64,6 +67,7 @@ class Class_Site_Action {
 			$api_url = $url . '/wp-json/digi/v1/register-site';
 
 			$data = array(
+				'id'         => $id,
 				'url'        => $url,
 				'url_parent' => get_site_url(),
 				'unique_key' => $unique_key,
@@ -82,19 +86,27 @@ class Class_Site_Action {
 						$error_message = sprintf( __( 'Le site url %s est déjà ajouté', 'digirisk-dashboard' ), $data['url'] );
 					}
 				} else {
+					unset( $data['url_parent'] );
+					$data_to_hash   = implode( '', $data );
+					$string_to_hash = hash( 'sha256', $data_to_hash );
+
+					$tmp = array(
+						'title'         => $response->title,
+						'url'           => $data['url'],
+						'hash'          => $string_to_hash,
+						'unique_key'    => $unique_key,
+						'auth_user'     => $auth_user,
+						'auth_password' => $auth_password,
+					);
+
 					if ( ! $already_exist ) {
-						unset( $data['url_parent'] );
-						$data_to_hash          = implode( '', $data );
-						$string_to_hash        = hash( 'sha256', $data_to_hash );
-						$sites[ $last_id + 1 ] = array(
-							'title'         => $response->title,
-							'url'           => $data['url'],
-							'hash'          => $string_to_hash,
-							'auth_user'     => $auth_user,
-							'auth_password' => $auth_password,
-						);
-						update_option( $site_key, $sites );
+
+						$sites[ $last_id + 1 ] = $tmp;
+					} else {
+						$sites[ $id ] = $tmp;
 					}
+
+					update_option( $site_key, $sites );
 				}
 			} else {
 				$error_message = sprintf( __( 'L\'url %s est inaccessible', 'digirisk-dashboard' ), $data['url'] );
@@ -113,9 +125,32 @@ class Class_Site_Action {
 				'namespace'        => 'digiriskDashboard',
 				'module'           => 'site',
 				'callback_success' => 'addedSiteSuccess',
-				'message'          => sprintf( __( 'Le site %s (%s) à été ajouté', 'digirisk-dashboard' ), $response->title, $data['url'] ),
+				'message'          => sprintf( __( 'Le site %s (%s) à été %s', 'digirisk-dashboard' ), $response->title, $data['url'], ! empty( $site_id ) ? 'modifié' : 'ajouté' ),
 			) );
 		}
+	}
+
+	public function ajax_load_edit_site() {
+		$id = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
+
+		if ( empty( $id ) ) {
+			wp_send_json_error();
+		}
+
+		$sites      = get_option( \eoxia\Config_Util::$init['digirisk_dashboard']->site->site_key, array() );
+		$site = $sites[ $id ];
+
+		ob_start();
+		\eoxia\View_Util::exec( 'digirisk_dashboard', 'site', 'edit/main', array(
+			'id'   => $id,
+			'site' => $site,
+		) );
+		$view = ob_get_clean();
+
+		wp_send_json_success( array(
+			'view'         => $view,
+			'buttons_view' => '',
+		) );
 	}
 
 	/**
