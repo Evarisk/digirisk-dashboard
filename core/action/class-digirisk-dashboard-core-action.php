@@ -119,7 +119,7 @@ class Class_Digirisk_Dashboard_Action {
 	 * @since 0.2.0
 	 */
 	public function callback_admin_menu() {
-		add_menu_page( __( 'DigiRisk Dashboard', 'digirisk' ), __( 'DigiRisk Dashboard', 'digirisk' ), 'manage_options', 'digirisk-dashboard', array( Class_Digirisk_Dashboard_Core::g(), 'display_page' ) );
+		add_menu_page( __( 'DigiRisk Dashboard - Mes sites', 'digirisk' ), __( 'DigiRisk Dashboard', 'digirisk' ), 'manage_options', 'digirisk-dashboard-sites', array( Class_Digirisk_Dashboard_Core::g(), 'display_page' ) );
 	}
 
 	/**
