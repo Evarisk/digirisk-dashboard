@@ -5,19 +5,23 @@
 	"description": "Gestion de DigiRisk pour les multisites de WordPress",
 	"insert_scripts_pages_js": [
 		"digirisk-tools",
-    "digirisk-dashboard"
+    "digirisk-dashboard-sites",
+    "digirisk-dashboard-add",
+    "digirisk-dashboard-duer"
 	],
 	"insert_scripts_pages_css": [
-    "digirisk-dashboard"
+    "digirisk-dashboard-sites",
+    "digirisk-dashboard-add",
+    "digirisk-dashboard-duer"
   ],
 	"externals": [],
 	"modules": [
 		"core/core.config.json",
     "modules/document/document.config.json",
 		"modules/site/site.config.json",
-		"modules/duer/duer.config.json",
-    "modules/zip/zip.config.json",
-		"modules/model/model.config.json"
+      "modules/duer/duer.config.json",
+      "modules/zip/zip.config.json",
+     "modules/model/model.config.json"
 	],
 	"debug": false
 }
