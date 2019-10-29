@@ -95,8 +95,10 @@ class DUER_Class extends Document_Class {
 
 		unset( $site );
 
+		require_once \eoxia\Config_Util::$init['digirisk_dashboard']->core->path . 'view/main-navigation.view.php';
+
 		\eoxia\View_Util::exec( 'digirisk_dashboard', 'duer', 'main', array(
-			'sites'    => $sites,
+			'child_sites'    => $sites,
 			'duers'    => $duers,
 			'new_duer' => $new_duer,
 		) );
@@ -153,4 +155,4 @@ class DUER_Class extends Document_Class {
 	}
 }
 
-new DUER_Class();
+DUER_Class::g();
