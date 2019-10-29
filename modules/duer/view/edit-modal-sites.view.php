@@ -28,7 +28,7 @@ $model_id = null; ?>
 		<!-- Corps -->
 		<div class="modal-content wpeo-form">
 			<?php
-			if ( empty( $sites ) ) :
+			if ( empty( $child_sites ) ) :
 				?>
 				<p>Aucun site ajouté au dashboard</p>
 				<p>Veuillez ajouter un ou plusieurs sites avant de générer un DUER</p>
@@ -42,8 +42,8 @@ $model_id = null; ?>
 						<select style="padding:0;" id="site-model" class="form-field" name="model_site_id">
 							<option>Sélectionner un site</option>
 							<?php
-							if ( ! empty( $sites ) ) :
-								foreach ( $sites as $id => $site ) :
+							if ( ! empty( $child_sites ) ) :
+								foreach ( $child_sites as $id => $site ) :
 									if ( $model_id == null ) :
 										$model_id = $id;
 									endif;
@@ -68,8 +68,8 @@ $model_id = null; ?>
 
 				<ul class="list-sites" style="width: 100%; height: 200px; overflow-y: scroll; background-color: #ececec; padding: 10px;">
 					<?php
-					if ( ! empty( $sites ) ) :
-						foreach ( $sites as $id => $site ) :
+					if ( ! empty( $child_sites ) ) :
+						foreach ( $child_sites as $id => $site ) :
 							?>
 							<li class="form-element <?php echo ( ! $site['check_connect'] ) ? 'disabled' : ''; ?>" data-id="<?php echo esc_attr( $id ); ?>">
 								<input type="checkbox" <?php echo ( ! $site['check_connect'] ) ? 'disabled' : ''; ?> name="sites_id[<?php echo esc_attr( $id ); ?>]" id="checkbox-<?php echo esc_attr( $id ); ?>" class="form-field">
