@@ -16,17 +16,9 @@ namespace digirisk_dashboard;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<div class="wrap wpeo-wrap">
-    <div class="wpeo-tab">
-        <ul class="tab-list">
-        	<li class="tab-element tab-active" data-action="digi_dashboard_load_tab" data-type="sites"><?php esc_html_e( 'Mes sites', 'digirisk-dashboard' ); ?></li>
-        	<li class="tab-element" data-action="digi_dashboard_load_tab" data-type="add-site"><?php esc_html_e( 'Ajouter un site', 'digirisk-dashboard' ); ?></li>
-			<li class="tab-element" data-action="digi_dashboard_load_tab" data-type="duer"><?php esc_html_e( 'DUER', 'digirisk-dashboard' ); ?></li>
-        	<li class="tab-element" data-action="digi_dashboard_load_tab" data-type="model"><?php esc_html_e( 'Modèle(s) ODT', 'digirisk-dashboard' ); ?></li>
-        </ul>
-
-        <div class="tab-container">
-        	<div class="tab-content tab-active"><?php Class_Site::g()->display(); ?></div>
-        </div>
-    </div>
+<div class="content-wrap">
+	<?php require PLUGIN_DIGIRISK_DASHBOARD_PATH . '/core/view/main-header.view.php'; ?>
+	<div class="wrap wpeo-wrap">
+		<?php Class_Site::g()->display(); ?></div>
+	</div>
 </div>
