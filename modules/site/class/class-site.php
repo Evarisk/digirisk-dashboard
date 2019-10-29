@@ -33,26 +33,13 @@ class Class_Site extends \eoxia\Singleton_Util {
 					'meta_value'     => $id,
 					'posts_per_page' => 1,
 				), true );
-
-				$url = $site['url'] . '/wp-json/digi/v1/statut';
-
-				$site['check_connect'] = Request_Util::post( $url, array(), array(
-					'auth_user'     => $site['auth_user'],
-					'auth_password' => $site['auth_password'],
-				), $site['hash'] );
-
-				if ( ! $site['check_connect'] ) {
-					$site['message'] = __( 'Site désynchronisé. Veuillez le supprimer et le recréer', 'digirisk' );
-				} else {
-					$site['message'] = __( 'Site synchronisé', 'digirisk' );
-				}
 			}
 		}
 
 		unset( $site );
 
 		\eoxia\View_Util::exec( 'digirisk_dashboard', 'site', 'main', array(
-			'sites' => $sites,
+			'childs_site' => $sites,
 		) );
 	}
 
@@ -62,8 +49,20 @@ class Class_Site extends \eoxia\Singleton_Util {
 	 * @since 0.2.0
 	 */
 	public function display_edit() {
-		\eoxia\View_Util::exec( 'digirisk_dashboard', 'site', 'edit/main' );
+		require_once \eoxia\Config_Util::$init['digirisk_dashboard']->core->path . 'view/main-navigation.view.php';
+
+		$site = array(
+			'title'         => '',
+			'url'           => '',
+			'unique_key'    => '',
+			'auth_user'     => '',
+			'auth_password' => '',
+		);
+
+		\eoxia\View_Util::exec( 'digirisk_dashboard', 'site', 'main-edit', array(
+			'edit_site' => $site,
+		) );
 	}
 }
 
-new Class_Site();
+Class_Site::g();
