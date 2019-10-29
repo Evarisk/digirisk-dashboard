@@ -19,12 +19,57 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Class_Digirisk_Dashboard_Core extends \eoxia\Singleton_Util {
 
+	public $menu = array();
+
 	/**
 	 * Le constructeur
 	 *
 	 * @since 0.1.0
 	 */
-	protected function construct() {}
+	protected function construct() {
+		$menu_def = array(
+			'digirisk-dashboard-sites' => array(
+				'link'  => admin_url( 'admin.php?page=digirisk-dashboard-sites' ),
+				'title' => __( 'Sites', 'digirisk' ),
+				'class' => '',
+			),
+			'digirisk-dashboard-add' => array(
+				'link'  => admin_url( 'admin.php?page=digirisk-dashboard-add' ),
+				'title' => __( 'Add Site', 'digirisk' ),
+				'class' => '',
+			),
+			'digirisk-dashboard-duer' => array(
+				'link'  => admin_url( 'admin.php?page=digirisk-dashboard-duer' ),
+				'title' => __( 'DUER', 'digirisk' ),
+				'class' => '',
+			),
+			'digirisk-dashboard-model' => array(
+				'link'  => admin_url( 'admin.php?page=digirisk-dashboard-model' ),
+				'title' => __( 'ODT Model', 'digirisk' ),
+				'class' => '',
+			),
+		);
+
+		$this->menu = apply_filters( 'digi_nav_items', $menu_def );
+
+		$menu_bottom_def = array(
+			'digirisk' => array(
+				'link'  => admin_url( 'admin.php?page=digirisk-welcome' ),
+				'title' => __( 'Go to DigiRisk', 'digirisk' ),
+				'class' => 'item-bottom',
+				'right' => '',
+			),
+			'back-to-wp' => array(
+				'link'  => admin_url( 'index.php' ),
+				'title' => __( 'Go to WP Admin', 'digirisk' ),
+				'class' => 'item-bottom',
+				'right' => '',
+			),
+		);
+
+		$this->menu_bottom = apply_filters( 'digi_nav_items_bottom', $menu_bottom_def );
+
+	}
 
 	/**
 	 * Affichage de la page du menu "Digirisk Dashboard".
@@ -32,6 +77,7 @@ class Class_Digirisk_Dashboard_Core extends \eoxia\Singleton_Util {
 	 * @since 0.2.0
 	 */
 	public function display_page() {
+		require_once \eoxia\Config_Util::$init['digirisk_dashboard']->core->path . 'view/main-navigation.view.php';
 		require_once \eoxia\Config_Util::$init['digirisk_dashboard']->core->path . 'view/main-page.view.php';
 	}
 
