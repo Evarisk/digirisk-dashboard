@@ -23,9 +23,20 @@ class Class_DUER_Action {
 	 * @since 0.1.0
 	 */
 	public function __construct() {
+		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ) );
+
 		add_action( 'wp_ajax_digi_dashboard_load_modal_generate_duer', array( $this, 'callback_load_modal_generate_duer' ) );
 		add_action( 'wp_ajax_digi_dashboard_load_modal_duer_site', array( $this, 'callback_load_modal_duer_site' ) );
 		add_action( 'wp_ajax_digi_dashboard_generate', array( $this, 'ajax_generate' ) );
+	}
+
+	/**
+	 * Ajoutes le menu DigiRisk Dashboard dans l'administration de WordPress.
+	 *
+	 * @since 0.2.0
+	 */
+	public function callback_admin_menu() {
+		add_menu_page( __( 'DigiRisk Dashboard - DUER', 'digirisk' ), __( 'DigiRisk Dashboard', 'digirisk' ), 'manage_options', 'digirisk-dashboard-duer', array( DUER_Class::g(), 'display' ) );
 	}
 
 	/**
@@ -168,8 +179,8 @@ class Class_DUER_Action {
 				'auth_password' => $site['auth_password'],
 			), $site['hash'] );
 
-			if ( $response ) {
-				foreach ( $response as $file ) {
+			if ( isset( $response->statut ) && $response->statut ) {
+				foreach ( $response->links as $file ) {
 					ZIP_Class::g()->update_temporarly_files_details( array(
 						'filename'      => $file->title . '.odt',
 						'url'           => $file->link,
