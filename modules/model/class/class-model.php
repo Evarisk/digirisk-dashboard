@@ -44,6 +44,12 @@ class Model_Class extends \eoxia\Singleton_Util {
 	 * @since 6.1.0
 	 */
 	public function display() {
+		require_once \eoxia\Config_Util::$init['digirisk_dashboard']->core->path . 'view/main-navigation.view.php';
+
+		\eoxia\View_Util::exec( 'digirisk_dashboard', 'model', 'main' );
+	}
+
+	public function display_items() {
 		$list_document_default = array();
 
 		if ( ! empty( $this->list_type_document ) ) {
@@ -52,9 +58,10 @@ class Model_Class extends \eoxia\Singleton_Util {
 			}
 		}
 
-		\eoxia\View_Util::exec( 'digirisk_dashboard', 'model', 'main', array(
+		\eoxia\View_Util::exec( 'digirisk_dashboard', 'model', 'items', array(
 			'list_type_document'    => $this->list_type_document,
 			'list_document_default' => $list_document_default,
+			'dashboard'             => true,
 		) );
 	}
 }
