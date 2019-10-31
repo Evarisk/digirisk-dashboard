@@ -5,14 +5,16 @@
 	"description": "Gestion de DigiRisk pour les multisites de WordPress",
 	"insert_scripts_pages_js": [
 		"digirisk-tools",
-    "digirisk-dashboard-sites",
-    "digirisk-dashboard-add",
-    "digirisk-dashboard-duer"
+      "digirisk-dashboard-sites",
+      "digirisk-dashboard-add",
+      "digirisk-dashboard-duer",
+      "digirisk-dashboard-model"
 	],
 	"insert_scripts_pages_css": [
-    "digirisk-dashboard-sites",
-    "digirisk-dashboard-add",
-    "digirisk-dashboard-duer"
+      "digirisk-dashboard-sites",
+      "digirisk-dashboard-add",
+      "digirisk-dashboard-duer",
+      "digirisk-dashboard-model"
   ],
 	"externals": [],
 	"modules": [
