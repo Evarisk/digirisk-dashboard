@@ -1,3 +1,21 @@
+<?php
+/**
+ * Formulaire pour ajouter ou éditer un site.
+ *
+ * @author    Evarisk <dev@evarisk.com>
+ * @copyright (c) 2017-2018 Evarisk <dev@evarisk.com>.
+ *
+ * @license   AGPLv3 <https://spdx.org/licenses/AGPL-3.0-or-later.html>
+ *
+ * @package   DigiRisk_Dashboard\Templates
+ *
+ * @since     0.2.0
+ */
+
+namespace digirisk_dashboard;
+
+defined( 'ABSPATH' ) || exit; ?>
+
 <div class="edit-site">
 	<div class="notice notice-success hidden">
 		<p></p>
@@ -26,18 +44,26 @@
 			</label>
 		</div>
 
-		<div class="form-element">
-			<span class="form-label">Authentification User</span>
-			<label class="form-field-container">
-				<input type="text" class="form-field" name="auth_user" value="<?php echo ! empty( $edit_site ) ? esc_attr( $edit_site['auth_user'] ) : ''; ?>" />
-			</label>
+		<div class="form-element manage-htpasswd">
+			<span class="form-label"><?php esc_html_e( 'Activer Htpasswd', 'digirisk-dashboard' ); ?></span>
+			<input type="hidden" name="manage_htpasswd" class="manage-htpasswd" value="<?php echo (int) 1 === (int) ( ! empty( $edit_site ) && $edit_site['manage_htpasswd'] ) ? 'true' : 'false'; ?>" />
+			<i style="font-size: 2em;" class="toggle fas fa-toggle-<?php echo (int) 1 === (int) ( ! empty( $edit_site ) && $edit_site['manage_htpasswd'] ) ? 'on' : 'off'; ?>" data-bloc="stock-field" data-input="manage_stock"></i>
 		</div>
 
-		<div class="form-element">
-			<span class="form-label">Authentification Password</span>
-			<label class="form-field-container">
-				<input type="password" class="form-field" name="auth_password" value="<?php echo ! empty( $edit_site ) ? esc_attr( $edit_site['auth_password'] ) : ''; ?>" />
-			</label>
+		<div class="<?php echo (int) 1 === (int) ( ! empty( $edit_site ) && $edit_site['manage_htpasswd'] ) ? '' : 'hidden'; ?> bloc-htpasswd">
+			<div class="form-element">
+				<span class="form-label">Htpasswd User</span>
+				<label class="form-field-container">
+					<input type="text" class="form-field" name="auth_user" autocomplete="off" value="<?php echo ! empty( $edit_site ) ? esc_attr( $edit_site['auth_user'] ) : ''; ?>" />
+				</label>
+			</div>
+
+			<div class="form-element">
+				<span class="form-label">Htpasswd Password</span>
+				<label class="form-field-container">
+					<input type="password" class="form-field" name="auth_password" autocomplete="off" value="<?php echo ! empty( $edit_site ) ? esc_attr( $edit_site['auth_password'] ) : ''; ?>" />
+				</label>
+			</div>
 		</div>
 
 
