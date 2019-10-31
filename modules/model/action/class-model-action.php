@@ -23,7 +23,12 @@ class Class_Model_Action {
 	 * @since 0.1.0
 	 */
 	public function __construct() {
+		add_action( 'admin_menu', array( $this, 'add_menu' ) );
 		add_action( 'digirisk_set_model', array( $this, 'set_model' ), 10, 3 );
+	}
+
+	public function add_menu() {
+		add_submenu_page( 'digirisk-dashboard', __( 'DigiRisk Dashboard - Modèles ODT', 'digirisk' ), __( 'DigiRisk Dashboard', 'digirisk' ), 'manage_options', 'digirisk-dashboard-model', array( Model_Class::g(), 'display' ) );
 	}
 
 	public function set_model( $type, $file_id, $file_path ) {
