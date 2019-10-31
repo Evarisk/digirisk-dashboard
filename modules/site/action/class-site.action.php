@@ -80,11 +80,12 @@ class Class_Site_Action {
 	public function ajax_edit_site() {
 		check_ajax_referer( 'ajax_edit_site' );
 
-		$site_id       = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
-		$url           = ! empty( $_POST['url'] ) ? esc_url_raw( $_POST['url'] ) : '';
-		$unique_key    = ! empty( $_POST['unique_key'] ) ? sanitize_text_field( $_POST['unique_key'] ) : '';
-	 	$auth_user     = ! empty( $_POST['auth_user'] ) ? sanitize_text_field( $_POST['auth_user'] ) : '';
-		$auth_password = ! empty( $_POST['auth_password'] ) ? sanitize_text_field( $_POST['auth_password'] ) : '';
+		$site_id         = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
+		$url             = ! empty( $_POST['url'] ) ? esc_url_raw( $_POST['url'] ) : '';
+		$unique_key      = ! empty( $_POST['unique_key'] ) ? sanitize_text_field( $_POST['unique_key'] ) : '';
+	 	$auth_user       = ! empty( $_POST['auth_user'] ) ? sanitize_text_field( $_POST['auth_user'] ) : '';
+		$auth_password   = ! empty( $_POST['auth_password'] ) ? sanitize_text_field( $_POST['auth_password'] ) : '';
+		$manage_htpasswd = ( isset( $_POST['manage_htpasswd'] ) && 'true' === $_POST['manage_htpasswd'] ) ? true : false;
 
 		$error_message = '';
 
@@ -138,12 +139,13 @@ class Class_Site_Action {
 					$hash         = hash( 'sha256', $data_to_hash );
 
 					$tmp = array(
-						'title'         => $response->title,
-						'url'           => $data['url'],
-						'hash'          => $hash,
-						'unique_key'    => $unique_key,
-						'auth_user'     => $auth_user,
-						'auth_password' => $auth_password,
+						'title'           => $response->title,
+						'url'             => $data['url'],
+						'hash'            => $hash,
+						'unique_key'      => $unique_key,
+						'auth_user'       => $auth_user,
+						'auth_password'   => $auth_password,
+						'manage_htpasswd' => $manage_htpasswd,
 					);
 
 					if ( ! $already_exist && empty( $site_id ) ) {
