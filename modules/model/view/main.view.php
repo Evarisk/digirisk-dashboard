@@ -20,15 +20,14 @@
 
 namespace digi;
 
+use digirisk_dashboard\Class_Digirisk_Dashboard_Core;
+use digirisk_dashboard\Model_Class;
+
 defined( 'ABSPATH' ) || exit; ?>
 
-<div class="digi-tools-main-container">
-	<div class="wpeo-gridlayout grid-2">
-		<?php
-		\eoxia\View_Util::exec( 'digirisk', 'handle_model', 'main', array(
-			'list_type_document'    => $list_type_document,
-			'list_document_default' => $list_document_default,
-		) );
-		?>
-	</div>
+<div class="content-wrap content-model">
+	<?php
+	 Class_Digirisk_Dashboard_Core::g()->display_header();
+	 Model_Class::g()->display_items();
+	 ?>
 </div>
