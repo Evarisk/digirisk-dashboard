@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 <div class="content-wrap">
 
-	<?php require PLUGIN_DIGIRISK_DASHBOARD_PATH . '/core/view/main-header.view.php'; ?>
+	<?php Class_Digirisk_Dashboard_Core::g()->display_header(); ?>
 
 	<div class="wrap wpeo-wrap digirisk-wrap">
 		<?php
