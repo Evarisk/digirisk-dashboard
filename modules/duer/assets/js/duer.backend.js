@@ -133,6 +133,6 @@ window.eoxiaJS.digiriskDashboard.duer.generatedError = function( triggeredElemen
 	jQuery( '.duer-modal-generate' ).removeClass( 'no-close modal-force-display' );
 };
 
-window.eoxiaJS.digiriskDashboard.duer.modalDUERClosed = function( modal ) {
-	jQuery( '.toplevel_page_digirisk-dashboard .tab-list .tab-element[data-type="duer"]' ).click();
+window.eoxiaJS.digiriskDashboard.duer.reloadedView = function( triggeredElement, response ) {
+	jQuery( '.table-duer' ).replaceWith( response.data.view );
 };
