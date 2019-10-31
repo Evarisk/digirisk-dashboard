@@ -71,6 +71,23 @@ class Class_Digirisk_Dashboard_Core extends \eoxia\Singleton_Util {
 
 	}
 
+	public function display_header() {
+		$current_user = wp_get_current_user();
+		$link         = '';
+
+		if ( class_exists( 'user_switching' ) ) {
+			$old_user = \user_switching::get_old_user();
+			if ( !empty( $old_user ) ) {
+				$link = add_query_arg(
+					array(
+						'redirect_to' => urlencode( \user_switching::current_url() ),
+					), \user_switching::switch_back_url( $old_user ) );
+			}
+		}
+
+		require PLUGIN_DIGIRISK_PATH . '/core/view/main-header.view.php';
+	}
+
 	/**
 	 * Affichage de la page du menu "Digirisk Dashboard".
 	 *
