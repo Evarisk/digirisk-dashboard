@@ -160,7 +160,7 @@ if ( ! class_exists( '\eoxia\ODT_Class' ) ) {
 				'post_status'    => 'inherit',
 				'posts_per_page' => 1,
 				'tax_query'      => $tax_query,
-				'post_type'      => 'attachment',
+				'post_type'      => array( 'attachment', 'document-odt' ),
 			) );
 
 			// Récupères le document
