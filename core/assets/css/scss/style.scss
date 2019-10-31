@@ -46,3 +46,19 @@
 }
 
 @import "module/module";
+
+/** @todo: Temporaire Jimmy (Désolé Amandine) **/
+.admin_page_digirisk-dashboard-add {
+	.fa-toggle-on {
+		color: green;
+	}
+
+	.wpeo-form {
+		.wpeo-button {
+			&.button-main {
+				margin-top: 20px;
+				margin-bottom: 20px;
+			}
+		}
+	}
+}
