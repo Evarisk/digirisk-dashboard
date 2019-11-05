@@ -23,7 +23,7 @@ defined( 'ABSPATH' ) || exit; ?>
 			foreach ( Class_Digirisk_Dashboard_Core::g()->menu as $key => $item ) :
 				$active = "";
 
-				if ( $key == $_GET['page'] ) :
+				if ( $key == $_REQUEST['page'] ) :
 					$active = "item-active";
 				endif;
 
