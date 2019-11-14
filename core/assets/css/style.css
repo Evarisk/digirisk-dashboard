@@ -197,3 +197,6 @@
 .admin_page_digirisk-dashboard-add .wpeo-form .wpeo-button.button-main {
   margin-top: 20px;
   margin-bottom: 20px; }
+
+.duer-modal-site .list-sites .selected-model label {
+  text-decoration: line-through; }

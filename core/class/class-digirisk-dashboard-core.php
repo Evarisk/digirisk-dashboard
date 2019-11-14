@@ -115,7 +115,7 @@ class Class_Digirisk_Dashboard_Core extends \eoxia\Singleton_Util {
 				foreach ( $sites as $site ) {
 					switch_to_blog( $site->blog_id );
 
-					$digirisk_core = get_option( \eoxia\Config_Util::$init['digirisk']->core_option );
+					$digirisk_core       = get_option( \eoxia\Config_Util::$init['digirisk']->core_option );
 					$last_update_version = get_option( '_digirisk_last_update_version', true );
 
 					if ( (int) $version > (int) $last_update_version && ! empty( $digirisk_core['installed'] ) ) {

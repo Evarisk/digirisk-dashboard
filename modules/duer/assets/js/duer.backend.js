@@ -9,6 +9,7 @@ window.eoxiaJS.digiriskDashboard.duer.event = function() {
 	jQuery( document ).on( 'modal-opened', '.duer-modal-site', window.eoxiaJS.digiriskDashboard.duer.hideTooltip );
 	jQuery( document ).on( 'click', '.duer-modal .button-main', window.eoxiaJS.digiriskDashboard.duer.applyValueToTextarea );
 	jQuery( document ).on( 'keyup', '.duer-modal-site .filter-site', window.eoxiaJS.digiriskDashboard.duer.filterSite );
+	jQuery( document ).on( 'click', '.close-duer-modal', window.eoxiaJS.digiriskDashboard.duer.closeDUERModal );
 	// jQuery( document ).on( 'modal-closed', '.duer-modal-generate', window.eoxiaJS.digiriskDashboard.duer.modalDUERClosed );
 };
 
@@ -135,4 +136,13 @@ window.eoxiaJS.digiriskDashboard.duer.generatedError = function( triggeredElemen
 
 window.eoxiaJS.digiriskDashboard.duer.reloadedView = function( triggeredElement, response ) {
 	jQuery( '.table-duer' ).replaceWith( response.data.view );
+};
+
+window.eoxiaJS.digiriskDashboard.duer.openModalSites = function( triggeredElement, response ) {
+	jQuery( '.duer-modal-site .modal-content' ).html( response.data.view );
+	jQuery( '.duer-modal-site' ).addClass( 'modal-active' );
+};
+
+window.eoxiaJS.digiriskDashboard.duer.closeDUERModal = function( event ) {
+	eoxiaJS.loader.display( jQuery( '.wpeo-table' ) );
 };

@@ -99,18 +99,17 @@ defined( 'ABSPATH' ) || exit; ?>
 
 	<div class="table-cell">
 		<span data-parent="table-cell"
-					data-target="duer-modal-site"
+					data-action="modal_select_sites"
 					data-title="Selectionner les sites concernés"
 					aria-label="<?php esc_attr_e( 'Veuillez sélectionner un site générique' ); ?>"
 					data-tooltip-persist="true"
 					data-color="red"
-					class="wpeo-modal-event wpeo-button-pulse wpeo-tooltip-event">
+			  		data-target="duer-modal-site"
+					class="action-attribute wpeo-button-pulse wpeo-tooltip-event">
 			<i class="button-icon fas fa-sitemap"></i>
 			<span class="button-float-icon animated"><i class="fas fa-pencil-alt"></i></span>
 		</span>
-		<?php \eoxia\View_Util::exec( 'digirisk_dashboard', 'duer', 'edit-modal-sites', array(
-			'child_sites' => $child_sites,
-		) ); ?>
+		<?php \eoxia\View_Util::exec( 'digirisk_dashboard', 'duer', 'modal-site' ); ?>
 	</div>
 
 	<div class="table-cell table-100 table-padding-0">

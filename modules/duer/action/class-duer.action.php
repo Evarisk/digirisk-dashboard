@@ -29,6 +29,8 @@ class Class_DUER_Action {
 		add_action( 'wp_ajax_digi_dashboard_load_modal_duer_site', array( $this, 'callback_load_modal_duer_site' ) );
 		add_action( 'wp_ajax_digi_dashboard_generate', array( $this, 'ajax_generate' ) );
 		add_action( 'wp_ajax_close_modal_duer', array( $this, 'reload_view' ) );
+
+		add_action( 'wp_ajax_modal_select_sites', array( $this, 'select_sites_modal' ) );
 	}
 
 	/**
@@ -307,6 +309,34 @@ class Class_DUER_Action {
 			'callback_success' => 'reloadedView',
 			'view'             => ob_get_clean(),
 		));
+	}
+
+	public function select_sites_modal() {
+		$sites     = get_option( \eoxia\Config_Util::$init['digirisk_dashboard']->site->site_key, array() );
+		if ( ! empty( $sites ) ) {
+			foreach ( $sites as &$site ) {
+				$url = $site['url'] . '/wp-json/digi/v1/statut';
+
+				$site['check_connect'] = Request_Util::post( $url, array(), array(
+					'auth_user'     => $site['auth_user'],
+					'auth_password' => $site['auth_password'],
+				), $site['hash'] );
+			}
+		}
+
+		unset( $site );
+
+		ob_start();
+		\eoxia\View_Util::exec('digirisk_dashboard', 'duer', 'edit-modal-sites', array(
+			'child_sites' => $sites,
+		) );
+
+		wp_send_json_success( array(
+			'view'             => ob_get_clean(),
+			'namespace'        => 'digiriskDashboard',
+			'module'           => 'duer',
+			'callback_success' => 'openModalSites',
+		) );
 	}
 }
 

@@ -36,14 +36,12 @@ defined( 'ABSPATH' ) || exit; ?>
 				foreach ( $duers as $duer ) :
 					\eoxia\View_Util::exec( 'digirisk_dashboard', 'duer', 'item', array(
 						'duer'        => $duer,
-						'child_sites' => $child_sites,
 					) );
 				endforeach;
 			endif;
 
 			\eoxia\View_Util::exec( 'digirisk_dashboard', 'duer', 'edit', array(
 				'element'     => $new_duer,
-				'child_sites' => $child_sites,
 			) );
 			?>
 		</div>
