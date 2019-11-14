@@ -160,7 +160,7 @@ if ( ! class_exists( '\eoxia\ODT_Class' ) ) {
 				'post_status'    => 'inherit',
 				'posts_per_page' => 1,
 				'tax_query'      => $tax_query,
-				'post_type'      => array( 'attachment', 'document-odt' ),
+				'post_type'      => 'attachment',
 			) );
 
 			// Récupères le document
@@ -448,7 +448,7 @@ if ( ! class_exists( '\eoxia\ODT_Class' ) ) {
 			// Dans le cas où la donnée a écrire est une valeur "simple" (texte).
 			if ( ! is_array( $data_value ) ) {
 				$current_odf->setVars( $data_key, stripslashes( $data_value ), true, 'UTF-8' );
-			} else if ( is_array( $data_value ) && isset( $data_value[ 'type' ] ) && !empty( $data_value[ 'type' ] ) ) {
+			} else if ( is_array( $data_value ) && isset( $data_value[ 'type' ] ) && ! empty( $data_value[ 'type' ] ) ) {
 				switch ( $data_value[ 'type' ] ) {
 
 					case 'picture':
@@ -461,7 +461,7 @@ if ( ! class_exists( '\eoxia\ODT_Class' ) ) {
 						if ( $segment && is_array( $data_value[ 'value' ] ) ) {
 							foreach ( $data_value[ 'value' ] as $segment_detail ) {
 								foreach ( $segment_detail as $segment_detail_key => $segment_detail_value ) {
-									if ( is_array( $segment_detail_value ) && array_key_exists( 'type', $segment_detail_value ) && ( 'sub_segment' == $segment_detail_value[ 'type' ] ) ) {
+									if ( is_array( $segment_detail_value ) && array_key_exists( 'type', $segment_detail_value ) && ( 'sub_segment' == $segment_detail_value[ 'type' ] ) && is_array( $segment_detail_value[ 'value' ]) ) {
 										foreach ( $segment_detail_value[ 'value' ] as $sub_segment_data ) {
 											foreach ( $sub_segment_data as $sub_segment_data_key => $sub_segment_data_value ) {
 												$segment->$segment_detail_key = $this->set_document_meta( $sub_segment_data_key, $sub_segment_data_value, $segment->$segment_detail_key );

@@ -78,8 +78,6 @@ class DUER_Class extends Document_Class {
 	 * @since 0.2.0
 	 */
 	public function display() {
-			require_once \eoxia\Config_Util::$init['digirisk_dashboard']->core->path . 'view/main-navigation.view.php';
-
 		\eoxia\View_Util::exec( 'digirisk_dashboard', 'duer', 'main' );
 	}
 

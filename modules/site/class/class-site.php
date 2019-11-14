@@ -49,8 +49,6 @@ class Class_Site extends \eoxia\Singleton_Util {
 	 * @since 0.2.0
 	 */
 	public function display_edit() {
-		require_once \eoxia\Config_Util::$init['digirisk_dashboard']->core->path . 'view/main-navigation.view.php';
-
 		$site = array(
 			'title'         => '',
 			'url'           => '',

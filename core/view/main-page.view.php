@@ -16,9 +16,6 @@ namespace digirisk_dashboard;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<div class="content-wrap">
-	<?php Class_Digirisk_Dashboard_Core::g()->display_header(); ?>
-	<div class="wrap wpeo-wrap">
-		<?php Class_Site::g()->display(); ?></div>
-	</div>
+<div class="wrap wpeo-wrap">
+	<?php Class_Site::g()->display(); ?></div>
 </div>

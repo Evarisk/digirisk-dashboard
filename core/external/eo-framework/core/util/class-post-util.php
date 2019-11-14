@@ -65,6 +65,7 @@ if ( ! class_exists( '\eoxia\Post_Util' ) ) {
 				'numberposts' => 1,
 				'post_parent' => $parent_id,
 				'post_type' => $post_types,
+				'post_status' => array( 'inherit', 'publish' ),
 				'output' => 'ARRAY_A',
 			) );
 

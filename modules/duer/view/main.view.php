@@ -16,8 +16,4 @@ namespace digirisk_dashboard;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<div class="content-wrap">
-	<?php Class_Digirisk_Dashboard_Core::g()->display_header(); ?>
-
-	<?php DUER_Class::g()->display_table(); ?>
-</div>
+<?php DUER_Class::g()->display_table(); ?>

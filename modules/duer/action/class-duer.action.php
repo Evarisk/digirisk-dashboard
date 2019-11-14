@@ -37,7 +37,7 @@ class Class_DUER_Action {
 	 * @since 0.2.0
 	 */
 	public function callback_admin_menu() {
-		add_submenu_page( 'digirisk-dashboard', __( 'DigiRisk Dashboard - DUER', 'digirisk' ), __( 'DigiRisk Dashboard', 'digirisk' ), 'manage_options', 'digirisk-dashboard-duer', array( DUER_Class::g(), 'display' ) );
+		\eoxia\Custom_Menu_Handler::register_menu( 'digirisk-dashboard', __( 'DUER Multisite', 'digirisk' ), __( 'DUER Multisite', 'digirisk' ), 'manage_options', 'digirisk-dashboard-duer', array( DUER_Class::g(), 'display' ), 'fas fa-sync' );
 	}
 
 	/**

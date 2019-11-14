@@ -28,7 +28,7 @@ class Class_Model_Action {
 	}
 
 	public function add_menu() {
-		add_submenu_page( 'digirisk-dashboard', __( 'DigiRisk Dashboard - Modèles ODT', 'digirisk' ), __( 'DigiRisk Dashboard', 'digirisk' ), 'manage_options', 'digirisk-dashboard-model', array( Model_Class::g(), 'display' ) );
+		\eoxia\Custom_Menu_Handler::register_menu( 'digirisk-dashboard', __( 'Modèles ODT', 'digirisk' ), __( 'Modèles ODT', 'digirisk' ), 'manage_options', 'digirisk-dashboard-model', array( Model_Class::g(), 'display' ), 'fas fa-file-alt' );
 	}
 
 	public function set_model( $type, $file_id, $file_path ) {

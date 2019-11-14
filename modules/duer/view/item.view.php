@@ -23,7 +23,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 	<div class="table-cell table-100 text-center">
 		<span class="hidden text-content-destinataire-duer"><?php echo nl2br( $duer->data['document_meta']['destinataireDUER'] ); // WPCS: XSS is ok. ?></span>
-		<span data-parent="tab-content"
+		<span data-parent="wrap"
 					data-type="view"
 					data-target="duer-modal"
 					data-title="Destinataire"
@@ -37,7 +37,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 	<div class="table-cell table-100 text-center">
 		<span class="hidden text-content-methodology"><?php echo nl2br( $duer->data['document_meta']['methodologie'] ); // WPCS: XSS is ok. ?></span>
-		<span data-parent="tab-content"
+		<span data-parent="wrap"
 					data-type="view"
 					data-target="duer-modal"
 					data-title="Méthodologie"
@@ -51,7 +51,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 	<div class="table-cell table-100 text-center">
 		<span class="hidden text-content-sources"><?php echo nl2br( $duer->data['document_meta']['sources'] ); // WPCS: XSS is ok. ?></span>
-		<span data-parent="tab-content"
+		<span data-parent="wrap"
 					data-type="view"
 					data-target="duer-modal"
 					data-title="Source"
@@ -65,7 +65,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 	<div class="table-cell table-100 text-center">
 		<span class="hidden text-content-dispo-des-plans"><?php echo nl2br( $duer->data['document_meta']['dispoDesPlans'] ); // WPCS: XSS is ok. ?></span>
-		<span data-parent="tab-content"
+		<span data-parent="wrap"
 					data-type="view"
 					data-target="duer-modal"
 					data-title="Disponibilité des plans"
@@ -79,7 +79,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 	<div class="table-cell table-100 text-center">
 		<span class="hidden text-content-notes-importantes"><?php echo nl2br( $duer->data['document_meta']['remarqueImportante'] ); // WPCS: XSS is ok. ?></span>
-		<span data-parent="tab-content"
+		<span data-parent="wrap"
 					data-type="view"
 					data-target="duer-modal"
 					data-title="Note importante"

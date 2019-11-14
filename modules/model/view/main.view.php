@@ -23,11 +23,6 @@ namespace digi;
 use digirisk_dashboard\Class_Digirisk_Dashboard_Core;
 use digirisk_dashboard\Model_Class;
 
-defined( 'ABSPATH' ) || exit; ?>
+defined( 'ABSPATH' ) || exit;
 
-<div class="content-wrap content-model">
-	<?php
-	 Class_Digirisk_Dashboard_Core::g()->display_header();
-	 Model_Class::g()->display_items();
-	 ?>
-</div>
+Model_Class::g()->display_items();

@@ -37,7 +37,7 @@ class Class_Site_Action {
 	 * @since 0.2.0
 	 */
 	public function callback_admin_menu() {
-		add_submenu_page( 'digirisk-dashboard-site', __( 'DigiRisk Dashboard - Ajouter un site', 'digirisk' ), __( 'DigiRisk Dashboard', 'digirisk' ), 'manage_options', 'digirisk-dashboard-add', array( Class_Site::g(), 'display_edit' ) );
+		\eoxia\Custom_Menu_Handler::register_menu( 'digirisk-dashboard', __( 'Ajouter un site', 'digirisk' ), __( 'Ajouter un site', 'digirisk' ), 'manage_options', 'digirisk-dashboard-add', array( Class_Site::g(), 'display_edit' ), 'fas fa-plus' );
 	}
 
 	public function check_statut() {

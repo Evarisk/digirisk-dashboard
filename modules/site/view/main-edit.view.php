@@ -16,15 +16,6 @@ namespace digirisk_dashboard;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<div class="content-wrap">
-
-	<?php Class_Digirisk_Dashboard_Core::g()->display_header(); ?>
-
-	<div class="wrap wpeo-wrap digirisk-wrap">
-		<?php
-		 \eoxia\View_Util::exec( 'digirisk_dashboard', 'site', 'edit', array(
-
-		) );
-		 ?>
-	</div>
+<div class="wrap wpeo-wrap digirisk-wrap">
+	<?php \eoxia\View_Util::exec( 'digirisk_dashboard', 'site', 'edit' ); ?>
 </div>

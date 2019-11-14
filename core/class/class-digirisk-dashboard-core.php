@@ -94,7 +94,6 @@ class Class_Digirisk_Dashboard_Core extends \eoxia\Singleton_Util {
 	 * @since 0.2.0
 	 */
 	public function display_page() {
-		require_once \eoxia\Config_Util::$init['digirisk_dashboard']->core->path . 'view/main-navigation.view.php';
 		require_once \eoxia\Config_Util::$init['digirisk_dashboard']->core->path . 'view/main-page.view.php';
 	}
 

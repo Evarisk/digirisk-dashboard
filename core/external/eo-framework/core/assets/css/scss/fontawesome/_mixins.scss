@@ -1,15 +1,33 @@
 // Mixins
 // --------------------------
 
-@mixin fa-icon {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  display: inline-block;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  line-height: 1;
-  vertical-align: -.125em;
+@mixin fa-icon( $type: 'solid' ) {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	display: inline-block;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+	line-height: 1;
+	vertical-align: -.125em;
+
+	@if $type == 'solid' {
+		font-family: 'Font Awesome 5 Free', 'Font Awesome 5 Pro';
+		font-weigth: 900;
+	} @else if $type == 'regular' {
+		font-family: 'Font Awesome 5 Free', 'Font Awesome 5 Pro';
+		font-weigth: 400;
+	} @else if $type == 'light' {
+		font-family: 'Font Awesome 5 Free', 'Font Awesome 5 Pro';
+		font-weigth: 100;
+	} @else if $type == 'brands' {
+		font-family: 'Font Awesome 5 Brands';
+	} @else if $type == 'duotone' {
+		font-family: 'Font Awesome 5 Duotone';
+	} @else {
+		font-family: 'Font Awesome 5 Free', 'Font Awesome 5 Pro';
+		font-weigth: 900;
+	}
 }
 
 @mixin fa-icon-rotate($degrees, $rotation) {
