@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /*!
 	DIGIRISK DASHBOARD
 	Created by Eoxia
@@ -188,3 +189,14 @@
   .wpeo-wrap .wpeo-button-pulse:hover {
     background: rgba(0, 0, 0, 0.3);
     cursor: pointer; }
+
+/** @todo: Temporaire Jimmy (Désolé Amandine) **/
+.admin_page_digirisk-dashboard-add .fa-toggle-on {
+  color: green; }
+
+.admin_page_digirisk-dashboard-add .wpeo-form .wpeo-button.button-main {
+  margin-top: 20px;
+  margin-bottom: 20px; }
+
+.duer-modal-site .list-sites .selected-model label {
+  text-decoration: line-through; }

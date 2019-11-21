@@ -19,12 +19,74 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Class_Digirisk_Dashboard_Core extends \eoxia\Singleton_Util {
 
+	public $menu = array();
+
 	/**
 	 * Le constructeur
 	 *
 	 * @since 0.1.0
 	 */
-	protected function construct() {}
+	protected function construct() {
+		$menu_def = array(
+			'digirisk-dashboard-sites' => array(
+				'link'  => admin_url( 'admin.php?page=digirisk-dashboard-sites' ),
+				'title' => __( 'Sites', 'digirisk' ),
+				'class' => '',
+			),
+			'digirisk-dashboard-add' => array(
+				'link'  => admin_url( 'admin.php?page=digirisk-dashboard-add' ),
+				'title' => __( 'Add Site', 'digirisk' ),
+				'class' => '',
+			),
+			'digirisk-dashboard-duer' => array(
+				'link'  => admin_url( 'admin.php?page=digirisk-dashboard-duer' ),
+				'title' => __( 'DUER', 'digirisk' ),
+				'class' => '',
+			),
+			'digirisk-dashboard-model' => array(
+				'link'  => admin_url( 'admin.php?page=digirisk-dashboard-model' ),
+				'title' => __( 'ODT Model', 'digirisk' ),
+				'class' => '',
+			),
+		);
+
+		$this->menu = apply_filters( 'digi_nav_items', $menu_def );
+
+		$menu_bottom_def = array(
+			'digirisk' => array(
+				'link'  => admin_url( 'admin.php?page=digirisk-welcome' ),
+				'title' => __( 'Go to DigiRisk', 'digirisk' ),
+				'class' => 'item-bottom',
+				'right' => '',
+			),
+			'back-to-wp' => array(
+				'link'  => admin_url( 'index.php' ),
+				'title' => __( 'Go to WP Admin', 'digirisk' ),
+				'class' => 'item-bottom',
+				'right' => '',
+			),
+		);
+
+		$this->menu_bottom = apply_filters( 'digi_nav_items_bottom', $menu_bottom_def );
+
+	}
+
+	public function display_header() {
+		$current_user = wp_get_current_user();
+		$link         = '';
+
+		if ( class_exists( 'user_switching' ) ) {
+			$old_user = \user_switching::get_old_user();
+			if ( !empty( $old_user ) ) {
+				$link = add_query_arg(
+					array(
+						'redirect_to' => urlencode( \user_switching::current_url() ),
+					), \user_switching::switch_back_url( $old_user ) );
+			}
+		}
+
+		require PLUGIN_DIGIRISK_PATH . '/core/view/main-header.view.php';
+	}
 
 	/**
 	 * Affichage de la page du menu "Digirisk Dashboard".
@@ -53,7 +115,7 @@ class Class_Digirisk_Dashboard_Core extends \eoxia\Singleton_Util {
 				foreach ( $sites as $site ) {
 					switch_to_blog( $site->blog_id );
 
-					$digirisk_core = get_option( \eoxia\Config_Util::$init['digirisk']->core_option );
+					$digirisk_core       = get_option( \eoxia\Config_Util::$init['digirisk']->core_option );
 					$last_update_version = get_option( '_digirisk_last_update_version', true );
 
 					if ( (int) $version > (int) $last_update_version && ! empty( $digirisk_core['installed'] ) ) {

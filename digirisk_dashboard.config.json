@@ -1,22 +1,29 @@
 {
 	"name": "DigiRisk Dashboard",
 	"slug": "digirisk_dashboard",
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"description": "Gestion de DigiRisk pour les multisites de WordPress",
 	"insert_scripts_pages_js": [
 		"digirisk-tools",
-    "digirisk-dashboard"
+      "digirisk-dashboard",
+      "digirisk-dashboard-add",
+      "digirisk-dashboard-duer",
+      "digirisk-dashboard-model"
 	],
 	"insert_scripts_pages_css": [
-    "digirisk-dashboard"
+      "digirisk-dashboard",
+      "digirisk-dashboard-add",
+      "digirisk-dashboard-duer",
+      "digirisk-dashboard-model"
   ],
 	"externals": [],
 	"modules": [
 		"core/core.config.json",
     "modules/document/document.config.json",
 		"modules/site/site.config.json",
-		"modules/duer/duer.config.json",
-		"modules/zip/zip.config.json"
+      "modules/duer/duer.config.json",
+      "modules/zip/zip.config.json",
+     "modules/model/model.config.json"
 	],
 	"debug": false
 }

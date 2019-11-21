@@ -38,6 +38,8 @@ class Request_Util extends \eoxia\Singleton_Util {
 	 * @return array|boolean   Retournes les données de la requête ou false.
 	 */
 	public static function post( $api_url, $body, $auth_basic = array(), $hash = '' ) {
+		set_time_limit(0);
+
 		$data = array();
 
 		if ( ! empty( $hash ) ) {
@@ -58,6 +60,7 @@ class Request_Util extends \eoxia\Singleton_Util {
 			'method'   => 'POST',
 			'headers'  => $headers,
 			'sslverify' => false,
+			'blocking'  => true,
 			'body'      => json_encode( $data ),
 		);
 
@@ -68,8 +71,10 @@ class Request_Util extends \eoxia\Singleton_Util {
 				$response = json_decode( $request['body'] );
 				return $response;
 			} else {
-				return false;
+				return $request;
 			}
+		} else {
+			return $request;
 		}
 
 		return false;

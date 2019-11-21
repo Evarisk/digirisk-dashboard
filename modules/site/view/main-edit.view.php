@@ -1,6 +1,6 @@
 <?php
 /**
- * Le template principal pour la page "dirigirsk-dashboard"
+ * Le template principal pour ajouter un site
  *
  * @author    Evarisk <dev@evarisk.com>
  * @copyright (c) 2017-2018 Evarisk <dev@evarisk.com>.
@@ -16,6 +16,6 @@ namespace digirisk_dashboard;
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<div class="wrap wpeo-wrap">
-	<?php Class_Site::g()->display(); ?></div>
+<div class="wrap wpeo-wrap digirisk-wrap">
+	<?php \eoxia\View_Util::exec( 'digirisk_dashboard', 'site', 'edit' ); ?>
 </div>

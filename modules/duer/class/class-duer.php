@@ -78,27 +78,16 @@ class DUER_Class extends Document_Class {
 	 * @since 0.2.0
 	 */
 	public function display() {
-		$sites     = get_option( \eoxia\Config_Util::$init['digirisk_dashboard']->site->site_key, array() );
+		\eoxia\View_Util::exec( 'digirisk_dashboard', 'duer', 'main' );
+	}
+
+	public function display_table() {
 		$duers     = $this->get();
 		$new_duer  = $this->get( array( 'schema' => true ), true );
 
-		if ( ! empty( $sites ) ) {
-			foreach ( $sites as &$site ) {
-				$url = $site['url'] . '/wp-json/digi/v1/statut';
-
-				$site['check_connect'] = Request_Util::post( $url, array(), array(
-					'auth_user'     => $site['auth_user'],
-					'auth_password' => $site['auth_password'],
-				), $site['hash'] );
-			}
-		}
-
-		unset( $site );
-
-		\eoxia\View_Util::exec( 'digirisk_dashboard', 'duer', 'main', array(
-			'sites'    => $sites,
-			'duers'    => $duers,
-			'new_duer' => $new_duer,
+		\eoxia\View_Util::exec( 'digirisk_dashboard', 'duer', 'table', array(
+			'duers'       => $duers,
+			'new_duer'    => $new_duer,
 		) );
 	}
 
@@ -153,4 +142,4 @@ class DUER_Class extends Document_Class {
 	}
 }
 
-new DUER_Class();
+DUER_Class::g();

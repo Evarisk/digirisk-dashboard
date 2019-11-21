@@ -9,7 +9,8 @@ window.eoxiaJS.digiriskDashboard.duer.event = function() {
 	jQuery( document ).on( 'modal-opened', '.duer-modal-site', window.eoxiaJS.digiriskDashboard.duer.hideTooltip );
 	jQuery( document ).on( 'click', '.duer-modal .button-main', window.eoxiaJS.digiriskDashboard.duer.applyValueToTextarea );
 	jQuery( document ).on( 'keyup', '.duer-modal-site .filter-site', window.eoxiaJS.digiriskDashboard.duer.filterSite );
-	jQuery( document ).on( 'modal-closed', '.duer-modal-generate', window.eoxiaJS.digiriskDashboard.duer.modalDUERClosed );
+	jQuery( document ).on( 'click', '.close-duer-modal', window.eoxiaJS.digiriskDashboard.duer.closeDUERModal );
+	// jQuery( document ).on( 'modal-closed', '.duer-modal-generate', window.eoxiaJS.digiriskDashboard.duer.modalDUERClosed );
 };
 
 
@@ -40,11 +41,11 @@ window.eoxiaJS.digiriskDashboard.duer.selectModel = function( event ) {
 	var optionSelect = jQuery( 'option:selected', this );
 	var id = optionSelect.val();
 
-	jQuery( '.duer-modal-site .list-sites .selected-model label span' ).hide();
+	jQuery( '.duer-modal-site .list-sites .selected-model label span:first' ).hide();
 	jQuery( '.duer-modal-site .list-sites .selected-model input[type="checkbox"]' ).removeAttr( 'disabled' );
 	jQuery( '.duer-modal-site .list-sites .selected-model' ).removeClass( 'selected-model' );
 
-	jQuery( '.duer-modal-site .list-sites li[data-id="' + id + '"] label span' ).show();
+	jQuery( '.duer-modal-site .list-sites li[data-id="' + id + '"] label span:first' ).show();
 	jQuery( '.duer-modal-site .list-sites li[data-id="' + id + '"] input[type="checkbox"]' ).attr( 'disabled', 'disabled' ).prop( 'checked', false );
 	jQuery( '.duer-modal-site .list-sites li[data-id="' + id + '"]' ).addClass( 'selected-model' );
 };
@@ -71,7 +72,7 @@ window.eoxiaJS.digiriskDashboard.duer.viewInPopup = function( triggeredElement )
  */
 window.eoxiaJS.digiriskDashboard.duer.applyValueToTextarea = function( event ) {
 	var textarea =  jQuery( '.duer-modal' ).find( 'textarea' );
-	jQuery( '#duer .wpeo-table .table-row:last .textarea-content-' + textarea.attr( 'data-to' ) ).val( textarea.val() );
+	jQuery( '.wpeo-table .table-row:last .textarea-content-' + textarea.attr( 'data-to' ) ).val( textarea.val() );
 };
 
 window.eoxiaJS.digiriskDashboard.duer.filterSite = function( event ) {
@@ -133,6 +134,15 @@ window.eoxiaJS.digiriskDashboard.duer.generatedError = function( triggeredElemen
 	jQuery( '.duer-modal-generate' ).removeClass( 'no-close modal-force-display' );
 };
 
-window.eoxiaJS.digiriskDashboard.duer.modalDUERClosed = function( modal ) {
-	jQuery( '.toplevel_page_digirisk-dashboard .tab-list .tab-element[data-type="duer"]' ).click();
+window.eoxiaJS.digiriskDashboard.duer.reloadedView = function( triggeredElement, response ) {
+	jQuery( '.table-duer' ).replaceWith( response.data.view );
+};
+
+window.eoxiaJS.digiriskDashboard.duer.openModalSites = function( triggeredElement, response ) {
+	jQuery( '.duer-modal-site .modal-content' ).html( response.data.view );
+	jQuery( '.duer-modal-site' ).addClass( 'modal-active' );
+};
+
+window.eoxiaJS.digiriskDashboard.duer.closeDUERModal = function( event ) {
+	eoxiaJS.loader.display( jQuery( '.wpeo-table' ) );
 };

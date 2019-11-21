@@ -9,6 +9,10 @@
 
 namespace digirisk_dashboard;
 
+use digi\Digirisk;
+use eoxia\Custom_Menu_Handler;
+use eoxia\Custom_Menu_Handler as CMH;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -29,7 +33,6 @@ class Class_Digirisk_Dashboard_Action {
 	public function __construct() {
 		// Initialises ses actions que si nous sommes sur une des pages réglés dans le fichier digirisk.config.json dans la clé "insert_scripts_pages".
 		$page = ( ! empty( $_REQUEST['page'] ) ) ? sanitize_text_field( $_REQUEST['page'] ) : ''; // WPCS: CSRF ok.
-
 		if ( in_array( $page, \eoxia\Config_Util::$init['digirisk_dashboard']->insert_scripts_pages_css, true ) ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'callback_before_admin_enqueue_scripts_css' ), 10 );
 			add_action( 'admin_enqueue_scripts', array( $this, 'callback_admin_enqueue_scripts_css' ), 11 );
@@ -63,6 +66,7 @@ class Class_Digirisk_Dashboard_Action {
 	 * @since 0.1.0
 	 */
 	public function callback_admin_enqueue_scripts_css() {
+		wp_enqueue_style( 'digi-style', PLUGIN_DIGIRISK_URL . 'core/assets/css/style.css', array(), \eoxia\Config_Util::$init['digirisk']->version );
 		wp_enqueue_style( 'digirisk-dashboard-style', PLUGIN_DIGIRISK_DASHBOARD_URL . 'core/assets/css/style.min.css', array(), \eoxia\Config_Util::$init['digirisk_dashboard']->version );
 	}
 
@@ -84,6 +88,11 @@ class Class_Digirisk_Dashboard_Action {
 	 * @since 0.1.0
 	 */
 	public function callback_admin_enqueue_scripts_js() {
+		wp_enqueue_script( 'digi-script', PLUGIN_DIGIRISK_URL . 'core/assets/js/backend.min.js', array(), \eoxia\Config_Util::$init['digirisk']->version, false );
+		wp_enqueue_script( 'digi-script-owl-carousel', PLUGIN_DIGIRISK_URL . 'core/assets/js/owl.carousel.min.js', array(), \eoxia\Config_Util::$init['digirisk']->version, false );
+		wp_enqueue_script( 'digi-autosize-script', PLUGIN_DIGIRISK_URL . 'core/assets/js/autosize.min.js', array(), \eoxia\Config_Util::$init['digirisk']->version, false );
+
+
 		wp_enqueue_script( 'digirisk-dashboard-script', PLUGIN_DIGIRISK_DASHBOARD_URL . 'core/assets/js/backend.min.js', array(), \eoxia\Config_Util::$init['digirisk_dashboard']->version, false );
 	}
 
@@ -114,7 +123,12 @@ class Class_Digirisk_Dashboard_Action {
 	 * @since 0.2.0
 	 */
 	public function callback_admin_menu() {
-		add_menu_page( __( 'DigiRisk Dashboard', 'digirisk' ), __( 'DigiRisk Dashboard', 'digirisk' ), 'manage_options', 'digirisk-dashboard', array( Class_Digirisk_Dashboard_Core::g(), 'display_page' ) );
+		Custom_Menu_Handler::register_container( 'DigiRisk Dashboard', 'DigiRisk Dashboard', 'manage_options', 'digirisk-dashboard' );
+		CMH::add_logo( 'digirisk-dashboard', PLUGIN_DIGIRISK_DASHBOARD_URL . '/core/assets/images/favicon_hd.png', admin_url( 'admin.php?page=digirisk-dashboard' ) );
+
+		Custom_Menu_Handler::register_menu( "digirisk-dashboard", "Mes sites", "Mes sites", "manage_options", "digirisk-dashboard", array( Class_Digirisk_Dashboard_Core::g(), 'display_page' ), 'fa fa-sitemap' );
+		Custom_Menu_Handler::register_others_menu( 'others', 'digirisk', __( 'DigiRisk Dashboard', 'digirisk' ), __( 'DigiRisk Dashboard', 'digirisk' ), 'read', 'digirisk-dashboard', array( Class_Digirisk_Dashboard_Core::g(), 'display_page' ), 'fa fa-sitemap', 'bottom' );
+
 	}
 
 	/**
@@ -146,6 +160,9 @@ class Class_Digirisk_Dashboard_Action {
 			case 'duer':
 				DUER_Class::g()->display();
 				break;
+			case 'model':
+				Model_Class::g()->display();
+				break;
 			default:
 				Class_Site::g()->display();
 				break;
@@ -165,14 +182,10 @@ class Class_Digirisk_Dashboard_Action {
 	 */
 	public function callback_apply_to_all() {
 		check_ajax_referer( 'apply_to_all' );
-		
+
 		$type            = ! empty( $_POST['type'] ) ? sanitize_text_field( $_POST['type'] ) : '';
 		$current_blog_id = get_current_blog_id();
-<<<<<<< HEAD
 		$model           = \eoxia\ODT_Class::g()->get_default_model( $type );
-=======
-		$model           = \eoxia\ODT_Class::g()->get_default_model( $type );
->>>>>>> master
 		$file_path       = str_replace( '\\', '/', get_attached_file( $model['id'] ) );
 
 		$sites = get_sites();

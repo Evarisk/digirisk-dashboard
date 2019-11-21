@@ -3,8 +3,8 @@ Contributors: Evarisk
 Tags: Evaluation des risques, document unique, risques professionnels, audit risques, risques humains, digirisk, digi risk, evarisk, eva risk, risk, risks, risque, risques
 Donate link: http://www.evarisk.com/document-unique-logiciel
 Requires at least: 4.4
-Tested up to: 4.9.1
-Stable tag: 0.2.0
+Tested up to: 5.3
+Stable tag: 0.3.0
 
 DigiRisk Dashboard handle MU WordPress instance of DigiRisk.
 
@@ -33,6 +33,13 @@ The installation of the plugin can be done in two ways:
 1. Dashboard
 
 == Changelog ==
+
+= Version 0.3.0 =
+
+* 36956 - Accélération du chargement sur la page d'accueil
+* 36582 - Gestion du modèle ODT DUER MU directement depuis l'application DigiRisk dashboard au lieu de DigiRisk.
+* 36519 - Génération DUER MU fonctionnelle.
+* 36500 - Gestion automatique de la vérification de la connectivité entre les différentes instances.
 
 = Version 0.2.0 =
 

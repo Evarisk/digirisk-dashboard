@@ -23,9 +23,23 @@ class Class_DUER_Action {
 	 * @since 0.1.0
 	 */
 	public function __construct() {
+		add_action( 'admin_menu', array( $this, 'callback_admin_menu' ) );
+
 		add_action( 'wp_ajax_digi_dashboard_load_modal_generate_duer', array( $this, 'callback_load_modal_generate_duer' ) );
 		add_action( 'wp_ajax_digi_dashboard_load_modal_duer_site', array( $this, 'callback_load_modal_duer_site' ) );
 		add_action( 'wp_ajax_digi_dashboard_generate', array( $this, 'ajax_generate' ) );
+		add_action( 'wp_ajax_close_modal_duer', array( $this, 'reload_view' ) );
+
+		add_action( 'wp_ajax_modal_select_sites', array( $this, 'select_sites_modal' ) );
+	}
+
+	/**
+	 * Ajoutes le menu DigiRisk Dashboard dans l'administration de WordPress.
+	 *
+	 * @since 0.2.0
+	 */
+	public function callback_admin_menu() {
+		\eoxia\Custom_Menu_Handler::register_menu( 'digirisk-dashboard', __( 'DUER Multisite', 'digirisk' ), __( 'DUER Multisite', 'digirisk' ), 'manage_options', 'digirisk-dashboard-duer', array( DUER_Class::g(), 'display' ), 'fas fa-sync' );
 	}
 
 	/**
@@ -136,6 +150,7 @@ class Class_DUER_Action {
 	 * @since 0.2.0
 	 */
 	public function ajax_generate() {
+
 		$id                  = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
 		$type                = ! empty( $_POST['type'] ) ? sanitize_text_field( $_POST['type'] ) : '';
 		$duer_id             = ! empty( $_POST['args']['duer_id'] ) ? (int) $_POST['args']['duer_id'] : 0;
@@ -160,7 +175,6 @@ class Class_DUER_Action {
 
 			$site = $sites[ $id ];
 
-
 			$url = $site['url'] . '/wp-json/digi/v1/duer/generate';
 
 			$response = Request_Util::post( $url, array(), array(
@@ -168,8 +182,8 @@ class Class_DUER_Action {
 				'auth_password' => $site['auth_password'],
 			), $site['hash'] );
 
-			if ( $response ) {
-				foreach ( $response as $file ) {
+			if ( isset( $response->statut ) && $response->statut ) {
+				foreach ( $response->links as $file ) {
 					ZIP_Class::g()->update_temporarly_files_details( array(
 						'filename'      => $file->title . '.odt',
 						'url'           => $file->link,
@@ -178,6 +192,11 @@ class Class_DUER_Action {
 					) );
 				}
 			} else {
+				$error_message = sprintf( __( 'Erreur lors de la génération des documents du site enfant: #%d %s (%s): Le token est invalide.', 'digirisk-dashboard' ), $id, $site['title'], $site['url'] );
+				if ( isset( $response->errors["http_request_failed"] ) ) {
+					$error_message = sprintf( __( 'Erreur lors de la génération des documents du site enfant: #%d %s (%s): %s.', 'digirisk-dashboard' ), $id, $site['title'], $site['url'], $response->errors["http_request_failed"][0] );
+				}
+
 				\eoxia\LOG_Util::log( sprintf( 'Erreur lors de la génération des documents du site enfant: #%d %s (%s): Le token est invalide.', $id, $site['title'], $site['url'] ), 'digirisk-dashboard' );
 				// Log erreur lors de la génération
 				wp_send_json_success( array(
@@ -185,7 +204,7 @@ class Class_DUER_Action {
 					'module'           => 'duer',
 					'callback_success' => 'generatedError',
 					'error_site'       => $id,
-					'error_message'    => sprintf( __( 'Erreur lors de la génération des documents du site enfant: #%d %s (%s): Le token est invalide.', 'digirisk-dashboard' ), $id, $site['title'], $site['url'] ),
+					'error_message'    => $error_message,
 				) );
 			}
 		}
@@ -206,7 +225,7 @@ class Class_DUER_Action {
 					foreach ( $sites_id as $site_id ) {
 						$site_id                 = (int) $site_id;
 						$sites[ $site_id ]['id'] = $site_id;
-						$sites_data[]  = $sites[ $site_id ];
+						$sites_data[]            = $sites[ $site_id ];
 					}
 				}
 
@@ -278,6 +297,45 @@ class Class_DUER_Action {
 				'model_site_id'      => $model_site_id,
 				'sites_id'           => ! empty( $sites_id ) ? implode( ',', $sites_id ) : array(),
 			)
+		) );
+	}
+
+	public function reload_view() {
+		ob_start();
+		DUER_Class::g()->display_table();
+		wp_send_json_success( array(
+			'namespace'        => 'digiriskDashboard',
+			'module'           => 'duer',
+			'callback_success' => 'reloadedView',
+			'view'             => ob_get_clean(),
+		));
+	}
+
+	public function select_sites_modal() {
+		$sites     = get_option( \eoxia\Config_Util::$init['digirisk_dashboard']->site->site_key, array() );
+		if ( ! empty( $sites ) ) {
+			foreach ( $sites as &$site ) {
+				$url = $site['url'] . '/wp-json/digi/v1/statut';
+
+				$site['check_connect'] = Request_Util::post( $url, array(), array(
+					'auth_user'     => $site['auth_user'],
+					'auth_password' => $site['auth_password'],
+				), $site['hash'] );
+			}
+		}
+
+		unset( $site );
+
+		ob_start();
+		\eoxia\View_Util::exec('digirisk_dashboard', 'duer', 'edit-modal-sites', array(
+			'child_sites' => $sites,
+		) );
+
+		wp_send_json_success( array(
+			'view'             => ob_get_clean(),
+			'namespace'        => 'digiriskDashboard',
+			'module'           => 'duer',
+			'callback_success' => 'openModalSites',
 		) );
 	}
 }

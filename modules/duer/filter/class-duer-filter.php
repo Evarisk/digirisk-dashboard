@@ -56,7 +56,7 @@ class DUER_Filter extends Identifier_Filter {
 		}
 
 		$data['model_site']         = $args['model_site'];
-		$data['nomEntreprise']      = $response->title;
+		$data['nomEntreprise']      = $args['model_site']['title'];
 		$data['emetteurDUER']       =  '';
 		$data['destinataireDUER']   = $args['destinataire_duer'];
 		$data['telephone']          = ! empty( $response->data['contact']['phone'] ) ? end( $response->data['contact']['phone'] ) : '';
@@ -151,6 +151,14 @@ class DUER_Filter extends Identifier_Filter {
 					if ( $response ) {
 						$element_per_hierarchy = json_decode( json_encode( $response->elementParHierarchie ), true );
 
+						if ( ! empty( $element_per_hierarchy['value'] ) ) {
+							foreach ( $element_per_hierarchy['value'] as $key => &$element ) {
+								if ( 0 != $key ) {
+									$element['nomElement'] = 'S' . $site['id'] . ' ' . $element['nomElement'];
+								}
+							}
+						}
+
 						$data['sitesComplementaire']['value'][] = array(
 							'nomEntrepriseComplementaire'        => 'S' . $site['id'],
 							'elementParHierarchieComplementaire' => array(
@@ -187,6 +195,7 @@ class DUER_Filter extends Identifier_Filter {
 			'auth_user'     => $args['model_site']['auth_user'],
 			'auth_password' => $args['model_site']['auth_password'],
 		), $args['model_site']['hash'] );
+
 		if ( ! $response ) {
 			remove_all_filters( 'digi_dashboard_duer_mu_document_data' );
 			\eoxia\LOG_Util::log( sprintf( 'Erreur pour récupérer les sociétées lors de la génération du DUER pour le site générique: #%d %s (%s): Le token est invalide.', $args['model_site']['id'], $args['model_site']['title'], $args['model_site']['url'] ), 'digirisk-dashboard' );
@@ -197,8 +206,16 @@ class DUER_Filter extends Identifier_Filter {
 		}
 
 		if ( $response ) {
-			// $element_per_hierarchy = json_decode( json_encode( $response->elementParHierarchie ), true );
-			// $data['elementParHierarchie']['value'] = $element_per_hierarchy['value'];
+			$element_per_hierarchy = json_decode( json_encode( $response->elementParHierarchie ), true );
+			if ( ! empty( $element_per_hierarchy['value'] ) ) {
+				foreach ( $element_per_hierarchy['value'] as $key => &$element ) {
+					if ( 0 != $key ) {
+						$element['nomElement'] = 'S' . $site['id'] . ' ' . $element['nomElement'];
+					}
+				}
+			}
+
+			$data['elementParHierarchie']['value'] = $element_per_hierarchy['value'];
 		}
 
 		foreach ( $level_risk as $level ) {

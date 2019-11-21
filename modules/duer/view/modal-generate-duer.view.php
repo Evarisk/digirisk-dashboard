@@ -63,7 +63,8 @@ defined( 'ABSPATH' ) || exit; ?>
 
 		<!-- Footer -->
 		<div class="modal-footer">
-			<a class="wpeo-button button-main button-uppercase modal-close"><span><?php esc_html_e( 'Fermer', 'digirisk-dashboard' ); ?></span></a>
+			<a class="wpeo-button button-main button-uppercase modal-close close-duer-modal action-attribute"
+				data-action="close_modal_duer"><span><?php esc_html_e( 'Fermer', 'digirisk-dashboard' ); ?></span></a>
 		</div>
 	</div>
 </div>

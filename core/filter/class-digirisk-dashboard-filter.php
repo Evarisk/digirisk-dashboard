@@ -25,6 +25,10 @@ class Class_Digirisk_Dashboard_Filter {
 	 */
 	public function __construct() {
 		add_filter( 'digi_handle_model_actions_end', array( $this, 'callback_digi_handle_model_actions_end' ), 10, 2 );
+
+		add_filter( 'http_request_timeout', array( $this, 'upgrade_timeout_request' ) );
+
+		add_filter( 'eo_menu_others_digirisk', array( $this, 'add_digirisk_dashboard_item' ) );
 	}
 
 	/**
@@ -44,6 +48,15 @@ class Class_Digirisk_Dashboard_Filter {
 		return $content;
 	}
 
+	public function upgrade_timeout_request( $time ) {
+		return 100;
+	}
+
+	public function add_digirisk_dashboard_item( $menu ) {
+		\eoxia\Custom_Menu_Handler::register_menu( "others", "DigiRisk Dashboard", "DigiRisk Dashboard", "manage_options", "digirisk-dashboard", array( Class_Digirisk_Dashboard_Core::g(), 'display_page' ), 'fa fa-sitemap', 'bottom' );
+
+		return $menu;
+	}
 }
 
 new Class_Digirisk_Dashboard_Filter();
