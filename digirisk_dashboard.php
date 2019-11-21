@@ -23,7 +23,7 @@ namespace digirisk_dashboard;
 DEFINE( 'PLUGIN_DIGIRISK_DASHBOARD_URL', str_replace( '\\', '/', plugins_url( basename( __DIR__ ) ) . '/' ) );
 DEFINE( 'PLUGIN_DIGIRISK_DASHBOARD_DIR', basename( __DIR__ ) );
 DEFINE( 'PLUGIN_DIGIRISK_DASHBOARD_PATH', str_replace( '\\', '/', realpath( plugin_dir_path( __FILE__ ) ) . '/' ) );
-DEFINE( 'PLUGIN_DIGIRSK_DASHBOARD_DEV_MODE', true );
+DEFINE( 'PLUGIN_DIGIRSK_DASHBOARD_DEV_MODE', false );
 
 if ( ! PLUGIN_DIGIRSK_DASHBOARD_DEV_MODE ) {
 	require_once 'core/external/eo-framework/eo-framework.php';
