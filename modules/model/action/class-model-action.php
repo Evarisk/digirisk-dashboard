@@ -9,6 +9,11 @@
 
 namespace digirisk_dashboard;
 
+use digi\Digirisk;
+use eoxia\Config_Util;
+use eoxia\Custom_Menu_Handler;
+use task_manager\Task_Manager_Class;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -28,7 +33,13 @@ class Class_Model_Action {
 	}
 
 	public function add_menu() {
-		\eoxia\Custom_Menu_Handler::register_menu( 'digirisk-dashboard', __( 'Modèles ODT', 'digirisk' ), __( 'Modèles ODT', 'digirisk' ), 'manage_options', 'digirisk-dashboard-model', array( Model_Class::g(), 'display' ), 'fas fa-file-alt' );
+		Custom_Menu_Handler::register_menu( 'digirisk-dashboard', __( 'Modèles ODT', 'digirisk' ), __( 'Modèles ODT', 'digirisk' ), 'manage_options', 'digirisk-dashboard-model', array( Model_Class::g(), 'display' ), 'fas fa-file-alt' );
+		if( isset( Config_Util::$init['task-manager'] ) ){
+			Custom_Menu_Handler::register_menu( 'digirisk-dashboard', __( 'Task Manager', 'task-manager' ), __( 'Task Manager', 'task-manager' ), 'manage_task_manager', 'wpeomtm-dashboard', array( Task_Manager_Class::g(), 'display' ),  PLUGIN_TASK_MANAGER_URL . '/core/assets/images/icone-16-16-couleur.png' );
+		}
+		if( isset( Config_Util::$init['digirisk'] ) ){
+			Custom_Menu_Handler::register_menu( 'digirisk-dashboard', __( 'DigiRisk', 'digirisk' ), __( 'DigiRisk', 'digirisk' ), 'read', 'digirisk', array( Digirisk::g(), 'display' ), PLUGIN_DIGIRISK_URL . '/core/assets/images/favicon2.png' );
+		}
 	}
 
 	public function set_model( $type, $file_id, $file_path ) {
