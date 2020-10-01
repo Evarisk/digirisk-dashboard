@@ -25,7 +25,8 @@ class Class_Site extends \eoxia\Singleton_Util {
 
 	public function display() {
 		$sites = get_option( \eoxia\Config_Util::$init['digirisk_dashboard']->site->site_key, array() );
-
+		global $wpdb;
+		
 		if ( ! empty( $sites ) ) {
 			foreach( $sites as $id => &$site ) {
 				$site['last_duer'] = DUER_Class::g()->get( array(
@@ -33,6 +34,25 @@ class Class_Site extends \eoxia\Singleton_Util {
 					'meta_value'     => $id,
 					'posts_per_page' => 1,
 				), true );
+
+				$parse_url = parse_url( $site['url'] );
+
+				$test = $parse_url['path'];
+
+				$results = $wpdb->query(
+					$wpdb->prepare(
+						'SELECT PM.post_id FROM {$wpdb->postmeta} AS PM
+					JOIN {$wpdb->posts} AS P ON P.ID=PM.post_id
+				WHERE PM.meta_key="_wpdigi_unique_identifier"
+					AND PM.meta_value LIKE %s
+					AND P.post_type IN(%s)', array( '%' . $term . '%', implode( $posts_type, ',' ) )
+					)
+				);
+
+				echo '<pre>';
+				print_r($parse_url);
+				echo '</pre>';
+				exit;
 			}
 		}
 

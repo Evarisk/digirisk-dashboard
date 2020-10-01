@@ -59,6 +59,15 @@ class Class_Site_Action {
 
 		$site = $sites[ $id ];
 
+		$blog_details = get_blog_details( $id );
+
+		if ( $blog_details->archived == true || $blog_details->deleted == true ){
+			wp_send_json_success( array(
+				'success' => false,
+				'error_message' => 'site deleted or archived',
+			) );
+		}
+
 		$url = $site['url'] . '/wp-json/digi/v1/statut';
 
 		$site['check_connect'] = Request_Util::post( $url, array(), array(
