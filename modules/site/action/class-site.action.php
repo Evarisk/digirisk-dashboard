@@ -41,7 +41,8 @@ class Class_Site_Action {
 	}
 
 	public function check_statut() {
-		$id = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
+		$id      = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
+		$blog_id = ! empty( $_POST['blog-id'] ) ? (int) $_POST['blog-id'] : 0;
 
 		if ( empty( $id ) ) {
 			wp_send_json_error();
@@ -59,7 +60,7 @@ class Class_Site_Action {
 
 		$site = $sites[ $id ];
 
-		$blog_details = get_blog_details( $id );
+		$blog_details = get_blog_details( $blog_id );
 
 		if ( $blog_details->archived == true || $blog_details->deleted == true ){
 			wp_send_json_success( array(
