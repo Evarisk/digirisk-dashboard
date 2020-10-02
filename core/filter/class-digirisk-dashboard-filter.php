@@ -28,7 +28,7 @@ class Class_Digirisk_Dashboard_Filter {
 
 		add_filter( 'http_request_timeout', array( $this, 'upgrade_timeout_request' ) );
 
-		add_filter( 'eo_menu_others_digirisk', array( $this, 'add_digirisk_dashboard_item' ) );
+		//add_filter( 'eo_menu_others_digirisk', array( $this, 'add_digirisk_dashboard_item' ) );
 	}
 
 	/**

@@ -123,12 +123,11 @@ class Class_Digirisk_Dashboard_Action {
 	 * @since 0.2.0
 	 */
 	public function callback_admin_menu() {
-		Custom_Menu_Handler::register_container( 'DigiRisk Dashboard', 'DigiRisk Dashboard', 'manage_options', 'digirisk-dashboard' );
+		Custom_Menu_Handler::register_container( 'DigiRisk Dashboard', 'DigiRisk Dashboard', 'manage_options', 'digirisk-dashboard', '', PLUGIN_DIGIRISK_DASHBOARD_URL . '/core/assets/images/sitemap.png', null );
 		CMH::add_logo( 'digirisk-dashboard', PLUGIN_DIGIRISK_DASHBOARD_URL . '/core/assets/images/favicon_hd.png', admin_url( 'admin.php?page=digirisk-dashboard' ) );
 
 		Custom_Menu_Handler::register_menu( "digirisk-dashboard", "Mes sites", "Mes sites", "manage_options", "digirisk-dashboard", array( Class_Digirisk_Dashboard_Core::g(), 'display_page' ), 'fa fa-sitemap' );
 		Custom_Menu_Handler::register_others_menu( 'others', 'digirisk', __( 'DigiRisk Dashboard', 'digirisk' ), __( 'DigiRisk Dashboard', 'digirisk' ), 'read', 'digirisk-dashboard', array( Class_Digirisk_Dashboard_Core::g(), 'display_page' ), 'fa fa-sitemap', 'bottom' );
-
 	}
 
 	/**

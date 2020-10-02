@@ -41,13 +41,15 @@ class Class_Site_Action {
 	}
 
 	public function check_statut() {
-		$id = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
+		$id      = ! empty( $_POST['id'] ) ? (int) $_POST['id'] : 0;
+		$blog_id = ! empty( $_POST['blog-id'] ) ? (int) $_POST['blog-id'] : 0;
 
 		if ( empty( $id ) ) {
 			wp_send_json_error();
 		}
 
 		$site_key = \eoxia\Config_Util::$init['digirisk_dashboard']->site->site_key;
+
 		$sites    = get_option( $site_key, array() );
 
 		if ( empty( $sites[ $id ] ) ) {
@@ -57,6 +59,15 @@ class Class_Site_Action {
 		}
 
 		$site = $sites[ $id ];
+
+		$blog_details = get_blog_details( $blog_id );
+
+		if ( $blog_details->archived == true || $blog_details->deleted == true ){
+			wp_send_json_success( array(
+				'success' => false,
+				'error_message' => 'site deleted or archived',
+			) );
+		}
 
 		$url = $site['url'] . '/wp-json/digi/v1/statut';
 
@@ -110,6 +121,21 @@ class Class_Site_Action {
 				}
 			}
 
+			$parse_url = parse_url( $url );
+
+			$full_url = $parse_url['path'] . '/';
+
+			$results = $wpdb->get_var(
+				$wpdb->prepare( "SELECT blog_id FROM {$wpdb->blogs} WHERE path = %s", $full_url ) );
+
+			$blog_id = $results;
+
+			$blog_details = get_blog_details( $blog_id );
+
+			if ( $blog_details->archived == true || $blog_details->deleted == true ){
+				$error_message = 'site deleted or archived';
+			}
+
 			$api_url = $url . '/wp-json/digi/v1/register-site';
 
 			$data = array(
@@ -125,6 +151,7 @@ class Class_Site_Action {
 					'auth_password' => $auth_password,
 				)
 			);
+
 
 			if ( $response ) {
 				if ( ! empty( $response->error_code ) ) {
@@ -222,17 +249,17 @@ class Class_Site_Action {
 			unset( $sites[ $id ] );
 		}
 
-		$hash    = $site['hash'];
-		$api_url = $site['url'] . '/wp-json/digi/v1/delete-site';
+		//$hash    = $site['hash'];
+		//$api_url = $site['url'] . '/wp-json/digi/v1/delete-site';
 
-		$response = Request_Util::g()->post( $api_url, array(), array(
-			'auth_user'     => $site['auth_user'],
-			'auth_password' => $site['auth_password'],
-		), $hash );
+//		$response = Request_Util::g()->post( $api_url, array(), array(
+//			'auth_user'     => $site['auth_user'],
+//			'auth_password' => $site['auth_password'],
+//		), $hash );
 
-		if ( empty( $response['code_error'] ) ) {
 			update_option( $site_key, $sites );
-		}
+//		if ( empty( $response['code_error'] ) ) {
+////		}
 
 		wp_send_json_success( array(
 			'namespace'        => 'digiriskDashboard',

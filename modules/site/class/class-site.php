@@ -25,6 +25,7 @@ class Class_Site extends \eoxia\Singleton_Util {
 
 	public function display() {
 		$sites = get_option( \eoxia\Config_Util::$init['digirisk_dashboard']->site->site_key, array() );
+		global $wpdb;
 
 		if ( ! empty( $sites ) ) {
 			foreach( $sites as $id => &$site ) {
@@ -33,6 +34,15 @@ class Class_Site extends \eoxia\Singleton_Util {
 					'meta_value'     => $id,
 					'posts_per_page' => 1,
 				), true );
+
+				$parse_url = parse_url( $site['url'] );
+
+				$full_url = $parse_url['path'] . '/';
+
+				$results = $wpdb->get_var(
+					$wpdb->prepare( "SELECT blog_id FROM {$wpdb->blogs} WHERE path = %s", $full_url ) );
+
+				$site['blog_id'] = $results;
 			}
 		}
 

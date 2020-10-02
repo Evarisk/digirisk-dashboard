@@ -31,7 +31,7 @@ defined( 'ABSPATH' ) || exit; ?>
 			foreach ( $childs_site as $id => $site ) :
 				?>
 				<div class="table-row">
-					<div class="table-cell table-50" data-title="ID"><strong><?php echo esc_html( $id ); ?></strong></div>
+					<div class="table-cell table-50" data-title="ID"><strong><?php echo esc_html( $site['blog_id'] ); ?></strong></div>
 					<div class="table-cell table-200" data-title="Site"><?php echo esc_html( $site['title'] ); ?></div>
 					<div class="table-cell" data-title="URL"><a href="<?php echo esc_attr( $site['url'] ); ?>/wp-admin/" target="_blank"><?php echo esc_html( $site['url'] ); ?></a></div>
 					<div class="table-cell" data-title="Dernier DUER">
@@ -65,7 +65,7 @@ defined( 'ABSPATH' ) || exit; ?>
 
 						</span>
 					</div>
-					<div class="table-cell table-50 statut" data-id="<?php echo esc_attr( $id ); ?>" style="color: grey;"><i data-direction="left" class="fas fa-circle"></i></div>
+					<div class="table-cell table-50 statut" data-id="<?php echo esc_attr( $id ); ?>" data-blog-id="<?php echo esc_attr( $site['blog_id'] ); ?>" style="color: grey;"><i data-direction="left" class="fas fa-circle"></i></div>
 					<div class="table-cell table-150 table-end" data-title="Actions">
 						<div class="wpeo-button button-square-40 button-transparent wpeo-modal-event"
 						data-id="<?php echo esc_attr( $id ); ?>"
