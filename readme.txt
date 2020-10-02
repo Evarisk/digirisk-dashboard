@@ -3,8 +3,8 @@ Contributors: Evarisk
 Tags: Evaluation des risques, document unique, risques professionnels, audit risques, risques humains, digirisk, digi risk, evarisk, eva risk, risk, risks, risque, risques
 Donate link: http://www.evarisk.com/document-unique-logiciel
 Requires at least: 4.4
-Tested up to: 5.3
-Stable tag: 0.3.0
+Tested up to: 5.5.1
+Stable tag: 1.0.0
 
 DigiRisk Dashboard handle MU WordPress instance of DigiRisk.
 
@@ -33,6 +33,11 @@ The installation of the plugin can be done in two ways:
 1. Dashboard
 
 == Changelog ==
+
+= Version 1.0.0 =
+
+* Fix - Amélioration du statut de connexion d'un site.
+* Fix - Changement de l'ID pour correspondre au blog_id.
 
 = Version 0.3.0 =
 
