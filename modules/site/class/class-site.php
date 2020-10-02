@@ -37,10 +37,10 @@ class Class_Site extends \eoxia\Singleton_Util {
 
 				$parse_url = parse_url( $site['url'] );
 
-				$test = $parse_url['path'] . '/';
+				$full_url = $parse_url['path'] . '/';
 
 				$results = $wpdb->get_var(
-					$wpdb->prepare( "SELECT blog_id FROM {$wpdb->blogs} WHERE path = %s", $test));
+					$wpdb->prepare( "SELECT blog_id FROM {$wpdb->blogs} WHERE path = %s", $full_url ) );
 
 				$site['blog_id'] = $results;
 			}

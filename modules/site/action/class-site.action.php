@@ -121,6 +121,20 @@ class Class_Site_Action {
 				}
 			}
 
+			$parse_url = parse_url( $url );
+
+			$full_url = $parse_url['path'] . '/';
+
+			$results = $wpdb->get_var(
+				$wpdb->prepare( "SELECT blog_id FROM {$wpdb->blogs} WHERE path = %s", $full_url ) );
+
+			$blog_id = $results;
+
+			$blog_details = get_blog_details( $blog_id );
+
+			if ( $blog_details->archived == true || $blog_details->deleted == true ){
+				$error_message => 'site deleted or archived';
+			}
 
 			$api_url = $url . '/wp-json/digi/v1/register-site';
 
