@@ -133,7 +133,7 @@ class Class_Site_Action {
 			$blog_details = get_blog_details( $blog_id );
 
 			if ( $blog_details->archived == true || $blog_details->deleted == true ){
-				$error_message => 'site deleted or archived';
+				$error_message = 'site deleted or archived';
 			}
 
 			$api_url = $url . '/wp-json/digi/v1/register-site';
